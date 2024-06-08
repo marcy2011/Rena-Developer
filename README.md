@@ -8,5 +8,4 @@ Rena Developer ti dà l'opportunità di condividere le tue app open-source o no 
 Non sai da dove iniziare? Nessun problema! Rena Developer offre dei modelli predefiniti con codice già pronto per essere utilizzato. Questi modelli coprono diverse categorie e livelli di complessità, consentendoti di avere una base solida su cui costruire il tuo progetto. Che tu stia lavorando a un sito web personale o un blog, troverai sicuramente il modello giusto per te.
 # Scopri di più su https://renadeveloper.altervista.org
 I file allegati qui su Git Hub sono solo quelli principali
-# Programma subito
-https://renadeveloper.altervista.org/code.html
+# Programma subito https://renadeveloper.altervista.org/code.html
