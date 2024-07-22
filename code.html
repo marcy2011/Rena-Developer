@@ -80,12 +80,21 @@
 <body>
     <header class="page-header">
         <div class="header-logo">
-            <a class="header-brand" href="javascript://">
+            <a class="header-brand" href="https://renadeveloper.altervista.org">
                 <svg class="brand-logo" width="35" height="35" xmlns="logo.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
                     <img src="logo.png" hspace="15" width="35" height="35" style="border-radius: 30px">
                 </svg>
             </a>
         </div>
+        <style>
+                .header-logo img {
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover img {
+            transform: translateY(-5px);
+        }
+        </style>
         <!-- Mostra solo su dispositivi mobili -->
         <div class="header-nav">
             <ul class="nav">
@@ -174,7 +183,62 @@ document.addEventListener('click', function(event) {
 <div class="split">
     <div class="left">
         <textarea id="editor" placeholder="Inserisci qui il tuo codice HTML..."></textarea>
+        <div class="download-container">
+            <div class="download" onclick="downloadHTML()">
+                <img src="down.png" alt="Download" style="width: 40px; height: auto; border-radius: 10px;">
+            </div>
+        </div>
     </div>
+<style>   
+        .download {
+        align-self: flex-end;
+        margin-top: -45px;
+        width: 30px;
+    }
+
+</style>
+<script>
+    function downloadHTML() {
+        const htmlContent = editor.value;
+        const blob = new Blob([htmlContent], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'index.html'; // Filename for the downloaded file
+
+        document.body.appendChild(a);
+        a.click();
+
+        // Cleanup
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
+</script>
+<script>
+// Aggiungi l'evento keydown al textarea per gestire il tasto Tab per l'indentazione automatica
+editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault(); // Impedisce il comportamento predefinito del tasto Tab (cambiare il focus)
+        
+        // Ottieni l'offset del cursore nel textarea
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+
+        // Aggiungi due spazi (o puoi aggiungere un tab '\t' se preferisci)
+        const spaces = '  ';
+
+        // Imposta il nuovo contenuto con spazi aggiunti
+        this.value = this.value.substring(0, start) + spaces + this.value.substring(end);
+
+        // Imposta il cursore nella posizione corretta
+        this.selectionStart = this.selectionEnd = start + spaces.length;
+    }
+});
+</script>
     <div class="right">
         <iframe id="previewFrame" class="preview"></iframe>
         <div class="open-in-new-tab" onclick="openPreviewInNewTab()">
@@ -220,7 +284,7 @@ document.addEventListener('click', function(event) {
         border-radius: 30px;
         overflow-y: hidden;
         overflow-x: hidden;
-        position: relative; /* Per posizionare l'icona all'interno */
+        position: relative;
     }
     textarea, .preview {
         width: 100%;
@@ -233,6 +297,7 @@ document.addEventListener('click', function(event) {
     textarea {
        background-color: black;
        color: white;
+       flex: 1;
     }
 
     .preview {
@@ -262,20 +327,70 @@ document.addEventListener('click', function(event) {
 <a href="#" id="openFilePopup" onclick="openFilePopup(); return false;">
     <img src="upload.png" alt="Carica file HTML" style="width: auto; height: 30px; border-radius: 10px;">
 </a>
+<a href="#" id="openImagePopup" onclick="openImagePopup(); return false;">
+    <img src="upimg.png" alt="Carica immagine" style="width: auto; height: 30px; border-radius: 10px;">
+</a>
+<script>
+function openImagePopup() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*'; 
+    input.onchange = function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const filename = file.name;
+            insertImageTag(filename);
+            updatePreview();
+            saveContent();
+        };
+        reader.readAsDataURL(file); 
+    };
+    input.click();
+}
+
+function insertImageTag(filename) {
+    const imgTag = `<img src="${filename}" alt="Inserisci descrizione">`;
+    const editorContent = editor.value;
+    const newContent = editorContent + imgTag;
+    editor.value = newContent;
+    updatePreview(); 
+}
+
+function updatePreview() {
+    const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    previewDocument.open();
+    previewDocument.write(editor.value);
+    previewDocument.close();
+}
+</script>
+<style>
+#openImagePopup {
+    cursor: pointer;
+    width: auto;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+</style>
         <style>  
         #openFilePopup {
             cursor: pointer;
             width: 30px;
             position: fixed;
             top: 20px;
-            right: 57px; /* Posiziona a metà della larghezza della finestra */
-            transform: translateX(50%); /* Sposta il pulsante a sinistra del 50% della sua larghezza */
+            right: 70px; 
+            transform: translateX(50%);
         }
 
         @media screen and (max-width: 600px) {
             #openFilePopup {
                 margin-top: 30px;
-                right: 50%;
+                right: 45%;
+            }
+            #openImagePopup {
+                margin-top: 30px;
+                right: 55%;
             }
         }
     </style>
@@ -345,3 +460,21 @@ document.addEventListener('click', function(event) {
         // Carica il contenuto salvato all'avvio
         window.addEventListener('load', loadContent);
 </script>
+<style>
+/* Rimuovere il contorno su tutti gli elementi quando vengono selezionati */
+*:focus {
+  outline: none;
+}
+
+/* Rimuovere il contorno su specifici elementi quando vengono selezionati */
+button:focus, 
+input:focus, 
+textarea:focus {
+  outline: none;
+}
+
+/* Disabilitare l'effetto di selezione sui dispositivi touch */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+</style>
