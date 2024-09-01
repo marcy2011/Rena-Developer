@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <title id="page-title">Rena Developer - WebKit</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+    <script>
+    function translatePage(lang) {
+    document.querySelectorAll('[data-translate-it]').forEach(function(el) {
+        if (lang === 'it') {
+            el.textContent = el.getAttribute('data-translate-it');
+        } else if (lang === 'en') {
+            el.textContent = el.getAttribute('data-translate-en');
+        }
+    });
+
+    var titleElement = document.getElementById('page-title');
+    if (lang === 'it') {
+        titleElement.textContent = 'Rena Developer - WebKit';
+    } else if (lang === 'en') {
+        titleElement.textContent = 'Rena Developer - WebKit';
+    }
+}
+</script>
+    <style>
+        a, button {
+    cursor: url('cursore.png'), pointer;
+    }
+    
+    body {
+    cursor: url('cursore.png'), pointer;
+    }
+    </style>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Open Sauce', sans-serif;
+        }
+
+        .header-nav-link {
+            color: white !important;
+        }
+    
+        .header-nav-item {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .header-nav-link {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            transition: font-size 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-nav-item:hover .header-nav-link {
+            font-size: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo {
+            margin-right: 10px;
+        }
+
+        /* Nascondi il menu di navigazione su dispositivi mobili */
+        @media screen and (max-width: 767px) {
+            .header-nav {
+                display: none;
+            }
+            
+            .menu-icon {
+                width: 50px;
+                margin-left: 220px;
+                margin-top: 30px;
+            }
+        }
+
+        /* Nascondi l'icona del menu su schermi più grandi */
+        @media screen and (min-width: 768px) {
+            .menu-icon {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <div class="header-logo">
+            <a class="header-brand" href="https://renadeveloper.altervista.org">
+                <svg class="brand-logo" width="35" height="35" xmlns="logo.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+                    <img src="logo.png" hspace="15" width="35" height="35" style="border-radius: 30px">
+                </svg>
+            </a>
+        </div>
+        <style>
+                .header-logo img {
+            transition: transform 0.3s ease;
+        }
+
+        .header-logo:hover img {
+            transform: translateY(-5px);
+        }
+        </style>
+        <!-- Mostra solo su dispositivi mobili -->
+        <div class="header-nav">
+            <ul class="nav">
+                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org">Home</a></li>
+                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/renastore.html" data-translate-it="Aggiungi a Rena Store" data-translate-en="Add at the Rena Store">Aggiungi a Rena Store</a></li>
+                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/modelli.html" data-translate-it="Modelli" data-translate-en="Templates">Modelli</a></li>
+                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/info.html">Info</a></li>
+            </ul>
+        </div>
+        <!-- Mostra solo su dispositivi mobili -->
+        <a href="https://renadeveloper.altervista.org/menu.html">
+            <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
+        </a>
+       
+          <div id="custom-menu">
+  <ul>
+    <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png" alt="Image 1" width="20"><span>Home</span></a></li>
+            <li><a href="https://renadeveloper.altervista.org/renastore.html"><img src="https://renastore.altervista.org/logostore.png" alt="Image 3" width="22" style= border-radius: 10px; ><span>Rena Store</span></a></li>
+        <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3" width="22"><span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span></a></li>
+    <li><a href="https://renadeveloper.altervista.org/info.html"><img src="https://gcsapp.altervista.org/accountbanner.png" alt="Image 2" width="18"><span>Info</span></a></li>
+  </ul>
+</div>
+  
+<style>
+#custom-menu {
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+  backdrop-filter: blur(5px); /* Aggiunge effetto blur */
+}
+
+#custom-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#custom-menu ul li {
+  margin-bottom: 10px;
+}
+
+#custom-menu ul li a {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+}
+
+#custom-menu ul li a img {
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+#custom-menu ul li a span {
+  font-size: 16px;
+}
+</style>
+<script>
+document.addEventListener('contextmenu', function(event) {
+  event.preventDefault();
+  if (window.innerWidth > 768) { 
+    var customMenu = document.getElementById('custom-menu');
+    customMenu.style.display = 'block';
+    customMenu.style.left = event.pageX + 'px';
+    customMenu.style.top = event.pageY + 'px';
+  }
+});
+
+document.addEventListener('click', function(event) {
+  var customMenu = document.getElementById('custom-menu');
+  customMenu.style.display = 'none';
+});
+
+</script>
+<style>
+    ::selection {
+        background-color: white;
+        color: black;
+    }
+</style>
+        <img id="lingua" src="bandierait.png" alt="Lingua" data-alt-src="bandieraen.png">
+        <script>
+            document.getElementById('lingua').addEventListener('click', function() {
+                var img = this;
+                var currentSrc = img.src;
+                var altSrc = img.getAttribute('data-alt-src');
+                
+                img.src = altSrc;
+                img.setAttribute('data-alt-src', currentSrc);
+
+                var currentLang = img.getAttribute('data-lang') || 'it';
+                var newLang = currentLang === 'it' ? 'en' : 'it';
+                img.setAttribute('data-lang', newLang);
+
+                translatePage(newLang);
+            });
+
+            function translatePage(lang) {
+                document.querySelectorAll('[data-translate-it]').forEach(function(el) {
+                    if (lang === 'it') {
+                        el.textContent = el.getAttribute('data-translate-it');
+                    } else if (lang === 'en') {
+                        el.textContent = el.getAttribute('data-translate-en');
+                    }
+                });
+
+    var titleElement = document.getElementById('page-title');
+    if (lang === 'it') {
+        titleElement.textContent = 'Rena Developer - WebKit';
+    } else if (lang === 'en') {
+        titleElement.textContent = 'Rena Developer - WebKit';
+    }
+}
+        </script>
+        <style>
+            #lingua {
+                cursor: pointer;
+                width: 30px;
+                position: absolute;
+                top: 20px;
+                right: 57px;
+                transform: translateX(50%);
+                border-radius: 20px;
+            }
+
+            @media screen and (max-width: 600px) {
+                #lingua {
+                    margin-top: 30px;
+                    right: 50%;
+                }
+            }
+        </style>
+        <div id="language-popup" class="language-popup">
+    <span id="close-popup" class="close-popup">&times;</span>
+    <button class="language-btn" data-lang="it">Italiano</button>
+    <button class="language-btn" data-lang="en">English</button>
+</div>
+    <script>
+        document.getElementById('lingua').addEventListener('click', function(event) {
+            event.stopPropagation();
+            var languagePopup = document.getElementById('language-popup');
+            languagePopup.style.display = 'block';
+            languagePopup.style.left = '50%';
+            languagePopup.style.top = '50%';
+            languagePopup.style.transform = 'translate(-50%, -50%)';
+        });
+
+        document.getElementById('close-popup').addEventListener('click', function() {
+            document.getElementById('language-popup').style.display = 'none';
+        });
+
+        document.addEventListener('click', function(event) {
+            var languagePopup = document.getElementById('language-popup');
+            if (event.target !== languagePopup && !languagePopup.contains(event.target)) {
+                languagePopup.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('.language-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var lang = this.getAttribute('data-lang');
+                translatePage(lang);
+                document.getElementById('language-popup').style.display = 'none';
+            });
+        });
+
+        function translatePage(lang) {
+            document.querySelectorAll('[data-translate-it]').forEach(function(el) {
+                if (lang === 'it') {
+                    el.textContent = el.getAttribute('data-translate-it');
+                } else if (lang === 'en') {
+                    el.textContent = el.getAttribute('data-translate-en');
+                }
+            });
+
+            var titleElement = document.getElementById('page-title');
+            if (lang === 'it') {
+                titleElement.textContent = 'Rena Developer - WebKit';
+            } else if (lang === 'en') {
+                titleElement.textContent = 'Rena Developer - WebKit';
+            }
+        }
+    </script>
+<style>
+    .language-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        z-index: 1000; 
+        text-align: center;
+    }
+
+    .language-btn {
+        margin: 20px;
+        padding: 10px 20px;
+        background-color: #ffffff;
+        color: black;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+.language-popup .language-btn {
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+    .language-btn:hover {
+        background-color: black;
+        color: white;
+    }
+    
+        .close-popup {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+ <style>
+*:focus {
+  outline: none;
+}
+
+button:focus, 
+input:focus, 
+textarea:focus {
+  outline: none;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+</style>
+    </header> 
+    <div style="text-align: center; margin-top: 30px;">
+    <div style="border-radius: 15%; display: inline-block;">
+        <img src="WebKit.png" alt="Logo" style="border-radius: 50%; width: 200px; height: 200px;">
+    </div>
+    <div style="margin-top: 10px;">
+    <h1>Rena Developer WebKit</h1>
+    <p data-translate-it="Il WebKit di Rena Developer coprende vari file che puoi usare nella creazione del tuo sito web nel nostro editor di codice" data-translate-en="Rena Developer's WebKit includes various files that you can use when creating your website in our code editor">Il WebKit di Rena Developer coprende vari file che puoi usare nella creazione del tuo sito web nel nostro editor di codice</p>
+    </div>
+    
+<style>
+  .code-block {
+    background-color: black;
+    color: white;
+    border-radius: 15px;
+    text-align: left;
+  }
+
+  .container {
+    background-color: #fff;
+    color: black;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    margin: 50px auto;
+    transition: all 0.3s ease;
+  }
+
+  .container:hover {
+    transform: scale(0.9);
+    max-width: 700px;
+  }
+
+  .img-container {
+    flex: 1;
+    text-align: center;
+    border-radius: 20px;
+  }
+
+  .img-cur-container {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .img-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    margin-top: 4px;
+    margin-left: 10px;
+  }
+
+  .content-container {
+    flex: 2;
+    padding: 20px;
+  }
+
+  .dark-theme .img-container {
+    background-color: black;
+    padding: 0;
+    border-radius: 30px;
+    display: inline-block;
+  }
+
+  .dark-theme .img-container img {
+    width: 100px;
+    height: 100px;
+    border-radius: 0;
+  }
+
+  .content-container h2 {
+    margin-top: 0;
+  }
+
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+.popup-overlay {
+  display: none;
+}
+
+.popup-content {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 80%;
+  max-height: 90%;
+  overflow-y: auto;
+  backdrop-filter: blur(20px);
+  text-align: left;
+  transition: transform 0.3s ease;
+  color: white;
+  border: 2px solid white;
+}
+
+  @media screen and (max-width: 767px) {
+    .popup-overlay {
+      display: flex;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-radius: 20px;
+      box-shadow: none;
+      cursor: pointer;
+      align-items: center;
+    }
+
+    .img-container img, .img-cur-container img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      margin: 5px 0;
+    }
+
+    .content-container {
+      display: none; 
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .popup-overlay {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const popupOverlay = document.createElement('div');
+  popupOverlay.classList.add('popup-overlay');
+  
+  const popupContent = document.createElement('div');
+  popupContent.classList.add('popup-content');
+
+  popupOverlay.appendChild(popupContent);
+  document.body.appendChild(popupOverlay);
+
+  function openPopup(container) {
+    if (window.innerWidth <= 767) {
+      const title = container.querySelector('h2')?.innerHTML || 'No Title';
+      const codeBlock = container.querySelector('.code-block')?.innerHTML || 'No Code Block';
+
+      popupContent.innerHTML = `<h2>${title}</h2><pre>${codeBlock}</pre>`;
+      
+      popupOverlay.style.display = 'flex';
+      popupContent.style.transform = 'scale(1)';
+    }
+  }
+
+  document.querySelectorAll('.container img').forEach(img => {
+    img.addEventListener('click', function(event) {
+      event.stopPropagation();
+      openPopup(img.closest('.container'));
+    });
+  });
+
+  document.querySelectorAll('.container').forEach(container => {
+    container.addEventListener('click', function(event) {
+      if (!event.target.closest('img')) {
+        openPopup(container);
+      }
+    });
+  });
+
+  popupOverlay.addEventListener('click', function() {
+    popupOverlay.style.display = 'none';
+    popupContent.style.transform = 'scale(0.8)';
+  });
+
+  popupContent.addEventListener('click', function(event) {
+    event.stopPropagation();
+  });
+
+  popupOverlay.style.display = 'none'; 
+});
+</script>
+<div class="container">
+  <div class="img-cur-container">
+    <img src="cursore.png" alt="Placeholder" style="border-radius: none; width: 16px; height: auto;">
+  </div>
+  <div class="content-container">
+    <h2>Custom Mouse</h2>
+    <pre class="code-block">
+    
+   &lt;style&gt;
+       a, button {
+   cursor: url('cursore.png'), pointer;
+   }
+    
+   body {
+   cursor: url('cursore.png'), pointer;
+   }
+   &lt;/style&gt;
+    </pre>
+  </div>
+</div>
+
+<div class="container">
+  <div class="img-cur-container">
+    <img src="downrenas.png" alt="Placeholder" style="border-radius: none; width: 130px; height: auto;"> <!-- Remove pointer-events: none; -->
+  </div>
+  <div class="content-container">
+    <h2>Download On The Rena Store</h2>
+    <pre class="code-block">
+    
+ &lt;a href="https://renastore.altervista.org/app.html"&gt;
+   &lt;img src="downrenas.png" alt="Download On The Rena Store"&gt; 
+ &lt;/a&gt;
+    </pre>
+  </div>
+</div>
+
+<div class="container">
+  <div class="img-container">
+    <img src="impbian.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 50px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Impostazioni Logo Tema Chiaro" data-translate-en="Settings Logo White Theme">Impostazioni Logo Tema Chiaro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="impbian.png"&gt;
+    </pre>
+  </div>
+</div>
+
+<div class="container">
+  <div class="img-container">
+    <img src="webimp.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Impostazioni Logo Tema Scuro" data-translate-en="Settings Logo Black Theme">Impostazioni Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="impbian.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="homekit.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Home Logo Tema Scuro" data-translate-en="Home Logo Black Theme">Home Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="homebanner.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="homebannerbian.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Home Logo Tema Chiaro" data-translate-en="Home Logo White Theme">Home Logo Tema Chiaro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="homebannerbian.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="frenerimp.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Freccia Logo Tema Scuro" data-translate-en="Arrow Logo Black Theme">Freccia Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="frenerimp.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="frebiaimp.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Freccia Logo Tema Chiaro" data-translate-en="Arrow Logo White Theme">Freccia Logo Tema Chiaro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="frebiaimp.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="frener.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Freccia Logo Tema Scuro" data-translate-en="Arrow Logo Black Theme">Freccia Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="frener.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="frebian.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Freccia Logo Tema Chiaro" data-translate-en="Arrow Logo White Theme">Freccia Logo Tema Chiaro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="frebian.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="estendi.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Estendi Logo Tema Scuro" data-translate-en="Extend Logo Black Theme">Estendi Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="estendi.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="down.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Download Logo Tema Scuro" data-translate-en="Download Logo Black Theme">Download Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="down.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="upimg.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Carica IMG Logo Tema Scuro" data-translate-en="Upload IMG Logo Black Theme">Carica IMG Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="upimg.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="upload.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Carica File Logo Tema Scuro" data-translate-en="Upload File Logo Black Theme">Carica File Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="upload.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="bandierait.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Bandiera Italia Logo Tema Scuro" data-translate-en="Italian Flag Logo Black Theme">Bandiera Italia Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="bandierait.png"&gt;
+    </pre>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="img-container">
+    <img src="bandieraen.png" alt="Placeholder" style="height: 100px; width: 100px; border-radius: 20px;">
+  </div>
+  <div class="content-container">
+    <h2 data-translate-it="Bandiera UK Logo Tema Scuro" data-translate-en="UK Flag Logo Black Theme">Bandiera UK Logo Tema Scuro</h2>
+    <pre class="code-block">
+    
+    &lt;img src="bandieraen.png"&gt;
+    </pre>
+  </div>
+</div>
