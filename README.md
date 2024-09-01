@@ -2,6 +2,8 @@
 Programma e usa modelli di codice su Rena Developer!
 # Rena Developer by Rena
 Il nostro editor di codice è stato progettato per offrirti un'esperienza di programmazione fluida e senza intoppi. Supporta la sintassi di HTML, CSS e JavaScript (usando dentro l'HTML i tag <style> e <script>), e include la possibilità di navigare fra un catalogo di modelli con un codice già realizzato ed il browser tiene a memoria i tuoi progetti. Con un'interfaccia minimal, potrai concentrarti sulla scrittura del codice senza distrazioni.
+# Rena Developer WebKit
+Il WebKit di Rena Developer coprende vari file che puoi usare nella creazione del tuo sito web nel nostro editor di codice
 # Rena Store
 Rena Developer ti dà l'opportunità di condividere le tue app open-source o no attraverso il Rena Store. Puoi caricare le tue app per renderli disponibili sul Rena Store facendo richiesta su https://renadeveloper.altervista.org/renastore.html . Scopri di più sul Rena Store su https://github.com/marcy2011/Rena-Store
 # Modelli di codice
