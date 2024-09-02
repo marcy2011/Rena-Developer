@@ -283,6 +283,22 @@ function translatePage(lang) {
     }
 }
     </script>
+    <script>
+document.addEventListener('contextmenu', function(event) {
+  event.preventDefault();
+  if (window.innerWidth > 768) { 
+    var customMenu = document.getElementById('custom-menu');
+    customMenu.style.display = 'block';
+    customMenu.style.left = event.pageX + 'px';
+    customMenu.style.top = event.pageY + 'px';
+  }
+});
+
+document.addEventListener('click', function(event) {
+  var customMenu = document.getElementById('custom-menu');
+  customMenu.style.display = 'none';
+});
+</script>
 <style>
     #lingua {
         cursor: pointer;
