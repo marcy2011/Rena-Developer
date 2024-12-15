@@ -75,6 +75,13 @@
                 display: none;
             }
         }
+
+        #editor {
+            -webkit-spell-check: false;
+            -moz-spell-check: false;
+            -ms-spell-check: false;
+            spell-check: false;
+        }
     </style>
 </head>
 <body>
@@ -109,14 +116,14 @@
             <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
         </a>
        
-          <div id="custom-menu">
-  <ul>
-    <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png" alt="Image 1" width="20"><span>Home</span></a></li>
-            <li><a href="https://renadeveloper.altervista.org/renastore.html"><img src="https://renastore.altervista.org/logostore.png" alt="Image 3" width="22" style= border-radius: 10px; ><span>Rena Store</span></a></li>
-        <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3" width="22"><span>Modelli</span></a></li>
-    <li><a href="https://renadeveloper.altervista.org/info.html"><img src="https://gcsapp.altervista.org/accountbanner.png" alt="Image 2" width="18"><span>Info</span></a></li>
-  </ul>
-</div>
+    <div id="custom-menu">
+        <ul>
+            <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png" alt="Image 1" width="20"><span>Home</span></a></li>
+            <li><a href="https://renadeveloper.altervista.org/renastore.html"><img src="https://renastore.altervista.org/logo.png" alt="Image 3" width="22" style="border-radius: 5px;"><span>Rena Store</span></a></li>
+            <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3" width="22"><span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span></a></li>
+            <li><a href="https://renadeveloper.altervista.org/info.html"><img src="https://gcsapp.altervista.org/accountbanner.png" alt="Image 2" width="18"><span>Info</span></a></li>
+        </ul>
+    </div>
   
 <style>
 #custom-menu {
@@ -182,7 +189,7 @@ document.addEventListener('click', function(event) {
     
 <div class="split">
     <div class="left">
-        <textarea id="editor" placeholder="Inserisci qui il tuo codice HTML..."></textarea>
+        <textarea id="editor" placeholder="Inserisci qui il tuo codice HTML..." spellcheck="false"></textarea>
         <div class="download-container">
             <div class="download" onclick="downloadHTML()">
                 <img src="down.png" alt="Download" style="width: 40px; height: auto; border-radius: 10px;">
@@ -222,20 +229,89 @@ document.addEventListener('click', function(event) {
 // Aggiungi l'evento keydown al textarea per gestire il tasto Tab per l'indentazione automatica
 editor.addEventListener('keydown', function(e) {
     if (e.key === 'Tab') {
-        e.preventDefault(); // Impedisce il comportamento predefinito del tasto Tab (cambiare il focus)
+        e.preventDefault();
         
-        // Ottieni l'offset del cursore nel textarea
         const start = this.selectionStart;
         const end = this.selectionEnd;
-
-        // Aggiungi due spazi (o puoi aggiungere un tab '\t' se preferisci)
-        const spaces = '  ';
-
-        // Imposta il nuovo contenuto con spazi aggiunti
-        this.value = this.value.substring(0, start) + spaces + this.value.substring(end);
-
-        // Imposta il cursore nella posizione corretta
-        this.selectionStart = this.selectionEnd = start + spaces.length;
+        const value = this.value;
+        
+        // Get the line start position
+        let lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        let currentLine = value.slice(lineStart, start);
+        
+        // Calculate current indentation level
+        let indentLevel = 0;
+        for (let i = 0; i < currentLine.length; i++) {
+            if (currentLine[i] === ' ') indentLevel++;
+            else break;
+        }
+        
+        // Check if we should increase indentation
+        const previousChar = value.charAt(start - 1);
+        const nextChar = value.charAt(start);
+        if (previousChar === '{' || previousChar === '<') {
+            indentLevel += 2;
+        }
+        
+        // Create indentation string
+        const indent = ' '.repeat(indentLevel);
+        
+        // Insert indentation
+        if (start === end) {
+            // No selection - just insert indentation
+            this.value = value.substring(0, start) + indent + value.substring(end);
+            this.selectionStart = this.selectionEnd = start + indent.length;
+        } else {
+            // With selection - indent all selected lines
+            const selectedText = value.substring(start, end);
+            const lines = selectedText.split('\n');
+            const indentedText = lines.map(line => indent + line).join('\n');
+            this.value = value.substring(0, start) + indentedText + value.substring(end);
+            this.selectionStart = start;
+            this.selectionEnd = start + indentedText.length;
+        }
+        
+        // Auto-close tags and braces
+        if (start === end) {
+            if (previousChar === '<') {
+                const tagClose = '>\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '</>';
+                this.value = value.substring(0, start) + indent + tagClose + value.substring(end);
+                this.selectionStart = this.selectionEnd = start + indent.length;
+            } else if (previousChar === '{') {
+                const braceClose = '\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '}';
+                this.value = value.substring(0, start) + indent + braceClose + value.substring(end);
+                this.selectionStart = this.selectionEnd = start + indent.length;
+            }
+        }
+        
+        updatePreview();
+        saveContent();
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+        
+        const start = this.selectionStart;
+        const value = this.value;
+        
+        // Get the line start position
+        let lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        let currentLine = value.slice(lineStart, start);
+        
+        // Calculate current indentation level
+        let indentLevel = 0;
+        for (let i = 0; i < currentLine.length; i++) {
+            if (currentLine[i] === ' ') indentLevel++;
+            else break;
+        }
+        
+        // Create indentation string
+        const indent = ' '.repeat(indentLevel);
+        
+        // Insert new line with indentation
+        this.value = value.substring(0, start) + '\n' + indent + value.substring(start);
+        this.selectionStart = this.selectionEnd = start + indent.length + 1;
+        
+        updatePreview();
+        saveContent();
     }
 });
 </script>
@@ -337,31 +413,70 @@ function openImagePopup() {
     input.accept = 'image/*'; 
     input.onchange = function(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const filename = file.name;
-            insertImageTag(filename);
+        compressImage(file, function(compressedDataUrl) {
+            insertImageTag(compressedDataUrl);
             updatePreview();
             saveContent();
-        };
-        reader.readAsDataURL(file); 
+        });
     };
     input.click();
 }
 
-function insertImageTag(filename) {
-    const imgTag = `<img src="${filename}" alt="Inserisci descrizione">`;
+function compressImage(file, callback) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            
+            // Set maximum dimensions
+            const MAX_WIDTH = 800;
+            const MAX_HEIGHT = 600;
+            
+            let width = img.width;
+            let height = img.height;
+            
+            // Calculate new dimensions while maintaining aspect ratio
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Draw resized image
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Get compressed data URL
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); // Reduce quality to 70%
+            callback(compressedDataUrl);
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function insertImageTag(imageDataUrl) {
+    const imgTag = <img src="${imageDataUrl}" alt="Uploaded image" style="max-width: 100%;">;
     const editorContent = editor.value;
     const newContent = editorContent + imgTag;
     editor.value = newContent;
-    updatePreview(); 
+    updatePreview();
 }
 
 function updatePreview() {
     const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
-    previewDocument.open();
-    previewDocument.write(editor.value);
-    previewDocument.close();
+    previewDocument.body.innerHTML = editor.value;
 }
 </script>
 <style>
@@ -422,43 +537,42 @@ function updatePreview() {
 </script>
 
 <script>
-    const editor = document.getElementById('editor');
-    const previewFrame = document.getElementById('previewFrame');
+const editor = document.getElementById('editor');
+const previewFrame = document.getElementById('previewFrame');
 
-    // Funzione per aggiornare l'anteprima
-    function updatePreview() {
-        const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
-        previewDocument.body.innerHTML = editor.value;
-    }
+// Funzione per aggiornare l'anteprima
+function updatePreview() {
+    const editorContent = editor.value;
+    const contentWithNewlines = editorContent + '\n\n\n\n\n';
+    const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
+    previewDocument.body.innerHTML = contentWithNewlines;
+}
 
-    // Aggiorna l'anteprima quando il contenuto dell'editor cambia
-    editor.addEventListener('input', updatePreview);
-
-    // Aggiorna l'anteprima all'avvio
+// Aggiorna l'anteprima quando il contenuto dell'editor cambia
+editor.addEventListener('input', () => {
     updatePreview();
+    saveContent();
+});
+
+// Aggiorna l'anteprima all'avvio
+updatePreview();
     
-            // Carica il contenuto salvato dal localStorage
-        function loadContent() {
-            const savedContent = localStorage.getItem('editorContent');
-            if (savedContent) {
-                editor.value = savedContent;
-                updatePreview();
-            }
-        }
+// Carica il contenuto salvato dal localStorage
+function loadContent() {
+    const savedContent = localStorage.getItem('editorContent');
+    if (savedContent) {
+        editor.value = savedContent;
+        updatePreview();
+    }
+}
 
-        // Salva il contenuto nel localStorage
-        function saveContent() {
-            localStorage.setItem('editorContent', editor.value);
-        }
+// Salva il contenuto nel localStorage
+function saveContent() {
+    localStorage.setItem('editorContent', editor.value);
+}
 
-        // Aggiorna l'anteprima quando il contenuto dell'editor cambia
-        editor.addEventListener('input', () => {
-            updatePreview();
-            saveContent();
-        });
-
-        // Carica il contenuto salvato all'avvio
-        window.addEventListener('load', loadContent);
+// Carica il contenuto salvato all'avvio
+window.addEventListener('load', loadContent);
 </script>
 <style>
 /* Rimuovere il contorno su tutti gli elementi quando vengono selezionati */
@@ -478,3 +592,5 @@ textarea:focus {
   -webkit-tap-highlight-color: transparent;
 }
 </style>
+</body>
+</html>
