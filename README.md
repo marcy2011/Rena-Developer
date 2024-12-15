@@ -8,6 +8,6 @@ Il WebKit di Rena Developer coprende vari file che puoi usare nella creazione de
 Rena Developer ti dà l'opportunità di condividere le tue app open-source o no attraverso il Rena Store. Puoi caricare le tue app per renderli disponibili sul Rena Store facendo richiesta su https://renadeveloper.altervista.org/renastore.html . Scopri di più sul Rena Store su https://github.com/marcy2011/Rena-Store
 # Modelli di codice
 Non sai da dove iniziare? Nessun problema! Rena Developer offre dei modelli predefiniti con codice già pronto per essere utilizzato. Questi modelli coprono diverse categorie e livelli di complessità, consentendoti di avere una base solida su cui costruire il tuo progetto. Che tu stia lavorando a un sito web personale o un blog, troverai sicuramente il modello giusto per te.
-# Scopri di più su https://renadeveloper.altervista.org/info.html
+# Scopri di più su https://renadeveloper.altervista.org
 I file allegati qui su Git Hub sono solo quelli principali
 # Programma subito https://renadeveloper.altervista.org/code.html
