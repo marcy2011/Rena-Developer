@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <title>Rena Developer - Code</title>
+<title>Rena Developer - Code</title>
     <link rel="icon" type="image/x-icon" href="logo.png">    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
@@ -467,7 +466,7 @@ function compressImage(file, callback) {
 }
 
 function insertImageTag(imageDataUrl) {
-    const imgTag = <img src="${imageDataUrl}" alt="Uploaded image" style="max-width: 100%;">;
+    const imgTag = `<img src="${imageDataUrl}" alt="Uploaded image" style="max-width: 100%;">`;
     const editorContent = editor.value;
     const newContent = editorContent + imgTag;
     editor.value = newContent;
