@@ -10,7 +10,7 @@
         a, button {
     cursor: url('cursore.png'), pointer;
     }
-    
+
     body {
     cursor: url('cursore.png'), pointer;
     }
@@ -25,7 +25,7 @@
         .header-nav-link {
             color: white !important;
         }
-    
+
         .header-nav-item {
             display: inline-block;
             margin-right: 10px;
@@ -55,12 +55,11 @@
             margin-right: 10px;
         }
 
-        /* Nascondi il menu di navigazione su dispositivi mobili */
         @media screen and (max-width: 767px) {
             .header-nav {
                 display: none;
             }
-            
+
             .menu-icon {
                 width: 50px;
                 margin-left: 220px;
@@ -68,7 +67,6 @@
             }
         }
 
-        /* Nascondi l'icona del menu su schermi più grandi */
         @media screen and (min-width: 768px) {
             .menu-icon {
                 display: none;
@@ -101,7 +99,6 @@
             transform: translateY(-5px);
         }
         </style>
-        <!-- Mostra solo su dispositivi mobili -->
         <div class="header-nav">
             <ul class="nav">
                 <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org">Home</a></li>
@@ -110,11 +107,10 @@
                 <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/info.html">Info</a></li>
             </ul>
         </div>
-        <!-- Mostra solo su dispositivi mobili -->
         <a href="https://renadeveloper.altervista.org/menu.html">
             <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
         </a>
-       
+
     <div id="custom-menu">
         <ul>
             <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png" alt="Image 1" width="20"><span>Home</span></a></li>
@@ -123,7 +119,7 @@
             <li><a href="https://renadeveloper.altervista.org/info.html"><img src="https://gcsapp.altervista.org/accountbanner.png" alt="Image 2" width="18"><span>Info</span></a></li>
         </ul>
     </div>
-  
+
 <style>
 #custom-menu {
   display: none;
@@ -185,7 +181,7 @@ document.addEventListener('click', function(event) {
     }
 </style>
     </header>
-    
+
 <div class="split">
     <div class="left">
         <textarea id="editor" placeholder="Inserisci qui il tuo codice HTML..." spellcheck="false"></textarea>
@@ -212,107 +208,16 @@ document.addEventListener('click', function(event) {
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        a.download = 'index.html'; // Filename for the downloaded file
+        a.download = 'index.html'; 
 
         document.body.appendChild(a);
         a.click();
 
-        // Cleanup
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }, 0);
     }
-</script>
-<script>
-// Aggiungi l'evento keydown al textarea per gestire il tasto Tab per l'indentazione automatica
-editor.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-        e.preventDefault();
-        
-        const start = this.selectionStart;
-        const end = this.selectionEnd;
-        const value = this.value;
-        
-        // Get the line start position
-        let lineStart = value.lastIndexOf('\n', start - 1) + 1;
-        let currentLine = value.slice(lineStart, start);
-        
-        // Calculate current indentation level
-        let indentLevel = 0;
-        for (let i = 0; i < currentLine.length; i++) {
-            if (currentLine[i] === ' ') indentLevel++;
-            else break;
-        }
-        
-        // Check if we should increase indentation
-        const previousChar = value.charAt(start - 1);
-        const nextChar = value.charAt(start);
-        if (previousChar === '{' || previousChar === '<') {
-            indentLevel += 2;
-        }
-        
-        // Create indentation string
-        const indent = ' '.repeat(indentLevel);
-        
-        // Insert indentation
-        if (start === end) {
-            // No selection - just insert indentation
-            this.value = value.substring(0, start) + indent + value.substring(end);
-            this.selectionStart = this.selectionEnd = start + indent.length;
-        } else {
-            // With selection - indent all selected lines
-            const selectedText = value.substring(start, end);
-            const lines = selectedText.split('\n');
-            const indentedText = lines.map(line => indent + line).join('\n');
-            this.value = value.substring(0, start) + indentedText + value.substring(end);
-            this.selectionStart = start;
-            this.selectionEnd = start + indentedText.length;
-        }
-        
-        // Auto-close tags and braces
-        if (start === end) {
-            if (previousChar === '<') {
-                const tagClose = '>\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '</>';
-                this.value = value.substring(0, start) + indent + tagClose + value.substring(end);
-                this.selectionStart = this.selectionEnd = start + indent.length;
-            } else if (previousChar === '{') {
-                const braceClose = '\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '}';
-                this.value = value.substring(0, start) + indent + braceClose + value.substring(end);
-                this.selectionStart = this.selectionEnd = start + indent.length;
-            }
-        }
-        
-        updatePreview();
-        saveContent();
-    } else if (e.key === 'Enter') {
-        e.preventDefault();
-        
-        const start = this.selectionStart;
-        const value = this.value;
-        
-        // Get the line start position
-        let lineStart = value.lastIndexOf('\n', start - 1) + 1;
-        let currentLine = value.slice(lineStart, start);
-        
-        // Calculate current indentation level
-        let indentLevel = 0;
-        for (let i = 0; i < currentLine.length; i++) {
-            if (currentLine[i] === ' ') indentLevel++;
-            else break;
-        }
-        
-        // Create indentation string
-        const indent = ' '.repeat(indentLevel);
-        
-        // Insert new line with indentation
-        this.value = value.substring(0, start) + '\n' + indent + value.substring(start);
-        this.selectionStart = this.selectionEnd = start + indent.length + 1;
-        
-        updatePreview();
-        saveContent();
-    }
-});
 </script>
     <div class="right">
         <iframe id="previewFrame" class="preview"></iframe>
@@ -321,44 +226,34 @@ editor.addEventListener('keydown', function(e) {
         </div>
     </div>
 </div>
-<script>
-    function openPreviewInNewTab() {
-        const previewContent = editor.value;
-        const newWindow = window.open();
-        newWindow.document.write(previewContent);
-        newWindow.document.close();
-    }
-
-    window.addEventListener('load', () => {
-        loadContent();
-        updatePreview();
-    });
-</script>
 <style>
     .split {
-        height: 100%;
+        height: calc(100vh - 120px); 
         display: flex;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding-bottom: 20px;
     }
     .left {
-        width: 50%;
-        height: 800px;
+        flex: 1;
+        height: 100%;
         padding: 20px;
         background-color: black;
         box-sizing: border-box;
-        overflow-y: scroll;
         border-radius: 30px;
-        overflow-y: hidden;
-        overflow-x: hidden;
+        overflow: auto;
     }
     .right {
-        width: 50%;
+        flex: 1;
+        height: 100%;     
         padding: 20px;
         box-sizing: border-box;
-        overflow-y: scroll;
         background-color: white;
         border-radius: 30px;
-        overflow-y: hidden;
-        overflow-x: hidden;
+        overflow: auto;
         position: relative;
     }
     textarea, .preview {
@@ -368,7 +263,7 @@ editor.addEventListener('keydown', function(e) {
         resize: none;
         border-radius: 15px;
     }
-    
+
     textarea {
        background-color: black;
        color: white;
@@ -389,14 +284,45 @@ editor.addEventListener('keydown', function(e) {
     @media (max-width: 768px) {
         .split {
             flex-direction: column;
+            top: 120px; 
+            height: calc(100vh - 140px);
+            position: absolute;  
+            padding-bottom: 40px; 
         }
         .left, .right {
             width: 100%;
-            height: 50%;
+            flex: 1;
+            height: calc(50% - 10px); 
+            min-height: 300px; 
         }
         textarea, .preview {
-            height: 230px;
+            height: 100%;
         }
+        body {
+            min-height: calc(100vh + 20px); 
+        }
+    }
+</style>
+<script>
+    function openPreviewInNewTab() {
+        const previewContent = editor.value;
+        const newWindow = window.open();
+        newWindow.document.write(previewContent);
+        newWindow.document.close();
+    }
+
+    window.addEventListener('load', () => {
+        loadContent();
+        updatePreview();
+    });
+</script>
+<style>
+    #openImagePopup {
+        cursor: pointer;
+        width: auto;
+        position: fixed;
+        top: 20px;
+        right: 20px;
     }
 </style>
 <a href="#" id="openFilePopup" onclick="openFilePopup(); return false;">
@@ -426,17 +352,14 @@ function compressImage(file, callback) {
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-            // Create canvas
             const canvas = document.createElement('canvas');
-            
-            // Set maximum dimensions
+
             const MAX_WIDTH = 800;
             const MAX_HEIGHT = 600;
-            
+
             let width = img.width;
             let height = img.height;
-            
-            // Calculate new dimensions while maintaining aspect ratio
+
             if (width > height) {
                 if (width > MAX_WIDTH) {
                     height *= MAX_WIDTH / width;
@@ -448,16 +371,14 @@ function compressImage(file, callback) {
                     height = MAX_HEIGHT;
                 }
             }
-            
+
             canvas.width = width;
             canvas.height = height;
-            
-            // Draw resized image
+
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            
-            // Get compressed data URL
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); // Reduce quality to 70%
+
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); 
             callback(compressedDataUrl);
         };
         img.src = e.target.result;
@@ -479,59 +400,48 @@ function updatePreview() {
 }
 </script>
 <style>
-#openImagePopup {
+#openFilePopup {
     cursor: pointer;
-    width: auto;
+    width: 30px;
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 70px; 
+    transform: translateX(50%);
+}
+
+@media screen and (max-width: 600px) {
+    #openFilePopup {
+        margin-top: 30px;
+        right: 45%;
+    }
+    #openImagePopup {
+        margin-top: 30px;
+        right: 55%;
+    }
 }
 </style>
-        <style>  
-        #openFilePopup {
-            cursor: pointer;
-            width: 30px;
-            position: fixed;
-            top: 20px;
-            right: 70px; 
-            transform: translateX(50%);
-        }
-
-        @media screen and (max-width: 600px) {
-            #openFilePopup {
-                margin-top: 30px;
-                right: 45%;
-            }
-            #openImagePopup {
-                margin-top: 30px;
-                right: 55%;
-            }
-        }
-    </style>
 <script>
-    // Gestisci il click sull'icona per aprire il popup
     const openFileButton = document.getElementById('openFilePopup');
     openFileButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Per evitare il comportamento predefinito dell'ancora
+        event.preventDefault(); 
         openFilePopup();
     });
 
-    // Funzione per aprire il popup di caricamento file
     function openFilePopup() {
         const input = document.createElement('input');
         input.type = 'file';
-        input.accept = '.html'; // Accetta solo file HTML
+        input.accept = '.html'; 
         input.onchange = function(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
-                editor.value = e.target.result; // Scrivi il contenuto nel textarea dell'editor
-                updatePreview(); // Aggiorna l'anteprima
-                saveContent(); // Salva nel localStorage
+                editor.value = e.target.result; 
+                updatePreview(); 
+                saveContent(); 
             };
-            reader.readAsText(file); // Leggi il file come testo
+            reader.readAsText(file);
         };
-        input.click(); // Simula il click sull'input file
+        input.click();
     }
 </script>
 
@@ -539,7 +449,6 @@ function updatePreview() {
 const editor = document.getElementById('editor');
 const previewFrame = document.getElementById('previewFrame');
 
-// Funzione per aggiornare l'anteprima
 function updatePreview() {
     const editorContent = editor.value;
     const contentWithNewlines = editorContent + '\n\n\n\n\n';
@@ -547,16 +456,13 @@ function updatePreview() {
     previewDocument.body.innerHTML = contentWithNewlines;
 }
 
-// Aggiorna l'anteprima quando il contenuto dell'editor cambia
 editor.addEventListener('input', () => {
     updatePreview();
     saveContent();
 });
 
-// Aggiorna l'anteprima all'avvio
 updatePreview();
-    
-// Carica il contenuto salvato dal localStorage
+
 function loadContent() {
     const savedContent = localStorage.getItem('editorContent');
     if (savedContent) {
@@ -565,30 +471,112 @@ function loadContent() {
     }
 }
 
-// Salva il contenuto nel localStorage
 function saveContent() {
     localStorage.setItem('editorContent', editor.value);
 }
 
-// Carica il contenuto salvato all'avvio
 window.addEventListener('load', loadContent);
 </script>
+<script>
+editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault();
+
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        const value = this.value;
+
+        let lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        let currentLine = value.slice(lineStart, start);
+
+        let indentLevel = 0;
+        for (let i = 0; i < currentLine.length; i++) {
+            if (currentLine[i] === ' ') indentLevel++;
+            else break;
+        }
+
+        const previousChar = value.charAt(start - 1);
+        const nextChar = value.charAt(start);
+        if (previousChar === '{' || previousChar === '<') {
+            indentLevel += 2;
+        }
+
+        const indent = ' '.repeat(indentLevel);
+
+        if (start === end) {
+            this.value = value.substring(0, start) + indent + value.substring(end);
+            this.selectionStart = this.selectionEnd = start + indent.length;
+        } else {
+            const selectedText = value.substring(start, end);
+            const lines = selectedText.split('\n');
+            const indentedText = lines.map(line => indent + line).join('\n');
+            this.value = value.substring(0, start) + indentedText + value.substring(end);
+            this.selectionStart = start;
+            this.selectionEnd = start + indentedText.length;
+        }
+
+        if (start === end) {
+            if (previousChar === '<') {
+                const tagClose = '>\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '</>';
+                this.value = value.substring(0, start) + indent + tagClose + value.substring(end);
+                this.selectionStart = this.selectionEnd = start + indent.length;
+            } else if (previousChar === '{') {
+                const braceClose = '\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '}';
+                this.value = value.substring(0, start) + indent + braceClose + value.substring(end);
+                this.selectionStart = this.selectionEnd = start + indent.length;
+            }
+        }
+
+        updatePreview();
+        saveContent();
+    } else if (e.key === 'Enter') {
+        e.preventDefault();
+
+        const start = this.selectionStart;
+        const value = this.value;
+
+        let lineStart = value.lastIndexOf('\n', start - 1) + 1;
+        let currentLine = value.slice(lineStart, start);
+
+        let indentLevel = 0;
+        for (let i = 0; i < currentLine.length; i++) {
+            if (currentLine[i] === ' ') indentLevel++;
+            else break;
+        }
+
+        const indent = ' '.repeat(indentLevel);
+
+        this.value = value.substring(0, start) + '\n' + indent + value.substring(start);
+        this.selectionStart = this.selectionEnd = start + indent.length + 1;
+
+        updatePreview();
+        saveContent();
+    }
+});
+</script>
 <style>
-/* Rimuovere il contorno su tutti gli elementi quando vengono selezionati */
 *:focus {
   outline: none;
 }
 
-/* Rimuovere il contorno su specifici elementi quando vengono selezionati */
 button:focus, 
 input:focus, 
 textarea:focus {
   outline: none;
 }
 
-/* Disabilitare l'effetto di selezione sui dispositivi touch */
 * {
   -webkit-tap-highlight-color: transparent;
+}
+</style>
+<style>
+* {
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 </style>
 </body>
