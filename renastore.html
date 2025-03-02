@@ -1,190 +1,496 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
-    <title>Rena Developer - Aggiungi a Rena Store</title>
-    <link rel="icon" type="image/x-icon" href="logo.png">    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
-
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'Open Sauce', sans-serif;
+  <title>Rena Developer - Aggiungi a Rena Store</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta property="og:url" content="renadeveloper.altervista.org">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
+  <script>
+    function updateIframeSource(lang) {
+      var iframe = document.getElementById('myIframe');
+      if (iframe) {
+        if (lang === 'it') {
+          iframe.src = 'https://renadeveloper.altervista.org/formrs.html';
+        } else if (lang === 'en') {
+          iframe.src = 'https://renadeveloper.altervista.org/formrsen.html';
         }
-
-        .header-nav-link {
-            color: white !important;
-        }
-    
-        .header-nav-item {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-        }
-
-        .header-nav-link {
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-            transition: font-size 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-nav-item:hover .header-nav-link {
-            font-size: 12px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .page-header {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-logo {
-            margin-right: 10px;
-        }
-
-        /* Nascondi il menu di navigazione su dispositivi mobili */
-        @media screen and (max-width: 767px) {
-            .header-nav {
-                display: none;
-            }
-            
-            .menu-icon {
-                width: 50px;
-                margin-left: 220px;
-                margin-top: 30px;
-            }
-        }
-
-        /* Nascondi l'icona del menu su schermi più grandi */
-        @media screen and (min-width: 768px) {
-            .menu-icon {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header class="page-header">
-        <div class="header-logo">
-            <a class="header-brand" href="javascript://">
-                <svg class="brand-logo" width="35" height="35" xmlns="logo.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
-                    <img src="logo.png" hspace="15" width="35" height="35" style="border-radius: 30px">
-                </svg>
-            </a>
-        </div>
-        <!-- Mostra solo su dispositivi mobili -->
-        <div class="header-nav">
-            <ul class="nav">
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org">Home</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/renastore.html">Aggiungi a Rena Store</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/modelli.html">Modelli</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark" href="https://renadeveloper.altervista.org/info.html">Info</a></li>
-            </ul>
-        </div>
-        <!-- Mostra solo su dispositivi mobili -->
-        <a href="https://renadeveloper.altervista.org/menu.html">
-            <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
-        </a>
-       
-          <div id="custom-menu">
-  <ul>
-    <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png" alt="Image 1" width="20"><span>Home</span></a></li>
-            <li><a href="https://renadeveloper.altervista.org/renastore.html"><img src="https://renastore.altervista.org/logostore.png" alt="Image 3" width="22" style= border-radius: 10px; ><span>Rena Store</span></a></li>
-        <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3" width="22"><span>Modelli</span></a></li>
-    <li><a href="https://renadeveloper.altervista.org/info.html"><img src="https://gcsapp.altervista.org/accountbanner.png" alt="Image 2" width="18"><span>Info</span></a></li>
-  </ul>
-</div>
-  
-<style>
-#custom-menu {
-  display: none;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 10px;
-  padding: 10px;
-  backdrop-filter: blur(5px); /* Aggiunge effetto blur */
-}
-
-#custom-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#custom-menu ul li {
-  margin-bottom: 10px;
-}
-
-#custom-menu ul li a {
-  display: flex;
-  align-items: center;
-  color: #fff;
-  text-decoration: none;
-}
-
-#custom-menu ul li a img {
-  margin-right: 10px;
-  border-radius: 5px;
-}
-
-#custom-menu ul li a span {
-  font-size: 16px;
-}
-</style>
-<script>
-document.addEventListener('contextmenu', function(event) {
-  event.preventDefault();
-  if (window.innerWidth > 768) { 
-    var customMenu = document.getElementById('custom-menu');
-    customMenu.style.display = 'block';
-    customMenu.style.left = event.pageX + 'px';
-    customMenu.style.top = event.pageY + 'px';
-  }
-});
-
-document.addEventListener('click', function(event) {
-  var customMenu = document.getElementById('custom-menu');
-  customMenu.style.display = 'none';
-});
-
-</script>
-<style>
-    ::selection {
-        background-color: white;
-        color: black;
+      }
     }
-</style>
-    </header>
-<div style="text-align: center; margin-top: 30px;">
-    <div style="border-radius: 15%; display: inline-block;">
-        <div style="text-align: center; margin-top: 30px;">
-            <img src="https://renastore.altervista.org/logostore.png" alt="Logo" style="border-radius: 20%; width: 200px; height: 200px;">
-        </div>
-        <div style="margin-top: 10px;">
-            <h1>Rena Store</h1>
-            <h3>Invia le immagini della tua app, apk, descrizione e logo al bot Telegram qui sotto, revisioneremo la tua app e ti terremo aggiornati sulle dinamiche per la pubblicazione dell'app nel Rena Store</h3>
-            <button class="button" onclick="window.location.href='https://web.telegram.org/k/#@RenaDeveloper_bot'">Vai su Telegram</button>
-<style>
-          .button {
-            margin: 10px 0;
-            padding: 10px 20px;
-            background-color: #ffffff;
-            color: black;
-            border: none;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 16px;
+
+    function translatePage(lang) {
+      localStorage.setItem('preferredLanguage', lang);
+
+      document.querySelectorAll('[data-translate-it]').forEach(function (el) {
+        if (lang === 'it') {
+          el.textContent = el.getAttribute('data-translate-it');
+        } else if (lang === 'en') {
+          el.textContent = el.getAttribute('data-translate-en');
         }
-          .button:hover {
-    transform: scale(0.9);
-    background-color: black;
-    color: white;
-  }
+      });
+
+      const imgElement = document.getElementById('lingua');
+      if (lang === 'it') {
+        imgElement.src = 'https://renadeveloper.altervista.org/bandierait.png';
+        imgElement.setAttribute('data-alt-src', 'https://renadeveloper.altervista.org/bandieraen.png');
+        imgElement.setAttribute('data-lang', 'it');
+      } else if (lang === 'en') {
+        imgElement.src = 'https://renadeveloper.altervista.org/bandieraen.png';
+        imgElement.setAttribute('data-alt-src', 'https://renadeveloper.altervista.org/bandierait.png');
+        imgElement.setAttribute('data-lang', 'en');
+      }
+
+      updateIframeSource(lang);
+    }
+
+    function loadSavedLanguage() {
+      const savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang) {
+        translatePage(savedLang);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSavedLanguage);
+  </script>
+  <style>
+    a,
+    button {
+      cursor: url('cursore.png'), pointer;
+    }
+
+    body {
+      cursor: url('cursore.png'), pointer;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Open Sauce', sans-serif;
+    }
+
+    .header-nav-link {
+      color: white !important;
+    }
+
+    .header-nav-item {
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    .header-nav-link {
+      text-decoration: none;
+      color: #333;
+      font-size: 16px;
+      transition: font-size 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-nav-item:hover .header-nav-link {
+      font-size: 12px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 767px) {
+      .header-nav {
+        display: none;
+      }
+
+      .header-logo {
+        width: 50px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .menu-icon {
+        width: 50px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 30px;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      .menu-icon {
+        display: none;
+      }
+    }
+
+    #custom-menu {
+      display: none;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+      padding: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    #custom-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #custom-menu ul li {
+      margin-bottom: 10px;
+    }
+
+    #custom-menu ul li a {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    #custom-menu ul li a img {
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    #custom-menu ul li a span {
+      font-size: 16px;
+    }
+
+    .header-logo img {
+      transition: transform 0.3s ease;
+    }
+
+    .header-logo:hover img {
+      transform: translateY(-5px);
+    }
+
+    ::selection {
+      background-color: white;
+      color: black;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    button:focus,
+    input:focus,
+    textarea:focus {
+      outline: none;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    iframe {
+      border: none;
+      border-radius: 20px;
+      width: 100%;
+      min-height: 120vh;
+      height: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    iframe::-webkit-scrollbar {
+      display: none;
+    }
+
+    .image-destra {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    main h1 {
+      font-size: 40px;
+    }
+
+    main button {
+      background-color: #1a48aa;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 15px;
+      border: 2px solid black;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    main button:hover {
+      background-color: black;
+      color: white;
+      padding: 8px 18px;
+    }
+
+    @media (min-width: 768px) {
+      .image-destra {
+        position: absolute;
+        top: 10%;
+        left: 5%;
+        width: 554px;
+        height: 554px;
+      }
+
+      iframe {
+        width: 100%;
+        min-height: 120vh;
+        height: auto;
+      }
+
+      main {
+        float: right;
+        width: 700px;
+        height: auto;
+        margin-right: 5%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      main {
+        margin-top: 0;
+        width: 95%;
+      }
+
+      iframe {
+        width: 100%;
+        min-height: 120vh;
+        height: auto;
+      }
+    }
+
+    #lingua {
+      cursor: pointer;
+      width: 30px;
+      position: absolute;
+      top: 12px;
+      right: 57px;
+      transform: translateX(50%);
+      border-radius: 20px;
+    }
+
+    @media screen and (max-width: 600px) {
+      #lingua {
+        margin-top: 30px;
+        right: 50%;
+      }
+    }
+
+    .language-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .language-btn {
+      margin: 20px;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .language-popup .language-btn {
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .language-btn:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
   </style>
+</head>
+
+<body>
+  <header class="page-header">
+    <div class="header-logo">
+      <a class="header-brand" href="https://renadeveloper.altervista.org">
+        <svg class="brand-logo" width="35" height="35" xmlns="logo.jpg" preserveAspectRatio="xMidYMid slice"
+          focusable="false" role="img">
+          <img src="logo.png" hspace="15" width="35" height="35" style="border-radius: 30px">
+        </svg>
+      </a>
+    </div>
+    <div class="header-nav">
+      <ul class="nav">
+        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
+            href="https://renadeveloper.altervista.org">Home</a></li>
+        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
+            href="https://renadeveloper.altervista.org/renastore.html" data-translate-it="Aggiungi a Rena Store"
+            data-translate-en="Add at the Rena Store">Aggiungi a Rena Store</a></li>
+        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
+            href="https://renadeveloper.altervista.org/modelli.html" data-translate-it="Modelli"
+            data-translate-en="Templates">Modelli</a></li>
+        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
+            href="https://renadeveloper.altervista.org/code.html">Code</a></li>
+        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
+            href="https://renadeveloper.altervista.org/webkit.html">WebKit</a></li>
+      </ul>
+    </div>
+    <a href="https://renadeveloper.altervista.org/menu.html">
+      <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
+    </a>
+    <div id="custom-menu">
+      <ul>
+        <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png"
+              alt="Image 1" width="20"><span>Home</span></a></li>
+        <li><a href="https://renadeveloper.altervista.org/renastore.html"><img
+              src="https://renastore.altervista.org/logo.png" alt="Image 3" width="22"
+              style="border-radius: 5px;"><span>Rena Store</span></a></li>
+        <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3"
+              width="22"><span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span></a></li>
+      </ul>
+    </div>
+    <img id="lingua" src="bandierait.png" alt="Lingua" data-alt-src="bandieraen.png">
+    <div id="language-popup" class="language-popup">
+      <span id="close-popup" class="close-popup">&times;</span>
+      <button class="language-btn" data-lang="it">Italiano</button>
+      <button class="language-btn" data-lang="en">English</button>
+    </div>
+  </header>
+
+  <div style="margin-top: 70px;">
+    <a href="https://t.me/BugRena_bot">
+      <img class="image-destra" src="https://renadeveloper.altervista.org/newapp.png" alt="">
+    </a>
+    <main>
+      <iframe id="myIframe" src="https://renadeveloper.altervista.org/formrs.html" scrolling="auto"></iframe>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const lingua = document.getElementById('lingua');
+      const languagePopup = document.getElementById('language-popup');
+      const closePopup = document.getElementById('close-popup');
+
+      if (lingua) {
+        lingua.addEventListener('click', function (event) {
+          event.stopPropagation();
+          if (languagePopup) {
+            languagePopup.style.display = 'block';
+            languagePopup.style.left = '50%';
+            languagePopup.style.top = '50%';
+            languagePopup.style.transform = 'translate(-50%, -50%)';
+          }
+        });
+      }
+
+      if (closePopup) {
+        closePopup.addEventListener('click', function () {
+          if (languagePopup) {
+            languagePopup.style.display = 'none';
+          }
+        });
+      }
+
+      document.addEventListener('click', function (event) {
+        if (languagePopup && event.target !== languagePopup && !languagePopup.contains(event.target)) {
+          languagePopup.style.display = 'none';
+        }
+      });
+
+      document.querySelectorAll('.language-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const lang = this.getAttribute('data-lang');
+          const img = document.getElementById('lingua');
+
+          if (img) {
+            if (lang === 'it') {
+              img.src = 'bandierait.png';
+              img.setAttribute('data-alt-src', 'bandieraen.png');
+            } else {
+              img.src = 'bandieraen.png';
+              img.setAttribute('data-alt-src', 'bandierait.png');
+            }
+          }
+
+          translatePage(lang);
+
+          if (languagePopup) {
+            languagePopup.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    function updateIframeSource(lang) {
+      const iframe = document.getElementById('myIframe');
+      if (iframe) {
+        if (lang === 'it') {
+          iframe.src = 'https://renadeveloper.altervista.org/formrs.html';
+        } else if (lang === 'en') {
+          iframe.src = 'https://renadeveloper.altervista.org/formrsen.html';
+        }
+      }
+    }
+  </script>
+  <style>
+    *:focus {
+      outline: none;
+    }
+
+    button:focus,
+    input:focus,
+    textarea:focus {
+      outline: none;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+
+</body>
+</html>
