@@ -1,1047 +1,1971 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="it">
+
 <head>
-    <title>Rena Developer - Code</title>
-    <link rel="icon" type="image/x-icon" href="logo.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
-    <script src="script.js" defer></script>
-    <style>
-        a,
-        button {
-            cursor: url('cursore.png'), pointer;
-        }
+  <title>Rena Developer - Code</title>
+  <link rel="icon" type="image/x-icon" href="logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+  <style>
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #151515;
+      --bg-tertiary: #1e1e1e;
+      --text-primary: #ffffff;
+      --text-secondary: #a0a0a0;
+      --accent: #888888;
+      --border: #2a2a2a;
+      --blur-bg: rgba(20, 20, 20, 0.85);
+    }
 
-        body {
-            cursor: url('cursore.png'), pointer;
-        }
-    </style>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'Open Sauce', sans-serif;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
 
-        .header-nav-link {
-            color: white !important;
-        }
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-        .header-nav-item {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-        }
+    .cookie-banner {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      z-index: 1000;
+      color: white;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 50px 20px rgba(30, 30, 30, 0.9);
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        opacity 0.5s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
 
-        .header-nav-link {
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-            transition: font-size 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            z-index: 1;
-        }
+    .cookie-banner.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
 
-        .header-nav-item:hover .header-nav-link {
-            font-size: 12px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+    .privacy-link {
+      color: white;
+      text-decoration: underline;
+    }
 
-        .page-header {
-            display: flex;
-            align-items: center;
-        }
+    .cookie-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      display: none;
+    }
 
-        .page-header {
-            display: flex;
-            align-items: center;
-        }
+    .cookie-overlay.show {
+      opacity: 1;
+      display: block;
+    }
 
-        @media screen and (max-width: 767px) {
-            .header-nav {
-                display: none;
-            }
+    .cookie-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+      margin: 0;
+    }
 
-            .header-logo {
-                width: 50px;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
+    .cookie-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
 
-            .menu-icon {
-                width: 50px;
-                position: absolute;
-                top: 0;
-                right: 0;
-                margin-top: 30px;
-            }
-        }
+    .cookie-btn {
+      padding: 10px 20px;
+      border-radius: 15px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
 
-        @media screen and (min-width: 768px) {
-            .menu-icon {
-                display: none;
-            }
-        }
+    .cookie-btn::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      border-radius: 17px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
 
-        #editor {
-            -webkit-spell-check: false;
-            -moz-spell-check: false;
-            -ms-spell-check: false;
-            spell-check: false;
-        }
-    </style>
+    .cookie-accept {
+      background: white;
+      color: black;
+    }
+
+    .cookie-accept:hover {
+      background: #4CAF50;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .cookie-accept:hover::after {
+      opacity: 1;
+      animation: glowGreen 1.5s infinite;
+      background: radial-gradient(circle at center, rgba(76, 175, 80, 0.3), transparent 100%);
+    }
+
+    .cookie-reject {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .cookie-reject:hover {
+      background: #f44336;
+      border-color: #f44336;
+      transform: scale(1.05);
+    }
+
+    .cookie-reject:hover::after {
+      opacity: 1;
+      animation: glowRed 1.5s infinite;
+      background: radial-gradient(circle at center, rgba(244, 67, 54, 0.3), transparent 100%);
+    }
+
+    @keyframes glowGreen {
+      0% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.6;
+        transform: scale(1.15);
+      }
+
+      100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes glowRed {
+      0% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.6;
+        transform: scale(1.15);
+      }
+
+      100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: black;
+      border-bottom: 1px solid var(--border);
+      height: 8.2%;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background-color: black;
+    }
+
+    .header-logo img {
+      width: 35px;
+      height: 35px;
+      border-radius: 30px;
+      transition: transform 0.3s ease;
+    }
+
+    .header-logo:hover img {
+      transform: translateY(-2px);
+    }
+
+    .back-button {
+      background: rgba(255, 255, 255, 0.07);
+      font-size: 15px;
+      border: none;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      margin-left: -15px;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.09);
+    }
+
+    .back-button svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    .main-container {
+      display: flex;
+      height: 100vh;
+      padding-top: 65px;
+    }
+
+    .editor-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: black;
+      border-right: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background-color: #111111;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .editor-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .editor-title svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .preview-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+    }
+
+    .preview-title svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .editor-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      padding: 0.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    .action-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .editor-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .line-numbers {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      padding: 0.75rem 0.5rem;
+      background: #1e1e1e;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      text-align: right;
+      line-height: 1.5;
+      user-select: none;
+      border-right: 1px solid var(--border);
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .line-number {
+      position: relative;
+      display: block;
+      padding-right: 10px;
+      min-height: 1.5em;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .line-number:hover {
+      background-color: #1e1e1e;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: #1e1e1e;
+    }
+
+    .comment-btn {
+      position: absolute;
+      text-align: center;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      pointer-events: auto;
+    }
+
+    .line-number:hover .comment-btn {
+      opacity: 1;
+    }
+
+    #editor {
+      width: 100%;
+      height: 100%;
+      padding: 0.75rem 0.75rem 0.75rem 3rem;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: none;
+      resize: none;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      tab-size: 2;
+      white-space: pre;
+      overflow: auto;
+    }
+
+    #editor:focus {
+      outline: none;
+    }
+
+    .preview-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: #111111;
+      border-bottom: 1px solid var(--border);
+      color: white;
+    }
+
+    .preview-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .preview-container {
+      flex: 1;
+      position: relative;
+    }
+
+    #previewFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    .open-new-tab {
+      position: absolute;
+      align-items: center;
+      bottom: 1rem;
+      right: 1rem;
+      height: 40px;
+      width: 40px;
+      background: var(--blur-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .open-new-tab:hover {
+      background: rgba(30, 30, 30, 0.9);
+    }
+
+    .open-new-tab svg {
+      width: 20px;
+      height: 20px;
+      color: var(--text-primary);
+    }
+
+    .bottom-toolbar {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--blur-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      z-index: 90;
+    }
+
+    .tool-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.6rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tool-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tool-btn svg {
+      width: 20px;
+      height: 20px;
+      color: var(--text-primary);
+    }
+
+    .tool-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 968px) {
+      .main-container {
+        flex-direction: column;
+      }
+
+      .editor-section,
+      .preview-section {
+        height: 50%;
+      }
+
+      .editor-section {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .page-header {
+        height: 10.2%;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #999;
+    }
+
+    ::selection {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: inherit;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.05;
+    }
+
+    .bg-pattern svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .editor-actions {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+
+    .editor-actions::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 968px) {
+      .editor-actions-container::after {
+        opacity: 1;
+      }
+
+      .editor-actions {
+        padding-right: 10px;
+        padding-left: 35px;
+      }
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    button:focus,
+    input:focus,
+    textarea:focus {
+      outline: none;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body,
+    p,
+    h1,
+    h2,
+    h3,
+    a,
+    span {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    a,
+    button {
+      cursor: url('cursore.png'), default;
+    }
+
+    body {
+      cursor: url('cursore.png'), default;
+    }
+
+    #custom-menu {
+      display: none;
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 15px;
+      padding: 15px;
+      backdrop-filter: blur(20px);
+      z-index: 99999999;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    #custom-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #custom-menu ul li {
+      margin-bottom: 10px;
+    }
+
+    #custom-menu ul li a {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    #custom-menu ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    #custom-menu ul li a img {
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    #custom-menu ul li a span {
+      font-size: 16px;
+    }
+
+    #custom-menu ul li a.has-svg span {
+      margin-left: 10px;
+    }
+
+    .custom-menu-svg {
+      width: 22px;
+      height: 22px;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .context-menu-svg {
+      width: 22px !important;
+      height: 22px !important;
+      margin-right: 10px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background-color: var(--bg-tertiary);
+      margin: 10% auto;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: modalFadeIn 0.3s;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .modal-btn.primary {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .modal-btn.primary:hover {
+      background: #e0e0e0;
+    }
+
+    .modal-btn.secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .modal-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .share-url-container {
+      display: flex;
+      margin: 1rem 0;
+    }
+
+    #shareUrl {
+      flex: 1;
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px 0 0 8px;
+      color: var(--text-primary);
+      border-right: none;
+    }
+
+    #copyShareUrl {
+      border-radius: 0 8px 8px 0;
+      white-space: nowrap;
+    }
+
+    .share-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .share-actions .modal-btn {
+      flex: 1;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: rgba(255, 107, 107, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .share-url-container {
+      display: flex;
+      margin: 1rem 0;
+      gap: 0;
+      align-items: stretch;
+      height: 42px;
+    }
+
+    #shareUrl {
+      flex: 1;
+      padding: 0.75rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      border-radius: 8px 0 0 8px;
+      border-right: none;
+    }
+
+    #copyShareUrl {
+      border-radius: 0 8px 8px 0;
+      white-space: nowrap;
+      padding: 0 1rem;
+      border: 1px solid var(--border);
+      border-left: none;
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    #copyShareUrl:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    @media (max-width: 767px) {
+      .share-url-container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      #shareUrl {
+        border-radius: 8px;
+        border-right: 1px solid var(--border);
+      }
+
+      #copyShareUrl {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        padding: 0.75rem;
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-    <header class="page-header">
-        <div class="header-logo">
-            <a class="header-brand" href="https://renadeveloper.altervista.org">
-                <svg class="brand-logo" width="35" height="35" xmlns="logo.jpg" preserveAspectRatio="xMidYMid slice"
-                    focusable="false" role="img">
-                    <img src="logo.png" hspace="15" width="35" height="35" style="border-radius: 30px">
-                </svg>
-            </a>
-        </div>
-        <style>
-            .header-logo img {
-                transition: transform 0.3s ease;
-            }
+  <div class="bg-pattern">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs>
+        <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" />
+        </pattern>
+      </defs>
+      <rect width="100" height="100" fill="url(#grid)" />
+    </svg>
+  </div>
 
-            .header-logo:hover img {
-                transform: translateY(-5px);
-            }
-        </style>
-        <div class="header-nav">
-            <ul class="nav">
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-                        href="https://renadeveloper.altervista.org">Home</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-                        href="https://renadeveloper.altervista.org/renastore.html"
-                        data-translate-it="Aggiungi a Rena Store" data-translate-en="Add at the Rena Store">Aggiungi a
-                        Rena Store</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-                        href="https://renadeveloper.altervista.org/modelli.html" data-translate-it="Modelli"
-                        data-translate-en="Templates">Modelli</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-                        href="https://renadeveloper.altervista.org/code.html">Code</a></li>
-                <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-                        href="https://renadeveloper.altervista.org/webkit.html">WebKit</a></li>
-            </ul>
-        </div>
-        <a href="https://renadeveloper.altervista.org/menu.html">
-            <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
-        </a>
+  <div id="custom-menu">
+    <ul>
+      <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png"
+            alt="Image 1" width="20"><span>Home</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/renastore.html"><img
+            src="https://renadeveloper.altervista.org/storemono.png" alt="Image 3" width="20"><span>Rena
+            Store</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/modelli.html">
+          <svg class="context-menu-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            stroke="#ffffff">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M22 11V17C22 21 21 22 17 22H7C3 22 2 21 2 17V7C2 3 3 2 7 2H8.5C10 2 10.33 2.44 10.9 3.2L12.4 5.2C12.78 5.7 13 6 14 6H17C21 6 22 7 22 11Z"
+                stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10"></path>
+              <path d="M8 2H17C19 2 20 3 20 5V6.38" stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg><span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/code.html">
+          <svg class="context-menu-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            stroke="#ffffff">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M14 17L17 14L14 11M10 7L7 10L10 13M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+                stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg><span>Code</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org"><img src="https://renadeveloper.altervista.org/webkitmono.png"
+            alt="Image 1" width="20"><span>WebKit</span></a></li>
+    </ul>
+  </div>
 
-        <div id="custom-menu">
-            <ul>
-                <li><a href="https://renadeveloper.altervista.org"><img
-                            src="https://gcsapp.altervista.org/homebanner.png" alt="Image 1"
-                            width="20"><span>Home</span></a></li>
-                <li><a href="https://renadeveloper.altervista.org/renastore.html"><img
-                            src="https://renastore.altervista.org/logo.png" alt="Image 3" width="22"
-                            style="border-radius: 5px;"><span>Rena Store</span></a></li>
-                <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3"
-                            width="22"><span data-translate-it="Modelli"
-                            data-translate-en="Templates">Modelli</span></a></li>
-            </ul>
-        </div>
-
-        <style>
-            #custom-menu {
-                display: none;
-                position: absolute;
-                background-color: rgba(0, 0, 0, 0.8);
-                border-radius: 10px;
-                padding: 10px;
-                backdrop-filter: blur(5px);
-                z-index: 1000;
-            }
-
-            #custom-menu ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-            }
-
-            #custom-menu ul li {
-                margin-bottom: 10px;
-            }
-
-            #custom-menu ul li a {
-                display: flex;
-                align-items: center;
-                color: #fff;
-                text-decoration: none;
-            }
-
-            #custom-menu ul li a img {
-                margin-right: 10px;
-                border-radius: 5px;
-            }
-
-            #custom-menu ul li a span {
-                font-size: 16px;
-            }
-        </style>
-        <script>
-            document.addEventListener('contextmenu', function (event) {
-                event.preventDefault();
-                if (window.innerWidth > 768) {
-                    var customMenu = document.getElementById('custom-menu');
-                    customMenu.style.display = 'block';
-                    customMenu.style.left = event.pageX + 'px';
-                    customMenu.style.top = event.pageY + 'px';
-                }
-            });
-
-            document.addEventListener('click', function (event) {
-                var customMenu = document.getElementById('custom-menu');
-                customMenu.style.display = 'none';
-            });
-        </script>
-        <style>
-            ::selection {
-                background-color: white;
-                color: black;
-            }
-        </style>
-    </header>
-
-    <div class="split">
-        <div class="left">
-            <textarea id="editor" placeholder="Inserisci qui il tuo codice HTML..."
-                data-placeholder-it="Inserisci qui il tuo codice HTML..."
-                data-placeholder-en="Insert your HTML code here..." spellcheck="false"></textarea>
-            <div class="download-container">
-                <div class="download">
-                    <img src="down.png" alt="Download" style="width: 40px; height: auto; border-radius: 10px;">
-                </div>
-            </div>
-        </div>
-        <style>
-            .download {
-                align-self: flex-end;
-                margin-top: -45px;
-                width: 30px;
-            }
-        </style>
-        <script>
-            function downloadHTML() {
-                const htmlContent = editor.value;
-                const blob = new Blob([htmlContent], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = 'index.html';
-
-                document.body.appendChild(a);
-                a.click();
-
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                }, 0);
-            }
-        </script>
-        <div class="right">
-            <iframe id="previewFrame" class="preview"></iframe>
-            <div class="open-in-new-tab" onclick="openPreviewInNewTab()">
-                <img src="estendi.png" alt="Apri in nuova scheda"
-                    style="width: 40px; height: auto; border-radius: 10px;">
-            </div>
-        </div>
+  <div class="cookie-overlay" id="cookieOverlay"></div>
+  <div class="cookie-banner" id="cookieBanner">
+    <svg fill="#ffffff" height="64" width="64" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <g>
+        <path
+          d="M485.085,253.891c-5.735,1.415-10.645,2.109-15.284,2.109c-35.343,0-64-28.657-64-64c0-5.967,1.115-12.179,3.362-19.216 c5.273-16.511-10.301-32.086-26.812-26.812c-7.037,2.247-13.249,3.362-19.216,3.362c-35.343,0-64-28.657-64-64 c0-16.87,6.596-32.659,18.229-44.574c11.838-12.124,5.497-32.546-11.127-35.832C289.76,1.67,273.156,0,256.468,0 c-141.382,0-256,114.618-256,256s114.618,256,256,256c133.766,0,244.552-103.052,254.996-235.723 C512.605,261.772,499.211,250.405,485.085,253.891z M256.468,469.333C138.65,469.333,43.135,373.818,43.135,256 S138.65,42.667,256.468,42.667c2.952,0,5.902,0.063,8.85,0.189c-5.764,13.195-8.85,27.598-8.85,42.478 c0,58.907,47.759,106.667,106.667,106.667c0,57.414,45.369,104.239,102.21,106.575 C445.556,396.464,359.126,469.333,256.468,469.333z">
+        </path>
+        <path
+          d="M299.135,298.667c-35.355,0-64,28.645-64,64s28.645,64,64,64s64-28.645,64-64S334.49,298.667,299.135,298.667z M299.135,384c-11.791,0-21.333-9.542-21.333-21.333s9.542-21.333,21.333-21.333s21.333,9.542,21.333,21.333 S310.926,384,299.135,384z">
+        </path>
+        <path
+          d="M149.801,170.667c-35.355,0-64,28.645-64,64s28.645,64,64,64s64-28.645,64-64S185.157,170.667,149.801,170.667z M149.801,256c-11.791,0-21.333-9.542-21.333-21.333s9.542-21.333,21.333-21.333s21.333,9.542,21.333,21.333 S161.593,256,149.801,256z">
+        </path>
+      </g>
+    </svg>
+    <p class="cookie-text">Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di
+      caricamento file e download. Accetta i cookie per utilizzare tutte le funzionalità.</p>
+    <a href="https://rena.altervista.org/privacy-policy.html" target="_blank" class="privacy-link">Leggi la Privacy
+      Policy</a>
+    <div class="cookie-buttons">
+      <button class="cookie-btn cookie-accept" id="acceptCookies">Accetta</button>
+      <button class="cookie-btn cookie-reject" id="rejectCookies">Rifiuta</button>
     </div>
-    <style>
-        .split {
-            height: calc(100vh - 120px);
-            display: flex;
-            position: fixed;
-            top: 80px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            padding-bottom: 20px;
-        }
+  </div>
 
-        .left {
-            flex: 1;
-            height: 100%;
-            padding: 20px;
-            background-color: black;
-            box-sizing: border-box;
-            border-radius: 30px;
-            overflow: auto;
-        }
-
-        .right {
-            flex: 1;
-            height: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: white;
-            border-radius: 30px;
-            overflow: auto;
-            position: relative;
-        }
-
-        textarea,
-        .preview {
-            width: 100%;
-            height: 100%;
-            border: none;
-            resize: none;
-            border-radius: 15px;
-        }
-
-        textarea {
-            background-color: black;
-            color: white;
-            flex: 1;
-        }
-
-        .preview {
-            position: relative;
-        }
-
-        .open-in-new-tab {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .split {
-                flex-direction: column;
-                top: 120px;
-                height: calc(100vh - 140px);
-                position: absolute;
-                padding-bottom: 40px;
-            }
-
-            .left,
-            .right {
-                width: 100%;
-                flex: 1;
-                height: calc(50% - 10px);
-                min-height: 300px;
-            }
-
-            textarea,
-            .preview {
-                height: 100%;
-            }
-
-            body {
-                min-height: calc(100vh + 20px);
-            }
-        }
-    </style>
-    <script>
-        function openPreviewInNewTab() {
-            const previewContent = editor.value;
-            const newWindow = window.open();
-            newWindow.document.write(previewContent);
-            newWindow.document.close();
-        }
-
-        window.addEventListener('load', () => {
-            loadContent();
-            updatePreview();
-        });
-    </script>
-    <style>
-        #openImagePopup {
-            cursor: pointer;
-            width: auto;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-        }
-    </style>
-    <a href="#" id="openFilePopup">
-        <img src="upload.png" alt="Carica file HTML" style="width: auto; height: 30px; border-radius: 10px;">
-    </a>
-    <a href="#" id="openImagePopup">
-        <img src="upimg.png" alt="Carica immagine" style="width: auto; height: 30px; border-radius: 10px;">
-    </a>
-    <script>
-        function openImagePopup() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = function (event) {
-                const file = event.target.files[0];
-                compressImage(file, function (compressedDataUrl) {
-                    insertImageTag(compressedDataUrl);
-                    updatePreview();
-                    saveContent();
-                });
-            };
-            input.click();
-        }
-
-        function compressImage(file, callback) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = new Image();
-                img.onload = function () {
-                    const canvas = document.createElement('canvas');
-
-                    const MAX_WIDTH = 800;
-                    const MAX_HEIGHT = 600;
-
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-                    } else {
-                        if (height > MAX_HEIGHT) {
-                            width *= MAX_HEIGHT / height;
-                            height = MAX_HEIGHT;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                    callback(compressedDataUrl);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function insertImageTag(imageDataUrl) {
-            const imgTag = `<img src="${imageDataUrl}" alt="Uploaded image" style="max-width: 100%;">`;
-            const editorContent = editor.value;
-            const newContent = editorContent + imgTag;
-            editor.value = newContent;
-            updatePreview();
-        }
-
-        function updatePreview() {
-            const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
-            previewDocument.body.innerHTML = editor.value;
-        }
-    </script>
-    <style>
-        #openFilePopup {
-            cursor: pointer;
-            width: 30px;
-            position: fixed;
-            top: 20px;
-            right: 70px;
-            transform: translateX(50%);
-        }
-
-        @media screen and (max-width: 600px) {
-            #openFilePopup {
-                margin-top: 30px;
-                right: 45%;
-            }
-
-            #openImagePopup {
-                margin-top: 30px;
-                right: 55%;
-            }
-        }
-    </style>
-    <script>
-        const openFileButton = document.getElementById('openFilePopup');
-        openFileButton.addEventListener('click', function (event) {
-            event.preventDefault();
-            openFilePopup();
-        });
-
-        function openFilePopup() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.html';
-            input.onchange = function (event) {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    editor.value = e.target.result;
-                    updatePreview();
-                    saveContent();
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-    </script>
-
-    <script>
-        const editor = document.getElementById('editor');
-        const previewFrame = document.getElementById('previewFrame');
-
-        function updatePreview() {
-            const editorContent = editor.value;
-            const contentWithNewlines = editorContent + '\n\n\n\n\n';
-            const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
-            previewDocument.body.innerHTML = contentWithNewlines;
-        }
-
-        editor.addEventListener('input', () => {
-            updatePreview();
-            saveContent();
-        });
-
-        updatePreview();
-
-        function loadContent() {
-            const savedContent = localStorage.getItem('editorContent');
-            if (savedContent) {
-                editor.value = savedContent;
-                updatePreview();
-            }
-        }
-
-        function saveContent() {
-            localStorage.setItem('editorContent', editor.value);
-        }
-
-        window.addEventListener('load', loadContent);
-    </script>
-    <script>
-        editor.addEventListener('keydown', function (e) {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-
-                const start = this.selectionStart;
-                const end = this.selectionEnd;
-                const value = this.value;
-
-                let lineStart = value.lastIndexOf('\n', start - 1) + 1;
-                let currentLine = value.slice(lineStart, start);
-
-                let indentLevel = 0;
-                for (let i = 0; i < currentLine.length; i++) {
-                    if (currentLine[i] === ' ') indentLevel++;
-                    else break;
-                }
-
-                const previousChar = value.charAt(start - 1);
-                const nextChar = value.charAt(start);
-                if (previousChar === '{' || previousChar === '<') {
-                    indentLevel += 2;
-                }
-
-                const indent = ' '.repeat(indentLevel);
-
-                if (start === end) {
-                    this.value = value.substring(0, start) + indent + value.substring(end);
-                    this.selectionStart = this.selectionEnd = start + indent.length;
-                } else {
-                    const selectedText = value.substring(start, end);
-                    const lines = selectedText.split('\n');
-                    const indentedText = lines.map(line => indent + line).join('\n');
-                    this.value = value.substring(0, start) + indentedText + value.substring(end);
-                    this.selectionStart = start;
-                    this.selectionEnd = start + indentedText.length;
-                }
-
-                if (start === end) {
-                    if (previousChar === '<') {
-                        const tagClose = '>\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '</>';
-                        this.value = value.substring(0, start) + indent + tagClose + value.substring(end);
-                        this.selectionStart = this.selectionEnd = start + indent.length;
-                    } else if (previousChar === '{') {
-                        const braceClose = '\n' + ' '.repeat(Math.max(0, indentLevel - 2)) + '}';
-                        this.value = value.substring(0, start) + indent + braceClose + value.substring(end);
-                        this.selectionStart = this.selectionEnd = start + indent.length;
-                    }
-                }
-
-                updatePreview();
-                saveContent();
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-
-                const start = this.selectionStart;
-                const value = this.value;
-
-                let lineStart = value.lastIndexOf('\n', start - 1) + 1;
-                let currentLine = value.slice(lineStart, start);
-
-                let indentLevel = 0;
-                for (let i = 0; i < currentLine.length; i++) {
-                    if (currentLine[i] === ' ') indentLevel++;
-                    else break;
-                }
-
-                const indent = ' '.repeat(indentLevel);
-
-                this.value = value.substring(0, start) + '\n' + indent + value.substring(start);
-                this.selectionStart = this.selectionEnd = start + indent.length + 1;
-
-                updatePreview();
-                saveContent();
-            }
-        });
-    </script>
-    <style>
-        *:focus {
-            outline: none;
-        }
-
-        button:focus,
-        input:focus,
-        textarea:focus {
-            outline: none;
-        }
-
-        * {
-            -webkit-tap-highlight-color: transparent;
-        }
-    </style>
-    <style>
-        * {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        *::-webkit-scrollbar {
-            display: none;
-        }
-    </style>
-    <script>
-        class CookieConsent {
-            constructor() {
-                this.cookieAccepted = localStorage.getItem('cookieConsent') === 'accepted';
-                this.setupEventListeners();
-            }
-
-            createPopup() {
-                const popup = document.createElement('div');
-                popup.className = 'cookie-popup';
-                popup.innerHTML = `
-      <button class="close-button">✕</button>
-      <div class="cookie-content">
-        <svg fill="#ffffff" height="64" width="64" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-          <g>
-            <path d="M485.085,253.891c-5.735,1.415-10.645,2.109-15.284,2.109c-35.343,0-64-28.657-64-64c0-5.967,1.115-12.179,3.362-19.216 c5.273-16.511-10.301-32.086-26.812-26.812c-7.037,2.247-13.249,3.362-19.216,3.362c-35.343,0-64-28.657-64-64 c0-16.87,6.596-32.659,18.229-44.574c11.838-12.124,5.497-32.546-11.127-35.832C289.76,1.67,273.156,0,256.468,0 c-141.382,0-256,114.618-256,256s114.618,256,256,256c133.766,0,244.552-103.052,254.996-235.723 C512.605,261.772,499.211,250.405,485.085,253.891z M256.468,469.333C138.65,469.333,43.135,373.818,43.135,256 S138.65,42.667,256.468,42.667c2.952,0,5.902,0.063,8.85,0.189c-5.764,13.195-8.85,27.598-8.85,42.478 c0,58.907,47.759,106.667,106.667,106.667c0,57.414,45.369,104.239,102.21,106.575 C445.556,396.464,359.126,469.333,256.468,469.333z"></path>
-            <path d="M299.135,298.667c-35.355,0-64,28.645-64,64s28.645,64,64,64s64-28.645,64-64S334.49,298.667,299.135,298.667z M299.135,384c-11.791,0-21.333-9.542-21.333-21.333s9.542-21.333,21.333-21.333s21.333,9.542,21.333,21.333 S310.926,384,299.135,384z"></path>
-            <path d="M149.801,170.667c-35.355,0-64,28.645-64,64s28.645,64,64,64s64-28.645,64-64S185.157,170.667,149.801,170.667z M149.801,256c-11.791,0-21.333-9.542-21.333-21.333s9.542-21.333,21.333-21.333s21.333,9.542,21.333,21.333 S161.593,256,149.801,256z"></path>
+  <header class="page-header">
+    <div class="header-left">
+      <button class="back-button" onclick="location.href='https://renadeveloper.altervista.org/dashboard.html'">
+        <svg width="256px" height="256px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M6.25 10.5C6.25 10.0858 5.91421 9.75 5.5 9.75C5.08579 9.75 4.75 10.0858 4.75 10.5H6.25ZM11.5 19.75C11.9142 19.75 12.25 19.4142 12.25 19C12.25 18.5858 11.9142 18.25 11.5 18.25V19.75ZM4.75 10.5C4.75 10.9142 5.08579 11.25 5.5 11.25C5.91421 11.25 6.25 10.9142 6.25 10.5H4.75ZM11.5 5.75C11.9142 5.75 12.25 5.41421 12.25 5C12.25 4.58579 11.9142 4.25 11.5 4.25V5.75ZM5.5 9.75C5.08579 9.75 4.75 10.0858 4.75 10.5C4.75 10.9142 5.08579 11.25 5.5 11.25V9.75ZM11.5 11.25C11.9142 11.25 12.25 10.9142 12.25 10.5C12.25 10.0858 11.9142 9.75 11.5 9.75V11.25ZM10.75 10.5C10.75 10.9142 11.0858 11.25 11.5 11.25C11.9142 11.25 12.25 10.9142 12.25 10.5H10.75ZM12.25 5C12.25 4.58579 11.9142 4.25 11.5 4.25C11.0858 4.25 10.75 4.58579 10.75 5H12.25ZM12.25 10.5C12.25 10.0858 11.9142 9.75 11.5 9.75C11.0858 9.75 10.75 10.0858 10.75 10.5H12.25ZM10.75 14C10.75 14.4142 11.0858 14.75 11.5 14.75C11.9142 14.75 12.25 14.4142 12.25 14H10.75ZM11.5 18.25C11.0858 18.25 10.75 18.5858 10.75 19C10.75 19.4142 11.0858 19.75 11.5 19.75V18.25ZM20.25 14C20.25 13.5858 19.9142 13.25 19.5 13.25C19.0858 13.25 18.75 13.5858 18.75 14H20.25ZM10.75 19C10.75 19.4142 11.0858 19.75 11.5 19.75C11.9142 19.75 12.25 19.4142 12.25 19H10.75ZM12.25 14C12.25 13.5858 11.9142 13.25 11.5 13.25C11.0858 13.25 10.75 13.5858 10.75 14H12.25ZM11.5 4.25C11.0858 4.25 10.75 4.58579 10.75 5C10.75 5.41421 11.0858 5.75 11.5 5.75V4.25ZM18.75 14C18.75 14.4142 19.0858 14.75 19.5 14.75C19.9142 14.75 20.25 14.4142 20.25 14H18.75ZM19.5 14.75C19.9142 14.75 20.25 14.4142 20.25 14C20.25 13.5858 19.9142 13.25 19.5 13.25V14.75ZM11.5 13.25C11.0858 13.25 10.75 13.5858 10.75 14C10.75 14.4142 11.0858 14.75 11.5 14.75V13.25ZM4.75 10.5L4.75 15H6.25L6.25 10.5H4.75ZM4.75 15C4.75 17.6234 6.87665 19.75 9.5 19.75V18.25C7.70507 18.25 6.25 16.7949 6.25 15H4.75ZM9.5 19.75H11.5V18.25H9.5V19.75ZM6.25 10.5V9H4.75V10.5H6.25ZM6.25 9C6.25 7.20507 7.70507 5.75 9.5 5.75V4.25C6.87665 4.25 4.75 6.37665 4.75 9H6.25ZM9.5 5.75H11.5V4.25H9.5V5.75ZM5.5 11.25H11.5V9.75H5.5V11.25ZM12.25 10.5V5H10.75V10.5H12.25ZM10.75 10.5V14H12.25V10.5H10.75ZM11.5 19.75H15.5V18.25H11.5V19.75ZM15.5 19.75C18.1234 19.75 20.25 17.6234 20.25 15H18.75C18.75 16.7949 17.2949 18.25 15.5 18.25V19.75ZM20.25 15V14H18.75V15H20.25ZM12.25 19V14H10.75V19H12.25ZM11.5 5.75H15.5L15.5 4.25H11.5V5.75ZM15.5 5.75C17.2949 5.75 18.75 7.20507 18.75 9L20.25 9C20.25 6.37665 18.1234 4.25 15.5 4.25L15.5 5.75ZM18.75 9V14H20.25V9L18.75 9ZM19.5 13.25H11.5V14.75H19.5V13.25Z"
+              fill="#ffffff"></path>
           </g>
         </svg>
-        <p>Per utilizzare questa funzione, devi prima accettare i cookie.</p>
-        <a href="https://rena.altervista.org/privacy-policy.html" target="_blank" class="privacy-link">Leggi la Privacy Policy</a>
-        <div class="cookie-buttons">
-          <button class="cookie-button accept-button">Accetta</button>
-          <button class="cookie-button reject-button">Rifiuta</button>
+        Dashboard
+      </button>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <section class="editor-section">
+      <div class="editor-header">
+        <div class="editor-title" style="color: white;">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" width="18"
+            height="18">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M14 17L17 14L14 11M10 7L7 10L10 13M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+                stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg>
+          EDITOR
+        </div>
+        <div class="editor-actions">
+          <button class="action-btn" id="indentBtn" title="Indenta (Alt+Space)">
+            <svg fill="#ffffff" width="256px" height="256px" viewBox="-2.88 -2.88 37.76 37.76" version="1.1"
+              xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#ffffff"
+                stroke-width="1.28">
+                <title>arrow-left-to-line</title>
+                <path
+                  d="M30 14.75h-18.982l2.866-2.866c0.225-0.226 0.363-0.537 0.363-0.881 0-0.69-0.56-1.25-1.25-1.25-0.344 0-0.655 0.139-0.881 0.363l-5 5c-0.011 0.011-0.015 0.027-0.026 0.039-0.1 0.104-0.183 0.225-0.243 0.359l-0.003 0.008-0 0.004c-0.050 0.129-0.079 0.279-0.079 0.435 0 0.072 0.006 0.142 0.018 0.21l-0.001-0.007c0.007 0.058 0.018 0.108 0.031 0.158l-0.002-0.008c0.051 0.223 0.158 0.417 0.306 0.571l-0-0 5 5.001c0.226 0.226 0.539 0.366 0.884 0.366 0.691 0 1.251-0.56 1.251-1.251 0-0.346-0.14-0.658-0.367-0.885l-2.866-2.865h18.982c0.69 0 1.25-0.56 1.25-1.25s-0.56-1.25-1.25-1.25v0zM2 0.75c-0.69 0-1.25 0.56-1.25 1.25v0 28c0 0.69 0.56 1.25 1.25 1.25s1.25-0.56 1.25-1.25v0-28c0-0.69-0.56-1.25-1.25-1.25v0z">
+                </path>
+              </g>
+              <g id="SVGRepo_iconCarrier">
+                <title>arrow-left-to-line</title>
+                <path
+                  d="M30 14.75h-18.982l2.866-2.866c0.225-0.226 0.363-0.537 0.363-0.881 0-0.69-0.56-1.25-1.25-1.25-0.344 0-0.655 0.139-0.881 0.363l-5 5c-0.011 0.011-0.015 0.027-0.026 0.039-0.1 0.104-0.183 0.225-0.243 0.359l-0.003 0.008-0 0.004c-0.050 0.129-0.079 0.279-0.079 0.435 0 0.072 0.006 0.142 0.018 0.21l-0.001-0.007c0.007 0.058 0.018 0.108 0.031 0.158l-0.002-0.008c0.051 0.223 0.158 0.417 0.306 0.571l-0-0 5 5.001c0.226 0.226 0.539 0.366 0.884 0.366 0.691 0 1.251-0.56 1.251-1.251 0-0.346-0.14-0.658-0.367-0.885l-2.866-2.865h18.982c0.69 0 1.25-0.56 1.25-1.25s-0.56-1.25-1.25-1.25v0zM2 0.75c-0.69 0-1.25 0.56-1.25 1.25v0 28c0 0.69 0.56 1.25 1.25 1.25s1.25-0.56 1.25-1.25v0-28c0-0.69-0.56-1.25-1.25-1.25v0z">
+                </path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="formatBtn" title="Formatta (Up+Alt+F)">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path d="M4 4H20M13 12H20M4 20H20M13 8H20M13 16H20M8 12L4 9V15L8 12Z" stroke="#ffffff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="htmlStructureBtn" title="Aggiungi struttura HTML base (Ctrl+Alt+Z)">
+            <svg fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 550.801 550.801" xml:space="preserve" width="18"
+              height="18">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g>
+                  <path
+                    d="M488.426,197.019H475.2v-63.816c0-0.401-0.063-0.799-0.116-1.205c-0.021-2.534-0.827-5.023-2.562-6.992L366.325,3.691 c-0.032-0.031-0.063-0.042-0.085-0.073c-0.633-0.707-1.371-1.298-2.151-1.804c-0.231-0.158-0.464-0.287-0.706-0.422 c-0.676-0.366-1.393-0.675-2.131-0.896c-0.2-0.053-0.38-0.135-0.58-0.19C359.87,0.119,359.037,0,358.193,0H97.2 c-11.918,0-21.6,9.693-21.6,21.601v175.413H62.377c-17.049,0-30.873,13.818-30.873,30.87v160.542 c0,17.044,13.824,30.876,30.873,30.876h13.224V529.2c0,11.907,9.682,21.601,21.6,21.601h356.4c11.907,0,21.6-9.693,21.6-21.601 V419.302h13.226c17.044,0,30.871-13.827,30.871-30.87V227.89C519.297,210.838,505.47,197.019,488.426,197.019z M97.2,21.605 h250.193v110.51c0,5.967,4.841,10.8,10.8,10.8h95.407v54.108H97.2V21.605z M406.467,363.983h-26.104l-1.751-46.464 c-0.527-14.598-1.055-32.236-1.055-49.895h-0.517c-3.691,15.485-8.596,32.782-13.163,47.015l-14.354,47.366h-20.851l-12.625-47.002 c-3.85-14.228-7.889-31.524-10.694-47.374h-0.348c-0.707,16.397-1.234,35.129-2.1,50.253l-2.114,46.111h-24.711l7.535-121.395 h35.575l11.569,40.521c3.691,14.048,7.362,29.183,9.999,43.416h0.521c3.344-14.054,7.356-30.074,11.222-43.585l12.614-40.353 h34.879L406.467,363.983z M174.438,265.642v-23.058h90.77v23.058h-32.239v98.342h-26.821v-98.342H174.438z M89.403,313.195v50.788 H62.604V242.584h26.799v46.654h43.999v-46.654h26.645v121.399h-26.645v-50.794H89.403V313.195z M453.601,523.353H97.2V419.302 h356.4V523.353z M500.787,363.983h-73.786V242.584h26.811v98.339h46.976V363.983z">
+                  </path>
+                </g>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="removeCommentsBtn" title="Rimuovi commenti">
+            <svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" stroke="#ffffff">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <g id="������-Product-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="ic_fluent_comment_delete_24_filled" fill="#ffffff" fill-rule="nonzero">
+                    <path
+                      d="M12.0222817,2.99927567 C11.3751757,4.00972644 11,5.21104972 11,6.5 C11,10.0898509 13.9101491,13 17.5,13 C19.2469007,13 20.8328473,12.3108737 22.0008195,11.1896412 L22,14.75 C22,16.5449254 20.5449254,18 18.75,18 L12.9648041,18 L7.57814462,21.817289 C7.12751654,22.1365895 6.50336615,22.0301274 6.18406569,21.5794993 C6.06431649,21.4104975 6,21.2084814 6,21.0015546 L5.9991999,18 L5.25,18 C3.45507456,18 2,16.5449254 2,14.75 L2,6.25 C2,4.45507456 3.45507456,3 5.25,3 L12.0222817,2.99927567 Z M17.5,1 C20.5375661,1 23,3.46243388 23,6.5 C23,9.53756612 20.5375661,12 17.5,12 C14.4624339,12 12,9.53756612 12,6.5 C12,3.46243388 14.4624339,1 17.5,1 Z M14.7156945,3.58859116 L14.6464466,3.64644661 L14.5885912,3.7156945 C14.4704696,3.88620412 14.4704696,4.11379588 14.5885912,4.2843055 L14.6464466,4.35355339 L16.793,6.5 L14.6464466,8.64644661 L14.5885912,8.7156945 C14.4704696,8.88620412 14.4704696,9.11379588 14.5885912,9.2843055 L14.6464466,9.35355339 L14.7156945,9.41140884 C14.8862041,9.52953039 15.1137959,9.52953039 15.2843055,9.41140884 L15.3535534,9.35355339 L17.5,7.207 L19.6464466,9.35355339 L19.7156945,9.41140884 C19.8862041,9.52953039 20.1137959,9.52953039 20.2843055,9.41140884 L20.3535534,9.35355339 L20.4114088,9.2843055 C20.5295304,9.11379588 20.5295304,8.88620412 20.4114088,8.7156945 L20.3535534,8.64644661 L18.207,6.5 L20.3535534,4.35355339 L20.4114088,4.2843055 C20.5295304,4.11379588 20.5295304,3.88620412 20.4114088,3.7156945 L20.3535534,3.64644661 L20.2843055,3.58859116 C20.1137959,3.47046961 19.8862041,3.47046961 19.7156945,3.58859116 L19.6464466,3.64644661 L17.5,5.793 L15.3535534,3.64644661 L15.2843055,3.58859116 C15.1381544,3.48734412 14.9500654,3.47288026 14.791932,3.54519957 L14.7156945,3.58859116 L14.7156945,3.58859116 Z"
+                      id="������-Color"> </path>
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="copyBtn" title="Copia tutto">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M9.5 2C8.67157 2 8 2.67157 8 3.5V4.5C8 5.32843 8.67157 6 9.5 6H14.5C15.3284 6 16 5.32843 16 4.5V3.5C16 2.67157 15.3284 2 14.5 2H9.5Z"
+                  fill="#ffffff"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M6.5 4.03662C5.24209 4.10719 4.44798 4.30764 3.87868 4.87694C3 5.75562 3 7.16983 3 9.99826V15.9983C3 18.8267 3 20.2409 3.87868 21.1196C4.75736 21.9983 6.17157 21.9983 9 21.9983H15C17.8284 21.9983 19.2426 21.9983 20.1213 21.1196C21 20.2409 21 18.8267 21 15.9983V9.99826C21 7.16983 21 5.75562 20.1213 4.87694C19.552 4.30764 18.7579 4.10719 17.5 4.03662V4.5C17.5 6.15685 16.1569 7.5 14.5 7.5H9.5C7.84315 7.5 6.5 6.15685 6.5 4.5V4.03662ZM7 9.75C6.58579 9.75 6.25 10.0858 6.25 10.5C6.25 10.9142 6.58579 11.25 7 11.25H7.5C7.91421 11.25 8.25 10.9142 8.25 10.5C8.25 10.0858 7.91421 9.75 7.5 9.75H7ZM10.5 9.75C10.0858 9.75 9.75 10.0858 9.75 10.5C9.75 10.9142 10.0858 11.25 10.5 11.25H17C17.4142 11.25 17.75 10.9142 17.75 10.5C17.75 10.0858 17.4142 9.75 17 9.75H10.5ZM7 13.25C6.58579 13.25 6.25 13.5858 6.25 14C6.25 14.4142 6.58579 14.75 7 14.75H7.5C7.91421 14.75 8.25 14.4142 8.25 14C8.25 13.5858 7.91421 13.25 7.5 13.25H7ZM10.5 13.25C10.0858 13.25 9.75 13.5858 9.75 14C9.75 14.4142 10.0858 14.75 10.5 14.75H17C17.4142 14.75 17.75 14.4142 17.75 14C17.75 13.5858 17.4142 13.25 17 13.25H10.5ZM7 16.75C6.58579 16.75 6.25 17.0858 6.25 17.5C6.25 17.9142 6.58579 18.25 7 18.25H7.5C7.91421 18.25 8.25 17.9142 8.25 17.5C8.25 17.0858 7.91421 16.75 7.5 16.75H7ZM10.5 16.75C10.0858 16.75 9.75 17.0858 9.75 17.5C9.75 17.9142 10.0858 18.25 10.5 18.25H17C17.4142 18.25 17.75 17.9142 17.75 17.5C17.75 17.0858 17.4142 16.75 17 16.75H10.5Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="clearBtn" title="Pulisci editor (Alt+C)">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M6 5H18M9 5V5C10.5769 3.16026 13.4231 3.16026 15 5V5M9 20H15C16.1046 20 17 19.1046 17 18V9C17 8.44772 16.5523 8 16 8H8C7.44772 8 7 8.44772 7 9V18C7 19.1046 7.89543 20 9 20Z"
+                  stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="undoBtn" title="Undo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.7141 22 12C22 7.28598 22 4.92893 20.5355 3.46447C19.0711 2 16.714 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447ZM9.25871 7.97395C9.56308 7.693 9.58205 7.21851 9.3011 6.91414C9.02015 6.60978 8.54565 6.5908 8.24129 6.87175L5.99129 8.94867C5.83748 9.09065 5.75 9.29045 5.75 9.49977C5.75 9.7091 5.83748 9.9089 5.99129 10.0509L8.24129 12.1278C8.54565 12.4088 9.02015 12.3898 9.3011 12.0854C9.58205 11.781 9.56308 11.3065 9.25871 11.0256L8.41824 10.2498H14.0385C15.536 10.2498 16.75 11.4638 16.75 12.9613C16.75 14.4589 15.536 15.6729 14.0385 15.6729H9.5C9.08579 15.6729 8.75 16.0086 8.75 16.4229C8.75 16.8371 9.08579 17.1729 9.5 17.1729H14.0385C16.3644 17.1729 18.25 15.2873 18.25 12.9613C18.25 10.6353 16.3644 8.74977 14.0385 8.74977H8.41824L9.25871 7.97395Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="redoBtn" title="Redo">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              transform="matrix(-1, 0, 0, 1, 0, 0)">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.46447 3.46447C2 4.92893 2 7.28595 2 12C2 16.714 2 19.0711 3.46447 20.5355C4.92893 22 7.28595 22 12 22C16.714 22 19.0711 22 20.5355 20.5355C22 19.0711 22 16.7141 22 12C22 7.28598 22 4.92893 20.5355 3.46447C19.0711 2 16.714 2 12 2C7.28595 2 4.92893 2 3.46447 3.46447ZM9.25871 7.97395C9.56308 7.693 9.58205 7.21851 9.3011 6.91414C9.02015 6.60978 8.54565 6.5908 8.24129 6.87175L5.99129 8.94867C5.83748 9.09065 5.75 9.29045 5.75 9.49977C5.75 9.7091 5.83748 9.9089 5.99129 10.0509L8.24129 12.1278C8.54565 12.4088 9.02015 12.3898 9.3011 12.0854C9.58205 11.781 9.56308 11.3065 9.25871 11.0256L8.41824 10.2498H14.0385C15.536 10.2498 16.75 11.4638 16.75 12.9613C16.75 14.4589 15.536 15.6729 14.0385 15.6729H9.5C9.08579 15.6729 8.75 16.0086 8.75 16.4229C8.75 16.8371 9.08579 17.1729 9.5 17.1729H14.0385C16.3644 17.1729 18.25 15.2873 18.25 12.9613C18.25 10.6353 16.3644 8.74977 14.0385 8.74977H8.41824L9.25871 7.97395Z"
+                  fill="#ffffff"></path>
+              </g>
+            </svg>
+          </button>
         </div>
       </div>
-    `;
+      <div class="editor-container">
+        <div class="line-numbers" id="lineNumbers">1</div>
+        <textarea id="editor" name="content" placeholder="Inserisci qui il tuo codice..." spellcheck="false"></textarea>
+      </div>
+    </section>
 
-                const overlay = document.createElement('div');
-                overlay.className = 'cookie-overlay';
-                document.body.appendChild(overlay);
+    <section class="preview-section">
+      <div class="preview-header">
+        <div class="preview-title">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M9.75 12C9.75 10.7574 10.7574 9.75 12 9.75C13.2426 9.75 14.25 10.7574 14.25 12C14.25 13.2426 13.2426 14.25 12 14.25C10.7574 14.25 9.75 13.2426 9.75 12Z"
+                fill="#ffffff"></path>
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M2 12C2 13.6394 2.42496 14.1915 3.27489 15.2957C4.97196 17.5004 7.81811 20 12 20C16.1819 20 19.028 17.5004 20.7251 15.2957C21.575 14.1915 22 13.6394 22 12C22 10.3606 21.575 9.80853 20.7251 8.70433C19.028 6.49956 16.1819 4 12 4C7.81811 4 4.97196 6.49956 3.27489 8.70433C2.42496 9.80853 2 10.3606 2 12ZM12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25Z"
+                fill="#ffffff"></path>
+            </g>
+          </svg>
+          ANTEPRIMA
+        </div>
+        <div class="preview-actions">
+          <button class="action-btn" id="refreshPreview" title="Aggiorna">
+            <svg fill="#FFFFFF" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M4,12a1,1,0,0,1-2,0A9.983,9.983,0,0,1,18.242,4.206V2.758a1,1,0,1,1,2,0v4a1,1,0,0,1-1,1h-4a1,1,0,0,1,0-2h1.743A7.986,7.986,0,0,0,4,12Zm17-1a1,1,0,0,0-1,1A7.986,7.986,0,0,1,7.015,18.242H8.757a1,1,0,1,0,0-2h-4a1,1,0,0,0-1,1v4a1,1,0,0,0,2,0V19.794A9.984,9.984,0,0,0,22,12,1,1,0,0,0,21,11Z">
+                </path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" id="sharePreviewBtn" title="Condividi anteprima">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M9.61109 12.4L10.8183 18.5355C11.0462 19.6939 12.6026 19.9244 13.1565 18.8818L19.0211 7.84263C19.248 7.41555 19.2006 6.94354 18.9737 6.58417M9.61109 12.4L5.22642 8.15534C4.41653 7.37131 4.97155 6 6.09877 6H17.9135C18.3758 6 18.7568 6.24061 18.9737 6.58417M9.61109 12.4L18.9737 6.58417M19.0555 6.53333L18.9737 6.58417"
+                  stroke="#ffffff" stroke-width="2"></path>
+              </g>
+            </svg>
+          </button>
+          <button class="action-btn" title="Apri in nuova scheda (Ctrl+U)" onclick="openPreviewInNewTab()">
+            <svg fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#ffffff"
+                stroke-width="0.24000000000000005">
+                <path fill-rule="evenodd"
+                  d="M5,2 L7,2 C7.55228475,2 8,2.44771525 8,3 C8,3.51283584 7.61395981,3.93550716 7.11662113,3.99327227 L7,4 L5,4 C4.48716416,4 4.06449284,4.38604019 4.00672773,4.88337887 L4,5 L4,19 C4,19.5128358 4.38604019,19.9355072 4.88337887,19.9932723 L5,20 L19,20 C19.5128358,20 19.9355072,19.6139598 19.9932723,19.1166211 L20,19 L20,17 C20,16.4477153 20.4477153,16 21,16 C21.5128358,16 21.9355072,16.3860402 21.9932723,16.8833789 L22,17 L22,19 C22,20.5976809 20.75108,21.9036609 19.1762728,21.9949073 L19,22 L5,22 C3.40231912,22 2.09633912,20.75108 2.00509269,19.1762728 L2,19 L2,5 C2,3.40231912 3.24891996,2.09633912 4.82372721,2.00509269 L5,2 L7,2 L5,2 Z M21,2 L21.081,2.003 L21.2007258,2.02024007 L21.2007258,2.02024007 L21.3121425,2.04973809 L21.3121425,2.04973809 L21.4232215,2.09367336 L21.5207088,2.14599545 L21.5207088,2.14599545 L21.6167501,2.21278596 L21.7071068,2.29289322 L21.7071068,2.29289322 L21.8036654,2.40469339 L21.8036654,2.40469339 L21.8753288,2.5159379 L21.9063462,2.57690085 L21.9063462,2.57690085 L21.9401141,2.65834962 L21.9401141,2.65834962 L21.9641549,2.73400703 L21.9641549,2.73400703 L21.9930928,2.8819045 L21.9930928,2.8819045 L22,3 L22,3 L22,9 C22,9.55228475 21.5522847,10 21,10 C20.4477153,10 20,9.55228475 20,9 L20,5.414 L13.7071068,11.7071068 C13.3466228,12.0675907 12.7793918,12.0953203 12.3871006,11.7902954 L12.2928932,11.7071068 C11.9324093,11.3466228 11.9046797,10.7793918 12.2097046,10.3871006 L12.2928932,10.2928932 L18.584,4 L15,4 C14.4477153,4 14,3.55228475 14,3 C14,2.44771525 14.4477153,2 15,2 L21,2 Z">
+                </path>
+              </g>
+              <g id="SVGRepo_iconCarrier">
+                <path fill-rule="evenodd"
+                  d="M5,2 L7,2 C7.55228475,2 8,2.44771525 8,3 C8,3.51283584 7.61395981,3.93550716 7.11662113,3.99327227 L7,4 L5,4 C4.48716416,4 4.06449284,4.38604019 4.00672773,4.88337887 L4,5 L4,19 C4,19.5128358 4.38604019,19.9355072 4.88337887,19.9932723 L5,20 L19,20 C19.5128358,20 19.9355072,19.6139598 19.9932723,19.1166211 L20,19 L20,17 C20,16.4477153 20.4477153,16 21,16 C21.5128358,16 21.9355072,16.3860402 21.9932723,16.8833789 L22,17 L22,19 C22,20.5976809 20.75108,21.9036609 19.1762728,21.9949073 L19,22 L5,22 C3.40231912,22 2.09633912,20.75108 2.00509269,19.1762728 L2,19 L2,5 C2,3.40231912 3.24891996,2.09633912 4.82372721,2.00509269 L5,2 L7,2 L5,2 Z M21,2 L21.081,2.003 L21.2007258,2.02024007 L21.2007258,2.02024007 L21.3121425,2.04973809 L21.3121425,2.04973809 L21.4232215,2.09367336 L21.5207088,2.14599545 L21.5207088,2.14599545 L21.6167501,2.21278596 L21.7071068,2.29289322 L21.7071068,2.29289322 L21.8036654,2.40469339 L21.8036654,2.40469339 L21.8753288,2.5159379 L21.9063462,2.57690085 L21.9063462,2.57690085 L21.9401141,2.65834962 L21.9401141,2.65834962 L21.9641549,2.73400703 L21.9641549,2.73400703 L21.9930928,2.8819045 L21.9930928,2.8819045 L22,3 L22,3 L22,9 C22,9.55228475 21.5522847,10 21,10 C20.4477153,10 20,9.55228475 20,9 L20,5.414 L13.7071068,11.7071068 C13.3466228,12.0675907 12.7793918,12.0953203 12.3871006,11.7902954 L12.2928932,11.7071068 C11.9324093,11.3466228 11.9046797,10.7793918 12.2097046,10.3871006 L12.2928932,10.2928932 L18.584,4 L15,4 C14.4477153,4 14,3.55228475 14,3 C14,2.44771525 14.4477153,2 15,2 L21,2 Z">
+                </path>
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="preview-container">
+        <iframe id="previewFrame" class="preview"></iframe>
+      </div>
+    </section>
+  </div>
 
-                return popup;
-            }
+  <div id="shareModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Condivisione anteprima</h3>
+        <button class="modal-close">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z"
+                fill="#ffffff"></path>
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="share-url-container">
+          <input type="text" id="shareUrl" readonly>
+          <button id="copyShareUrl" class="modal-btn secondary">Copia</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            showPopup() {
-                if (!this.popup) {
-                    this.popup = this.createPopup();
-                    document.body.appendChild(this.popup);
+  <div class="bottom-toolbar">
+    <button class="tool-btn disabled" id="openFilePopup" title="Carica file" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+    </button>
+    <button class="tool-btn disabled" id="openImagePopup" title="Carica immagine" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <path d="M21 15l-5-5L5 21" />
+      </svg>
+    </button>
+    <button class="tool-btn disabled" id="downloadBtn" title="Scarica" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+      </svg>
+    </button>
+  </div>
 
-                    this.popup.querySelector('.accept-button').addEventListener('click', () => {
-                        this.acceptCookies();
-                        this.hidePopup();
-                    });
+  <script>
+    let history = [];
+    let historyIndex = -1;
+    const MAX_HISTORY = 100;
 
-                    this.popup.querySelector('.reject-button').addEventListener('click', () => {
-                        this.rejectCookies();
-                        this.hidePopup();
-                    });
+    const editor = document.getElementById('editor');
+    const previewFrame = document.getElementById('previewFrame');
+    const lineNumbers = document.getElementById('lineNumbers');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const openFileBtn = document.getElementById('openFilePopup');
+    const openImageBtn = document.getElementById('openImagePopup');
+    const refreshPreviewBtn = document.getElementById('refreshPreview');
+    const indentBtn = document.getElementById('indentBtn');
+    const formatBtn = document.getElementById('formatBtn');
+    const removeCommentsBtn = document.getElementById('removeCommentsBtn');
+    const cookieBanner = document.getElementById('cookieBanner');
+    const acceptCookiesBtn = document.getElementById('acceptCookies');
+    const rejectCookiesBtn = document.getElementById('rejectCookies');
+    const copyBtn = document.getElementById('copyBtn');
 
-                    this.popup.querySelector('.close-button').addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.rejectCookies();
-                        this.hidePopup();
-                    });
+    let cookiesAccepted = false;
 
-                    const overlay = document.querySelector('.cookie-overlay');
-                    overlay.addEventListener('click', () => {
-                        this.rejectCookies();
-                        this.hidePopup();
-                    });
-                }
+    window.addEventListener('load', () => {
 
-                this.popup.style.display = 'block';
-                const overlay = document.querySelector('.cookie-overlay');
-                overlay.style.display = 'block';
+      const cookieDecision = localStorage.getItem('cookieDecision');
+      if (!cookieDecision) {
+        setTimeout(() => {
+          document.getElementById('cookieOverlay').style.display = 'block';
+          cookieBanner.classList.add('show');
+          document.getElementById('cookieOverlay').classList.add('show');
+        }, 1000);
+      } else {
+        cookiesAccepted = cookieDecision === 'accepted';
+        updateButtonStates();
+      }
 
-                this.popup.offsetHeight;
-                overlay.offsetHeight;
+      loadContent();
+      updatePreview();
+      updateLineNumbers();
+    });
 
-                requestAnimationFrame(() => {
-                    this.popup.classList.add('show');
-                    overlay.classList.add('show');
-                });
-            }
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(editor.value)
+        .then(() => {
 
-            hidePopup() {
-                if (this.popup) {
-                    this.popup.classList.remove('show');
-                    document.querySelector('.cookie-overlay').classList.remove('show');
-
-                    setTimeout(() => {
-                        this.popup.style.display = 'none';
-                        document.querySelector('.cookie-overlay').style.display = 'none';
-                    }, 300);
-                }
-            }
-
-            acceptCookies() {
-                this.cookieAccepted = true;
-                localStorage.setItem('cookieConsent', 'accepted');
-            }
-
-            rejectCookies() {
-                this.cookieAccepted = false;
-                localStorage.removeItem('cookieConsent');
-            }
-
-            setupEventListeners() {
-                const downloadButton = document.querySelector('.download');
-                const openFileButton = document.getElementById('openFilePopup');
-                const openImageButton = document.getElementById('openImagePopup');
-
-                const checkCookieConsent = (e) => {
-                    if (!this.cookieAccepted) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.showPopup();
-                        return false;
-                    }
-                    return true;
-                };
-
-                downloadButton.addEventListener('click', (e) => {
-                    if (!checkCookieConsent(e)) return;
-                    downloadHTML();
-                });
-
-                openFileButton.addEventListener('click', (e) => {
-                    if (!checkCookieConsent(e)) return;
-                    openFilePopup();
-                });
-
-                openImageButton.addEventListener('click', (e) => {
-                    if (!checkCookieConsent(e)) return;
-                    openImagePopup();
-                });
-            }
-        }
-
-        function downloadHTML() {
-            if (!window.cookieConsent?.cookieAccepted) return;
-
-            const htmlContent = editor.value;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'index.html';
-
-            document.body.appendChild(a);
-            a.click();
-
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 0);
-        }
-
-        function openFilePopup() {
-            if (!window.cookieConsent?.cookieAccepted) return;
-
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.html';
-            input.onchange = function (event) {
-                const file = event.target.files[0];
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    editor.value = e.target.result;
-                    updatePreview();
-                    saveContent();
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-
-        function openImagePopup() {
-            if (!window.cookieConsent?.cookieAccepted) return;
-
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = function (event) {
-                const file = event.target.files[0];
-                compressImage(file, function (compressedDataUrl) {
-                    insertImageTag(compressedDataUrl);
-                    updatePreview();
-                    saveContent();
-                });
-            };
-            input.click();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            window.cookieConsent = new CookieConsent();
+          const originalColor = copyBtn.style.color;
+          copyBtn.style.color = '#4CAF50';
+          setTimeout(() => {
+            copyBtn.style.color = originalColor;
+          }, 500);
+        })
+        .catch(err => {
+          console.error('Errore nella copia:', err);
+          alert('Impossibile copiare il testo');
         });
-    </script>
-    <style>
-        .cookie-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.5);
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            z-index: 1000;
-            color: white;
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 0 50px 20px rgba(30, 30, 30, 0.9);
-            opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                opacity 0.5s ease;
+    });
+
+    acceptCookiesBtn.addEventListener('click', () => {
+      localStorage.setItem('cookieDecision', 'accepted');
+      cookiesAccepted = true;
+      cookieBanner.classList.remove('show');
+      document.getElementById('cookieOverlay').classList.remove('show');
+      setTimeout(() => {
+        document.getElementById('cookieOverlay').style.display = 'none';
+      }, 500);
+      updateButtonStates();
+    });
+
+    rejectCookiesBtn.addEventListener('click', () => {
+      localStorage.setItem('cookieDecision', 'rejected');
+      cookiesAccepted = false;
+      cookieBanner.classList.remove('show');
+      document.getElementById('cookieOverlay').classList.remove('show');
+      setTimeout(() => {
+        document.getElementById('cookieOverlay').style.display = 'none';
+      }, 500);
+      updateButtonStates();
+    });
+
+    function updateButtonStates() {
+      if (cookiesAccepted) {
+        downloadBtn.classList.remove('disabled');
+        downloadBtn.disabled = false;
+        openFileBtn.classList.remove('disabled');
+        openFileBtn.disabled = false;
+        openImageBtn.classList.remove('disabled');
+        openImageBtn.disabled = false;
+      } else {
+        downloadBtn.classList.add('disabled');
+        downloadBtn.disabled = true;
+        openFileBtn.classList.add('disabled');
+        openFileBtn.disabled = true;
+        openImageBtn.classList.add('disabled');
+        openImageBtn.disabled = true;
+      }
+    }
+
+    function showCookieWarning() {
+
+      cookieBanner.classList.add('show');
+      return false;
+    }
+
+    function updateLineNumbers() {
+      const lines = editor.value.split('\n');
+      let numbersHTML = '';
+
+      for (let i = 1; i <= lines.length; i++) {
+        numbersHTML += `
+                    <div class="line-number" data-line="${i}">
+                      ${i}
+                      <button class="comment-btn" data-line="${i}" title="Aggiungi commento">
+                        <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                          <g id="SVGRepo_iconCarrier">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 12.9543C5.51239 14.0398 5.95555 15.076 6.73197 15.8348C7.50838 16.5936 8.55445 17.0128 9.64 17.0003H10.2L11.86 18.7323C12.0291 18.9036 12.2598 19 12.5005 19C12.7412 19 12.9719 18.9036 13.141 18.7323L14.8 17.0003H15.36C16.4456 17.0128 17.4916 16.5936 18.268 15.8348C19.0444 15.076 19.4876 14.0398 19.5 12.9543V8.04428C19.4731 5.7845 17.6198 3.97417 15.36 4.00028H9.64C7.38021 3.97417 5.5269 5.7845 5.5 8.04428V12.9543Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M9.5 8.25024C9.08579 8.25024 8.75 8.58603 8.75 9.00024C8.75 9.41446 9.08579 9.75024 9.5 9.75024V8.25024ZM15.5 9.75024C15.9142 9.75024 16.25 9.41446 16.25 9.00024C16.25 8.58603 15.9142 8.25024 15.5 8.25024V9.75024ZM9.5 11.2502C9.08579 11.2502 8.75 11.586 8.75 12.0002C8.75 12.4145 9.08579 12.7502 9.5 12.7502V11.2502ZM15.5 12.7502C15.9142 12.7502 16.25 12.4145 16.25 12.0002C16.25 11.586 15.9142 11.2502 15.5 11.2502V12.7502ZM9.5 9.75024H15.5V8.25024H9.5V9.75024ZM9.5 12.7502H15.5V11.2502H9.5V12.7502Z" fill="#ffffff"></path>
+                          </g>
+                        </svg>
+                      </button>
+                    </div>
+                    `;
+      }
+
+      lineNumbers.innerHTML = numbersHTML;
+
+      document.querySelectorAll('.comment-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const lineNum = parseInt(this.getAttribute('data-line'));
+          addCommentToLine(lineNum);
+        });
+      });
+    }
+
+    function addCommentToLine(lineNum) {
+      const lines = editor.value.split('\n');
+      if (lineNum > 0 && lineNum <= lines.length) {
+
+        let pos = 0;
+        for (let i = 0; i < lineNum - 1; i++) {
+          pos += lines[i].length + 1;
+        }
+        pos += lines[lineNum - 1].length;
+
+        lines[lineNum - 1] = lines[lineNum - 1] + " // commento";
+        editor.value = lines.join('\n');
+
+
+        editor.selectionStart = pos + 12;
+        editor.selectionEnd = pos + 12;
+        editor.focus();
+
+        updatePreview();
+        saveContent();
+        updateLineNumbers();
+      }
+    }
+
+    function updatePreview() {
+      const previewDocument = previewFrame.contentDocument || previewFrame.contentWindow.document;
+      previewDocument.open();
+
+      previewDocument.write(editor.value || '<!DOCTYPE html><html><head><title>Preview</title></head><body></body></html>');
+      previewDocument.close();
+    }
+
+    function saveContent() {
+      localStorage.setItem('editorContent', editor.value);
+    }
+
+    function loadContent() {
+      const savedContent = localStorage.getItem('editorContent');
+      if (savedContent) {
+        editor.value = savedContent;
+        updatePreview();
+      }
+    }
+
+    function openPreviewInNewTab() {
+      const newWindow = window.open();
+      newWindow.document.write(editor.value);
+      newWindow.document.close();
+    }
+
+    editor.addEventListener('input', () => {
+      updatePreview();
+      updateLineNumbers();
+      saveContent();
+      saveToHistory();
+    });
+
+    editor.addEventListener('scroll', () => {
+      lineNumbers.scrollTop = editor.scrollTop;
+      lineNumbers.scrollLeft = editor.scrollLeft;
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (!cookiesAccepted) return showCookieWarning();
+
+      const blob = new Blob([editor.value], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    refreshPreviewBtn.addEventListener('click', updatePreview);
+
+    indentBtn.addEventListener('click', () => {
+      const cursorPosition = editor.selectionStart;
+      const beforeSelection = editor.value.substring(0, cursorPosition);
+      const afterSelection = editor.value.substring(cursorPosition);
+
+      const lastNewLine = beforeSelection.lastIndexOf('\n');
+      const currentLineStart = lastNewLine + 1;
+      const currentLine = beforeSelection.substring(currentLineStart);
+
+      const newText = beforeSelection.substring(0, currentLineStart) + '  ' + currentLine + afterSelection;
+      editor.value = newText;
+
+      editor.selectionStart = cursorPosition + 2;
+      editor.selectionEnd = cursorPosition + 2;
+      editor.focus();
+
+      updatePreview();
+      saveContent();
+      updateLineNumbers();
+    });
+
+    function removeAllComments() {
+      let code = editor.value;
+      const cursorPosition = editor.selectionStart;
+      let result = '';
+      let i = 0;
+      let inSingleLineComment = false;
+      let inMultiLineComment = false;
+      let inHTMLComment = false;
+      let inString = false;
+      let stringChar = '';
+      let lastChar = '';
+
+      while (i < code.length) {
+        const currentChar = code[i];
+        const nextChar = code[i + 1] || '';
+
+        if (!inSingleLineComment && !inMultiLineComment && !inHTMLComment) {
+          if ((currentChar === '"' || currentChar === "'" || currentChar === '`') &&
+            !inString) {
+            inString = true;
+            stringChar = currentChar;
+            result += currentChar;
+            i++;
+            continue;
+          } else if (inString && currentChar === stringChar && lastChar !== '\\') {
+            inString = false;
+            result += currentChar;
+            i++;
+            continue;
+          } else if (inString) {
+            result += currentChar;
+            i++;
+            lastChar = currentChar;
+            continue;
+          }
         }
 
-        .cookie-popup.show {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
+        if (!inSingleLineComment && !inMultiLineComment && !inHTMLComment &&
+          currentChar === '<' && nextChar === '!' && code[i + 2] === '-' && code[i + 3] === '-') {
+          inHTMLComment = true;
+          i += 4;
+          continue;
         }
 
-        .cookie-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 999;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        if (inHTMLComment && currentChar === '-' && nextChar === '-' && code[i + 2] === '>') {
+          inHTMLComment = false;
+          i += 3;
+          continue;
         }
 
-        .cookie-overlay.show {
-            opacity: 1;
+        if (!inSingleLineComment && !inMultiLineComment && !inHTMLComment &&
+          currentChar === '/' && nextChar === '*') {
+          inMultiLineComment = true;
+          i += 2;
+          continue;
         }
 
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.3s ease, transform 0.3s ease;
-            line-height: 1;
-            padding: 0;
+        if (inMultiLineComment && currentChar === '*' && nextChar === '/') {
+          inMultiLineComment = false;
+          i += 2;
+          continue;
         }
 
-        .close-button:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: scale(1.1);
+        if (!inSingleLineComment && !inMultiLineComment && !inHTMLComment &&
+          currentChar === '/' && nextChar === '/') {
+          inSingleLineComment = true;
+          i += 2;
+          continue;
         }
 
-        .cookie-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
+        if (inSingleLineComment && currentChar === '\n') {
+          inSingleLineComment = false;
+          result += currentChar;
+          i++;
+          continue;
         }
 
-        .cookie-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
+        if (!inSingleLineComment && !inMultiLineComment && !inHTMLComment) {
+          result += currentChar;
         }
 
-        .cookie-button {
-            padding: 10px 20px;
-            border-radius: 15px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+        lastChar = currentChar;
+        i++;
+      }
+
+      result = result.replace(/\n\s*\n\s*\n/g, '\n\n').replace(/^\s*\n/, '');
+
+      editor.value = result;
+      editor.selectionStart = Math.min(cursorPosition, editor.value.length);
+      editor.selectionEnd = Math.min(cursorPosition, editor.value.length);
+      editor.focus();
+
+      updatePreview();
+      saveContent();
+      updateLineNumbers();
+    }
+
+
+    function formatHTML(code) {
+      let formatted = '';
+      let indentLevel = 0;
+      const lines = code.split('\n');
+      let inComment = false;
+      let inString = false;
+      let stringChar = '';
+
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+
+        if (line.length === 0) {
+          formatted += '\n';
+          continue;
         }
 
-        .cookie-button::after {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 17px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
+
+        if (inComment) {
+          formatted += '  '.repeat(indentLevel) + line + '\n';
+          if (line.includes('-->')) {
+            inComment = false;
+          }
+          continue;
         }
 
-        .accept-button {
-            background: white;
-            color: black;
+        if (line.startsWith('<!--')) {
+          inComment = true;
+          formatted += '  '.repeat(indentLevel) + line + '\n';
+          if (line.includes('-->')) {
+            inComment = false;
+          }
+          continue;
         }
 
-        .accept-button:hover {
-            background: #4CAF50;
-            color: white;
-            transform: scale(1.05);
+
+        if (line.startsWith('</')) {
+          indentLevel = Math.max(0, indentLevel - 1);
+          formatted += '  '.repeat(indentLevel) + line + '\n';
         }
 
-        .accept-button:hover::after {
-            opacity: 1;
-            animation: glowGreen 1.5s infinite;
-            background: radial-gradient(circle at center, rgba(76, 175, 80, 0.3), transparent 100%);
+        else if (line.endsWith('/>') || line.endsWith('?>')) {
+          formatted += '  '.repeat(indentLevel) + line + '\n';
         }
 
-        .reject-button {
-            background: transparent;
-            color: white;
-            border: 1px solid white;
+        else if (line.startsWith('<') && !line.endsWith('>')) {
+          formatted += '  '.repeat(indentLevel) + line + '\n';
+          indentLevel++;
+        }
+        else if (line.startsWith('<') && line.endsWith('>') && !line.includes('</')) {
+          formatted += '  '.repeat(indentLevel) + line + '\n';
+          indentLevel++;
+        }
+        else {
+          formatted += '  '.repeat(indentLevel) + line + '\n';
+        }
+      }
+
+      formatted = formatted
+        .replace(/\n\s*\n/g, '\n\n')
+        .replace(/^\s*\n/, '')
+        .trim() + '\n';
+
+      return formatted;
+    }
+
+    function detectLanguage(code) {
+      if (code.trim().startsWith('<!DOCTYPE') ||
+        code.includes('<html') ||
+        code.includes('<body') ||
+        code.includes('<div') ||
+        code.includes('<p') ||
+        code.includes('<span')) {
+        return 'html';
+      } else if (code.includes('function(') || code.includes('=>') ||
+        code.includes('const ') || code.includes('let ') ||
+        code.includes('var ') || code.includes('console.')) {
+        return 'javascript';
+      } else if (code.includes('{') && code.includes('}') &&
+        (code.includes(':') || code.includes('@media'))) {
+        return 'css';
+      }
+      return 'html';
+    }
+
+    formatBtn.addEventListener('click', () => {
+      const code = editor.value;
+      const language = detectLanguage(code);
+
+      try {
+        if (language === 'html') {
+          editor.value = formatHTML(code);
+        } else if (language === 'css') {
+          formatCSS(code);
+        } else if (language === 'javascript') {
+          formatJS(code);
+        } else {
+          editor.value = formatHTML(code);
         }
 
-        .reject-button:hover {
-            background: #f44336;
-            border-color: #f44336;
-            transform: scale(1.05);
-        }
+        updatePreview();
+        saveContent();
+        updateLineNumbers();
 
-        .reject-button:hover::after {
-            opacity: 1;
-            animation: glowRed 1.5s infinite;
-            background: radial-gradient(circle at center, rgba(244, 67, 54, 0.3), transparent 100%);
-        }
+        const originalColor = formatBtn.style.color;
+        formatBtn.style.color = '#4CAF50';
+        setTimeout(() => {
+          formatBtn.style.color = originalColor;
+        }, 500);
 
-        @keyframes glowGreen {
-            0% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
+      } catch (error) {
+        console.error('Errore nella formattazione:', error);
+        alert('Si è verificato un errore durante la formattazione.');
+      }
+    });
 
-            50% {
-                opacity: 0.6;
-                transform: scale(1.15);
-            }
+    removeCommentsBtn.addEventListener('click', removeAllComments);
 
-            100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-        }
+    openFileBtn.addEventListener('click', () => {
+      if (!cookiesAccepted) return showCookieWarning();
 
-        @keyframes glowRed {
-            0% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.html,.htm,.txt';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          editor.value = e.target.result;
+          updatePreview();
+          saveContent();
+          updateLineNumbers();
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    });
 
-            50% {
-                opacity: 0.6;
-                transform: scale(1.15);
-            }
+    openImageBtn.addEventListener('click', () => {
+      if (!cookiesAccepted) return showCookieWarning();
 
-            100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-        }
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const imgTag = `<img src="${e.target.result}" alt="${file.name}" style="max-width: 100%;">`;
 
-        .privacy-link {
-            color: white;
-            text-decoration: underline;
-        }
+          const cursorPosition = editor.selectionStart;
+          const beforeSelection = editor.value.substring(0, cursorPosition);
+          const afterSelection = editor.value.substring(cursorPosition);
 
-        @media (max-width: 768px) {
-            .cookie-popup {
-                width: 80%;
-            }
+          editor.value = beforeSelection + imgTag + afterSelection;
+          updatePreview();
+          saveContent();
+          updateLineNumbers();
 
-            .cookie-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 999;
-                background: rgba(0, 0, 0, 0.5);
-                opacity: 0;
-                transition: opacity 0.5s ease, backdrop-filter 0.5s ease;
-                backdrop-filter: blur(0px);
-            }
+          editor.selectionStart = cursorPosition + imgTag.length;
+          editor.selectionEnd = cursorPosition + imgTag.length;
+          editor.focus();
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    });
 
-            .cookie-overlay.show {
-                opacity: 1;
-                backdrop-filter: blur(5px);
-            }
+    editor.addEventListener('keydown', e => {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
 
-            .cookie-popup {
-                backdrop-filter: none;
-                background: rgb(0, 0, 0);
-                transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                    opacity 0.3s ease;
-            }
-    </style>
-    <script>
-        function translatePage(lang) {
-            localStorage.setItem('preferredLanguage', lang);
+        editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
+        editor.selectionStart = editor.selectionEnd = start + 2;
+        updatePreview();
+        saveContent();
+        updateLineNumbers();
+      }
 
-            document.querySelectorAll('[data-translate-it]').forEach(function (el) {
-                if (lang === 'it') {
-                    el.textContent = el.getAttribute('data-translate-it');
-                } else if (lang === 'en') {
-                    el.textContent = el.getAttribute('data-translate-en');
-                }
-            });
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        saveContent();
+        const originalBg = editor.style.backgroundColor;
+        editor.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        setTimeout(() => {
+          editor.style.backgroundColor = originalBg;
+        }, 300);
+      }
+    });
 
-            document.querySelectorAll('[data-placeholder-it]').forEach(function (el) {
-                if (lang === 'it') {
-                    el.setAttribute('placeholder', el.getAttribute('data-placeholder-it'));
-                } else if (lang === 'en') {
-                    el.setAttribute('placeholder', el.getAttribute('data-placeholder-en'));
-                }
-            });
-        }
-    </script>
+    clearBtn.addEventListener('click', () => {
+      editor.value = '';
+      localStorage.removeItem('editorContent');
+      updateLineNumbers();
+      updatePreview();
+      saveToHistory();
+      updateUndoRedoButtons();
+    });
+
+
+    function saveToHistory() {
+
+      if (historyIndex < history.length - 1) {
+        history = history.slice(0, historyIndex + 1);
+      }
+
+
+      history.push(editor.value);
+      historyIndex++;
+
+      if (history.length > MAX_HISTORY) {
+        history.shift();
+        historyIndex--;
+      }
+
+      updateUndoRedoButtons();
+    }
+
+    function updateUndoRedoButtons() {
+      const undoBtn = document.getElementById('undoBtn');
+      const redoBtn = document.getElementById('redoBtn');
+
+      undoBtn.disabled = historyIndex <= 0;
+      undoBtn.classList.toggle('disabled', historyIndex <= 0);
+
+      redoBtn.disabled = historyIndex >= history.length - 1;
+      redoBtn.classList.toggle('disabled', historyIndex >= history.length - 1);
+    }
+
+    function undo() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        editor.value = history[historyIndex];
+        updatePreview();
+        updateLineNumbers();
+        updateUndoRedoButtons();
+      }
+    }
+
+    function redo() {
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        editor.value = history[historyIndex];
+        updatePreview();
+        updateLineNumbers();
+        updateUndoRedoButtons();
+      }
+    }
+
+    function addHTMLStructure() {
+      const htmlStructure = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Title</title>
+</head>
+<body>
+
+  <p>&nbsp;</p>
+
 </body>
+</html>`;
+
+      if (!editor.value.trim()) {
+        editor.value = htmlStructure;
+      } else {
+        if (confirm("Vuoi sostituire il contenuto corrente con una struttura HTML base?")) {
+          editor.value = htmlStructure;
+        }
+      }
+
+      updatePreview();
+      saveContent();
+      updateLineNumbers();
+      saveToHistory();
+
+      const originalColor = htmlStructureBtn.style.color;
+      htmlStructureBtn.style.color = '#4CAF50';
+      setTimeout(() => {
+        htmlStructureBtn.style.color = originalColor;
+      }, 500);
+    }
+
+    document.getElementById('undoBtn').addEventListener('click', undo);
+    document.getElementById('redoBtn').addEventListener('click', redo);
+    document.getElementById('htmlStructureBtn').addEventListener('click', addHTMLStructure);
+
+    document.addEventListener('contextmenu', function (event) {
+      event.preventDefault();
+      if (window.innerWidth > 768) {
+        var customMenu = document.getElementById('custom-menu');
+        customMenu.style.display = 'block';
+        customMenu.style.left = event.pageX + 'px';
+        customMenu.style.top = event.pageY + 'px';
+      }
+    });
+
+    document.addEventListener('click', function (event) {
+      var customMenu = document.getElementById('custom-menu');
+      customMenu.style.display = 'none';
+    });
+
+    document.addEventListener('keydown', function (e) {
+      // Alt+Space - Indenta
+      if (e.altKey && e.code === 'Space') {
+        e.preventDefault();
+        indentBtn.click();
+      }
+
+      // Ctrl+Alt+Z - Aggiungi struttura HTML
+      if (e.ctrlKey && e.altKey && e.code === 'KeyZ') {
+        e.preventDefault();
+        document.getElementById('htmlStructureBtn').click();
+      }
+
+      // Alt+C - Cancella tutto il codice
+      if (e.altKey && e.code === 'KeyC') {
+        e.preventDefault();
+        if (confirm("Sei sicuro di voler cancellare tutto il codice?")) {
+          clearBtn.click();
+        }
+      }
+
+      // Ctrl+U - Apri anteprima in nuova pagina
+      if (e.ctrlKey && e.code === 'KeyU' && e.getModifierState('Alt')) {
+        e.preventDefault();
+        openPreviewInNewTab();
+      }
+
+      // Up+Alt+F - Formatta codice
+      if (e.code === 'KeyF' && e.getModifierState('Alt') && e.getModifierState('Shift')) {
+        e.preventDefault();
+        formatBtn.click();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.altKey && e.shiftKey && e.code === 'KeyF') {
+        e.preventDefault();
+        formatBtn.click();
+      }
+    });
+
+    document.getElementById("sharePreviewBtn").addEventListener("click", function () {
+      const code = document.getElementById("editor").value;
+
+      if (!code.trim()) {
+        alert("Inserisci del codice prima di condividere!");
+        return;
+      }
+
+      fetch("code.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: "content=" + encodeURIComponent(code)
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const shareUrl = window.location.origin + "/" + data.url;
+            document.getElementById("shareUrl").value = shareUrl;
+            document.getElementById("shareModal").style.display = "block";
+          } else {
+            alert("Errore: " + data.message);
+          }
+        })
+        .catch(err => {
+          alert("Errore: " + err.message);
+        });
+    });
+
+    document.getElementById("copyShareUrl").addEventListener("click", function () {
+      const input = document.getElementById("shareUrl");
+      input.select();
+      input.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(input.value).then(() => {
+        alert("Link copiato!");
+      });
+    });
+
+    document.querySelectorAll(".modal-close").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.getElementById("shareModal").style.display = "none";
+      });
+    });
+
+    window.addEventListener("click", function (e) {
+      const modal = document.getElementById("shareModal");
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  </script>
+</body>
+
 </html>
