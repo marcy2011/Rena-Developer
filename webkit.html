@@ -426,6 +426,12 @@
       padding-top: 120px;
     }
 
+    @media (max-width: 767px) {
+      #custom-menu {
+        display: none !important;
+      }
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
@@ -593,6 +599,7 @@
     .webkit-image img[alt="Custom Mouse"] {
       width: 29px;
       height: 25px;
+      margin-top: 60px;
     }
 
     .webkit-image img[alt="Download On The Rena Store"] {
@@ -711,13 +718,11 @@
     }
 
     .huawei-browser .copy-button:hover:not(.copied) {
-      /* Animazione semplificata per Huawei */
       background: rgba(255, 255, 255, 0.2);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
     .huawei-browser .copy-button:active:not(.copied) {
-      /* Feedback al tocco per dispositivi mobili */
       transform: scale(0.98);
       background: rgba(255, 255, 255, 0.25);
     }
@@ -738,6 +743,197 @@
         transform: scale(0.97);
         transition: transform 0.1s ease;
       }
+
+      .webkit-image img[alt="Custom Mouse"] {
+        width: 29px;
+        height: 25px;
+        margin-top: -10px;
+      }
+    }
+
+    .content-section {
+      margin: 80px 0;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .section-header .section-icon {
+      width: 32px;
+      height: 32px;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .content-section p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 24px;
+    }
+
+    .content-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .content-section li {
+      margin-bottom: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .content-section li:last-child {
+      border-bottom: none;
+    }
+
+    .content-section strong {
+      color: #10B981;
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+      margin: 60px 0;
+    }
+
+    .developer-section {
+      text-align: left;
+      max-width: 80%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .developer-section .hero-subtitle {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 100%;
+    }
+
+    .developer-section .cta-row {
+      justify-content: flex-start;
+    }
+
+    @media (max-width: 768px) {
+      .developer-section {
+        max-width: 95%;
+        padding: 20px;
+      }
+
+      .btn-ghost {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .btn-ghost span {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .developer-section {
+        max-width: 90%;
+        padding: 15px;
+      }
+
+      .btn-ghost {
+        height: auto;
+        min-height: 50px;
+        padding: 12px 20px;
+      }
+
+      .btn-ghost span {
+        font-size: 14px;
+      }
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      border-radius: 50px;
+      padding: 16px 32px;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10B981, #0F766E);
+      color: #ffffff !important;
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, #0F766E, #10B981);
+    }
+
+    .btn-primary * {
+      color: #ffffff !important;
+      z-index: 2;
+      position: relative;
+    }
+
+    .btn-primary i {
+      color: #ffffff !important;
+    }
+
+    .btn-primary span {
+      color: #ffffff !important;
+      display: inline !important;
+      font-weight: 600 !important;
     }
   </style>
 </head>
@@ -956,6 +1152,47 @@ body {
       </div>
     </div>
   </div>
+
+  <div class="divider"></div>
+
+  <section class="content-section developer-section">
+    <div class="section-header">
+      <svg class="section-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 8L3 12L7 16M17 8L21 12L17 16M14 4L10 20" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      <h2 data-translate-it="Integra Accedi con Rena" data-translate-en="Integrate Sign in with Rena">
+        Integrate Sign in with Rena
+      </h2>
+    </div>
+    <p class="hero-subtitle"
+      data-translate-it="Offri ai tuoi utenti un accesso rapido e sicuro. Integra il nostro sistema di autenticazione OAuth 2.0 nelle tue applicazioni e servizi con pochi semplici passaggi."
+      data-translate-en="Offer your users fast and secure access. Integrate our OAuth 2.0 authentication system into your applications and services with a few simple steps.">
+      Offer your users fast and secure access. Integrate our OAuth 2.0 authentication system into your applications
+      and services with a few simple steps.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-ghost" href="https://rena.altervista.org/docs_API-rena-id.html">
+        <svg width="20" height="20" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
+          style="vertical-align:middle; margin-right:4px;">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M11 3.99995C12.8839 2.91716 14.9355 2.15669 17.07 1.74995C17.551 1.63467 18.0523 1.63283 18.5341 1.74458C19.016 1.85632 19.4652 2.07852 19.8464 2.39375C20.2276 2.70897 20.5303 3.10856 20.7305 3.56086C20.9307 4.01316 21.0229 4.50585 21 4.99995V13.9999C20.9699 15.117 20.5666 16.1917 19.8542 17.0527C19.1419 17.9136 18.1617 18.5112 17.07 18.7499C14.9355 19.1567 12.8839 19.9172 11 20.9999"
+              stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path
+              d="M10.9995 3.99995C9.1156 2.91716 7.06409 2.15669 4.92957 1.74995C4.44856 1.63467 3.94731 1.63283 3.46546 1.74458C2.98362 1.85632 2.53439 2.07852 2.15321 2.39375C1.77203 2.70897 1.46933 3.10856 1.26911 3.56086C1.0689 4.01316 0.976598 4.50585 0.999521 4.99995V13.9999C1.0296 15.117 1.433 16.1917 2.14533 17.0527C2.85767 17.9136 3.83793 18.5112 4.92957 18.7499C7.06409 19.1567 9.1156 19.9172 10.9995 20.9999"
+              stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M11 21V4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+          </g>
+        </svg>
+        <span style="margin-bottom: 2px;" data-translate-en="Read the documentation"
+          data-translate-it="Leggi la documentazione">Read the documentation</span>
+      </a>
+    </div>
+  </section>
 
   <script>
     document.addEventListener('contextmenu', function (e) {
