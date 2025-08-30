@@ -1541,16 +1541,26 @@ body {
     }
 
     function showLoginUI() {
-      console.log("Mostro UI login");
+      console.log("Mostra UI login");
       const profileButton = document.getElementById('profile-button');
+      const accountLink = document.querySelector('.profile-menu-item');
 
-      if (profileButton) {
-        profileButton.innerHTML = '';
-        const loginButton = document.createElement('div');
-        loginButton.className = 'default-avatar';
-        loginButton.innerHTML = '<i class="fas fa-user"></i>';
-        loginButton.onclick = openCrossDomainLogin;
-        profileButton.appendChild(loginButton);
+      if (profileButton && accountLink) {
+        profileButton.innerHTML = '<div class="default-avatar"><i class="fas fa-user"></i></div>';
+
+        const span = accountLink.querySelector('span');
+        if (span) {
+          span.setAttribute('data-translate-it', 'Accedi');
+          span.setAttribute('data-translate-en', 'Login');
+          span.textContent = 'Accedi';
+        }
+
+        accountLink.onclick = function (e) {
+          e.preventDefault();
+          openCrossDomainLogin();
+        };
+
+        accountLink.href = "#";
       }
     }
 
