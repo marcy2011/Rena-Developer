@@ -8,192 +8,1032 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
-  <script>
-    function translatePage(lang) {
-      document.querySelectorAll('[data-translate-it]').forEach(function (el) {
-        if (lang === 'it') {
-          el.textContent = el.getAttribute('data-translate-it');
-        } else if (lang === 'en') {
-          el.textContent = el.getAttribute('data-translate-en');
-        }
-      });
-
-      var titleElement = document.getElementById('page-title');
-      if (lang === 'it') {
-        titleElement.textContent = 'Rena Developer - Modelli';
-      } else if (lang === 'en') {
-        titleElement.textContent = 'Rena Developer - Templates';
-      }
-    }
-  </script>
+  <link href="https://api.fontshare.com/v2/css?f[]=open-sauce-one@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    a,
-    button {
-      cursor: url('cursore.png'), pointer;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      cursor: url('cursore.png'), pointer;
-    }
-  </style>
-  <style>
-    body {
-      background-color: black;
+      background: black;
       color: white;
-      font-family: 'Open Sauce', sans-serif;
+      font-family: 'Open Sauce One', sans-serif;
+      min-height: 100vh;
+      cursor: url('cursore.png'), auto;
     }
 
-    .header-nav-link {
-      color: white !important;
+    .floating-navbar {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 1000px;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
 
-    .header-nav-item {
-      display: inline-block;
-      margin-right: 10px;
-      position: relative;
+    .floating-navbar:hover {
+      background: rgba(0, 0, 0, 0.4);
+      transform: translateX(-50%) translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .header-nav-link {
+    .header-brand {
       text-decoration: none;
-      color: #333;
+    }
+
+    .header-brand:hover {
+      transform: none;
+    }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
       font-size: 16px;
-      transition: font-size 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
       position: relative;
-      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1;
     }
 
-    .header-nav-item:hover .header-nav-link {
-      font-size: 12px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    .nav-link::before {
+      display: none;
     }
 
-    .page-header {
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .navbar-account {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-shrink: 0;
+    }
+
+    .account-menu {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: none;
+    }
+
+    .menu-icon {
+      width: 28px;
+      height: 28px;
+      transition: none;
+      display: block;
+    }
+
+    .menu-icon path {
+      transition: none;
+    }
+
+    .profile-menu-container {
+      position: relative;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #profile-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .default-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 65px;
+      right: -15px;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 15px;
+      width: 200px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .profile-menu.active {
+      display: block;
+      z-index: 1001;
+    }
+
+    .profile-menu-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-bottom: 5px;
+    }
+
+    .profile-menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-menu-item i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .profile-menu-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+    }
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .language-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .language-option.active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .language-content {
       display: flex;
       align-items: center;
     }
 
-    .page-header {
+    .language-flag {
+      width: 20px;
+      height: 15px;
+      margin-right: 10px;
+      border-radius: 3px;
+    }
+
+    .check-icon {
+      width: 16px;
+      height: 16px;
+      stroke: #4ade80;
+      stroke-width: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .language-option.active .check-icon {
+      opacity: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+      .floating-navbar {
+        width: 95%;
+        padding: 12px 20px;
+        top: 20px;
+        justify-content: space-between;
+      }
+
+      .profile-menu-container {
+        order: 1;
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-start;
+        margin-left: -7px;
+      }
+
+      .navbar-logo {
+        order: 2;
+        position: static;
+        left: auto;
+        transform: none;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 0;
+        height: 100%;
+      }
+
+      .navbar-nav {
+        display: none;
+      }
+
+      .navbar-account {
+        order: 3;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: 0;
+        flex-grow: 1;
+        justify-content: flex-end;
+      }
+
+      .menu-icon {
+        width: 28px;
+        height: 28px;
+        transform: translateY(-1px) scaleX(-1);
+      }
+
+      .profile-menu {
+        left: 0 !important;
+        right: auto !important;
+        transform: none !important;
+      }
+    }
+
+    @media screen and (min-width: 769px) {
+      .floating-navbar {
+        top: 30px;
+        max-width: 1100px;
+      }
+
+      .navbar-nav {
+        display: flex;
+        order: 2;
+      }
+
+      .navbar-logo {
+        order: 1;
+      }
+
+      .profile-menu-container {
+        order: 3;
+      }
+
+      .navbar-account {
+        display: none;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .floating-navbar {
+        padding: 8px 16px;
+      }
+
+      .menu-icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    #custom-menu {
+      display: none;
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 15px;
+      padding: 15px;
+      backdrop-filter: blur(20px);
+      z-index: 99999999;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    #custom-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #custom-menu ul li {
+      margin-bottom: 10px;
+    }
+
+    #custom-menu ul li a {
       display: flex;
       align-items: center;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
     }
 
-    @media screen and (max-width: 767px) {
-      .header-nav {
-        display: none;
-      }
+    #custom-menu ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
 
-      .header-logo {
-        width: 50px;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
+    #custom-menu ul li a img {
+      margin-right: 10px;
+      border-radius: 5px;
+    }
 
-      .menu-icon {
-        width: 50px;
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin-top: 30px;
+    #custom-menu ul li a span {
+      font-size: 16px;
+    }
+
+    #custom-menu ul li a.has-svg span {
+      margin-left: 10px;
+    }
+
+    .custom-menu-svg {
+      width: 22px;
+      height: 22px;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    main {
+      padding-top: 120px;
+    }
+
+    @media (max-width: 767px) {
+      #custom-menu {
+        display: none !important;
       }
     }
 
-    @media screen and (min-width: 768px) {
-      .menu-icon {
-        display: none;
+    .login-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .login-popup.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .login-popup-content {
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .close-popup:hover {
+      color: white;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #fff;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .context-menu-svg {
+      width: 22px !important;
+      height: 22px !important;
+      margin-right: 10px;
+    }
+
+    .navbar-logo {
+      position: relative;
+    }
+
+    .navbar-logo .header-brand {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: block;
+    }
+
+    .navbar-logo-img {
+      height: 55px;
+      display: block;
+    }
+
+    @media screen and (min-width: 769px) {
+      .navbar-logo-img {
+        margin-left: 30px;
+      }
+    }
+
+    .templates-hero {
+      text-align: center;
+      margin-top: 150px;
+      margin-bottom: 50px;
+    }
+
+    .templates-hero img {
+      border-radius: 25%;
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .templates-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .templates-hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .templates-grid {
+      margin: 0 auto;
+      padding: 40px 20px;
+      max-width: 1200px;
+      border-radius: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .template-container {
+      width: 350px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .template-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 767px) {
+      .template-container {
+        width: 100%;
+      }
+    }
+
+    .template-image {
+      text-align: center;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .template-image img {
+      margin-bottom: -5px;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .template-container:hover .template-image img {
+      transform: scale(1.05);
+    }
+
+    .template-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .template-title {
+      margin-bottom: 15px;
+      font-size: 1.4em;
+      text-align: center;
+    }
+
+    .template-description {
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .template-button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 16px;
+    }
+
+    .template-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    ::selection {
+      background-color: white;
+      color: black;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
     }
   </style>
 </head>
 
 <body>
-  <header class="page-header">
-    <div class="header-logo">
+  <nav class="floating-navbar">
+    <div class="profile-menu-container">
+      <div id="profile-button"></div>
+      <div class="profile-menu" id="profile-menu">
+        <a href="https://rena.altervista.org/account.php" class="profile-menu-item" id="account-link">
+          <i class="fas fa-user"></i>
+          <span data-translate-it="Il mio account" data-translate-en="My Account">Il mio account</span>
+        </a>
+        <div class="profile-menu-divider"></div>
+        <div class="profile-menu-item" style="pointer-events: none; opacity: 0.8;">
+          <i class="fas fa-language"></i>
+          <span data-translate-it="Lingua" data-translate-en="Language">Lingua</span>
+        </div>
+        <div class="language-option" data-lang="it" onclick="translatePage('it')">
+          <div class="language-content">
+            <img src="https://renadeveloper.altervista.org/bandierait.png" class="language-flag" alt="Italiano">
+            <span>Italiano</span>
+          </div>
+          <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <div class="language-option" data-lang="en" onclick="translatePage('en')">
+          <div class="language-content">
+            <img src="https://renadeveloper.altervista.org/bandieraen.png" class="language-flag" alt="English">
+            <span>English</span>
+          </div>
+          <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-logo">
       <a class="header-brand" href="https://renadeveloper.altervista.org">
-        <svg class="brand-logo" width="35" height="35" xmlns="logo.jpg" preserveAspectRatio="xMidYMid slice"
-          focusable="false" role="img">
-          <img src="logo.png" hspace="15" width="35" height="35" style="border-radius: 30px">
-        </svg>
+        <img src="transparentdeveloper.png" alt="Rena Developer" class="navbar-logo-img">
       </a>
     </div>
-    <style>
-      .header-logo img {
-        transition: transform 0.3s ease;
-      }
 
-      .header-logo:hover img {
-        transform: translateY(-5px);
-      }
-    </style>
-    <div class="header-nav">
-      <ul class="nav">
-        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-            href="https://renadeveloper.altervista.org">Home</a></li>
-        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-            href="https://renadeveloper.altervista.org/renastore.html" data-translate-it="Aggiungi a Rena Store"
-            data-translate-en="Add at the Rena Store">Aggiungi a Rena Store</a></li>
-        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-            href="https://renadeveloper.altervista.org/modelli.html" data-translate-it="Modelli"
-            data-translate-en="Templates">Modelli</a></li>
-        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-            href="https://renadeveloper.altervista.org/code.html">Code</a></li>
-        <li class="header-nav-item"><a class="header-nav-link ripple ripple-dark"
-            href="https://renadeveloper.altervista.org/webkit.html">WebKit</a></li>
-      </ul>
-    </div>
-    <a href="https://renadeveloper.altervista.org/menu.html">
-      <img src="https://gamecloudservices.altervista.org/menuaperto.png" alt="Menu" class="menu-icon">
-    </a>
-
-    <div id="custom-menu">
-      <ul>
-        <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png"
-              alt="Image 1" width="20"><span>Home</span></a></li>
-        <li><a href="https://renadeveloper.altervista.org/renastore.html"><img
-              src="https://renastore.altervista.org/logo.png" alt="Image 3" width="22"
-              style="border-radius: 5px;"><span>Rena Store</span></a></li>
-        <li><a href="https://renadeveloper.altervista.org/modelli.html"><img src="modell.png" alt="Image 3"
-              width="22"><span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span></a></li>
-      </ul>
+    <div class="navbar-nav">
+      <a href="https://renadeveloper.altervista.org" class="nav-link">
+        <img src="https://gcsapp.altervista.org/homebanner.png" alt="Home" width="19">
+        <span>Home</span>
+      </a>
+      <a href="https://renadeveloper.altervista.org/renastore.html" class="nav-link">
+        <img src="https://renadeveloper.altervista.org/storemono.png" alt="Rena Store" width="20">
+        <span data-translate-it="Aggiungi a Rena Store" data-translate-en="Add at the Rena Store">Aggiungi a Rena
+          Store</span>
+      </a>
+      <a href="https://renadeveloper.altervista.org/modelli.html" class="nav-link active">
+        <img src="modell.png" alt="Modelli" width="22">
+        <span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span>
+      </a>
+      <a href="https://renadeveloper.altervista.org/code.html" class="nav-link">
+        <svg class="custom-menu-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
+          width="110" height="110">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M14 17L17 14L14 11M10 7L7 10L10 13M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+              stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+        </svg>
+        <span>Code</span>
+      </a>
+      <a href="https://renadeveloper.altervista.org/webkit.html" class="nav-link">
+        <img src="https://renadeveloper.altervista.org/webkitmono.png" alt="WebKit" width="20">
+        <span>WebKit</span>
+      </a>
     </div>
 
-    <style>
-      #custom-menu {
-        display: none;
-        position: absolute;
-        background-color: rgba(0, 0, 0, 0.8);
-        border-radius: 10px;
-        padding: 10px;
-        backdrop-filter: blur(5px);
+    <div class="navbar-account">
+      <div class="account-menu">
+        <a href="https://renadeveloper.altervista.org/menu.html">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            transform="rotate(0)matrix(-1, 0, 0, 1, 0, 0)" stroke="#ffffff">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path d="M4 6H20M4 12H14M4 18H9" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </g>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="custom-menu">
+    <ul>
+      <li><a href="https://renadeveloper.altervista.org"><img src="https://gcsapp.altervista.org/homebanner.png"
+            alt="Image 1" width="20"><span>Home</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/renastore.html"><img
+            src="https://renadeveloper.altervista.org/storemono.png" alt="Image 3" width="20"><span>Rena
+            Store</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/modelli.html">
+          <svg class="context-menu-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            stroke="#ffffff">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M22 11V17C22 21 21 22 17 22H7C3 22 2 21 2 17V7C2 3 3 2 7 2H8.5C10 2 10.33 2.44 10.9 3.2L12.4 5.2C12.78 5.7 13 6 14 6H17C21 6 22 7 22 11Z"
+                stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10"></path>
+              <path d="M8 2H17C19 2 20 3 20 5V6.38" stroke="#ffffff" stroke-width="1.5" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg><span data-translate-it="Modelli" data-translate-en="Templates">Modelli</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/code.html">
+          <svg class="context-menu-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+            stroke="#ffffff">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M14 17L17 14L14 11M10 7L7 10L10 13M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
+                stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg><span>Code</span></a></li>
+      <li><a href="https://renadeveloper.altervista.org/webkit.html"><img
+            src="https://renadeveloper.altervista.org/webkitmono.png" alt="Image 1" width="20"><span>WebKit</span></a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="login-popup" id="loginPopup">
+    <div class="login-popup-content">
+      <span class="close-popup" id="closeLoginPopup">&times;</span>
+      <h3 data-translate-it="Accesso in corso..." data-translate-en="Logging in...">Accesso in corso...</h3>
+      <p data-translate-it="Stai per essere reindirizzato alla pagina di login di Rena ID"
+        data-translate-en="You will be redirected to Rena ID login page">Stai per essere reindirizzato alla pagina di
+        login di Rena ID</p>
+      <div style="text-align: center; margin-top: 20px;">
+        <div class="spinner" style="margin: 0 auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="templates-hero">
+    <div>
+      <h1 data-translate-it="Modelli Rena Developer" data-translate-en="Rena Developer Templates">Modelli Rena Developer
+      </h1>
+      <p data-translate-it="Scegli tra i nostri modelli predefiniti per creare il tuo sito web in pochi minuti"
+        data-translate-en="Choose from our pre-made templates to create your website in minutes">Scegli tra i nostri
+        modelli predefiniti per creare il tuo sito web in pochi minuti</p>
+    </div>
+  </div>
+
+  <div class="templates-grid">
+    <div class="template-container">
+      <div class="template-image">
+        <img src="model1.png" alt="Header by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title">Header by Rena</h3>
+        <p class="template-description" data-translate-it="L'header che viene usato nei siti di Rena"
+          data-translate-en="The header used on Rena's websites">L'header che viene usato nei siti di Rena</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/header-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="mencon.png" alt="Menù contestuale by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title" data-translate-it="Menù contestuale by Rena"
+          data-translate-en="Contextual menu by Rena">Menù contestuale by Rena</h3>
+        <p class="template-description" data-translate-it="Menù contestuale che viene usato nei siti di Rena"
+          data-translate-en="The contextual menu used on Rena's websites">Menù contestuale che viene usato nei siti di
+          Rena</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/menu-contestuale-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="asswebsite.png" alt="Sito di Assistenza by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title" data-translate-it="Sito di Assistenza by Rena"
+          data-translate-en="Support website by Rena">Sito di Assistenza by Rena</h3>
+        <p class="template-description" data-translate-it="Un modello con le basi per creare un sito di assistenza"
+          data-translate-en="A template with the basics to build your own support website">Un modello con le basi per
+          creare un sito di assistenza</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/sito-di-assistenza-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="todo.png" alt="To Do by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title">To Do by Rena</h3>
+        <p class="template-description"
+          data-translate-it="Un modello con le basi per costruire il proprio sito per la lista delle cose da fare"
+          data-translate-en="A template with the basics to build your own to-do list website">Un modello con le basi per
+          costruire il proprio sito per la lista delle cose da fare</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/lista-delle-cose-da-fare-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="err.png" alt="Pagina di Errore by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title" data-translate-it="Pagina di Errore by Rena" data-translate-en="Error Page by Rena">
+          Pagina di Errore by Rena</h3>
+        <p class="template-description"
+          data-translate-it="Un modello con le basi per costruire la propria pagina di errore"
+          data-translate-en="A template with the basics to build your own error page">Un modello con le basi per
+          costruire la propria pagina di errore</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/errore-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="trad.png" alt="Page translation by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title" data-translate-it="Traduzione pagina by Rena"
+          data-translate-en="Page translation by Rena">Traduzione pagina
+          by Rena</h3>
+        <p class="template-description" data-translate-it="Modello di traduzione della pagina usata nei siti di Rena"
+          data-translate-en="Translation page template used on Rena's websites">Modello di traduzione della pagina usata
+          nei siti di Rena</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/traduzione-pagina-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="cal.png" alt="Calculator by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title" data-translate-it="Calcolatrice by Rena" data-translate-en="Calculator by Rena">
+          Calcolatrice by Rena
+          by Rena</h3>
+        <p class="template-description" data-translate-it="Modello di una semplice calcolatrice"
+          data-translate-en="Template of a simple calculator">
+          Modello di una semplice calcolatrice</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/calcolatrice-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+    <div class="template-container">
+      <div class="template-image">
+        <img src="qrmak.png" alt="QRCode Maker by Rena">
+      </div>
+      <div class="template-content">
+        <h3 class="template-title">QRCode Maker
+          by Rena</h3>
+        <p class="template-description" data-translate-it="Modello di una webapp per creare QRCode"
+          data-translate-en="Template for a web app to create QR codes">Modello di una webapp per creare QRCode</p>
+        <a class="template-button" href="https://renadeveloper.altervista.org/qrcode-maker-modello.html"
+          data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      var menu = document.getElementById('custom-menu');
+      menu.style.display = 'block';
+      menu.style.left = e.pageX + 'px';
+      menu.style.top = e.pageY + 'px';
+    });
+
+    document.addEventListener('click', function () {
+      var menu = document.getElementById('custom-menu');
+      menu.style.display = 'none';
+    });
+
+    window.addEventListener('message', function (event) {
+      console.log("Messaggio ricevuto:", event.data, "da origine:", event.origin);
+
+      if (event.origin !== 'https://rena.altervista.org') {
+        console.log("Messaggio da origine non autorizzata:", event.origin);
+        return;
       }
 
-      #custom-menu ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+      if (event.data && event.data.status === 'success') {
+        console.log("Login successful, salvataggio dati utente");
+        localStorage.setItem('user_data', JSON.stringify(event.data));
+
+        updateProfileUI(event.data);
+        startTokenVerification();
+
+        document.getElementById('loginPopup').classList.remove('active');
+      } else {
+        console.log("Login fallito o formato messaggio non valido");
+      }
+    });
+
+    function showLoginUI() {
+      console.log("Mostra UI login");
+      const profileButton = document.getElementById('profile-button');
+      const accountLink = document.querySelector('.profile-menu-item');
+
+      if (profileButton && accountLink) {
+        profileButton.innerHTML = '<div class="default-avatar"><i class="fas fa-user"></i></div>';
+
+        const span = accountLink.querySelector('span');
+        if (span) {
+          span.setAttribute('data-translate-it', 'Accedi');
+          span.setAttribute('data-translate-en', 'Login');
+          span.textContent = 'Accedi';
+        }
+
+        accountLink.onclick = function (e) {
+          e.preventDefault();
+          openCrossDomainLogin();
+        };
+
+        accountLink.href = "#";
+      }
+    }
+
+    let isVerifyingToken = false;
+    let tokenVerificationInterval = null;
+    let accountLink = document.getElementById('account-link');
+
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log("DOM completamente caricato");
+      loadSavedLanguage();
+      handleTokenFromURL();
+      setupEventListeners();
+      checkLoginStatus();
+    });
+
+    function setupEventListeners() {
+      console.log("Impostazione event listeners");
+
+      const profileButton = document.getElementById('profile-button');
+      const profileMenu = document.getElementById('profile-menu');
+
+      if (profileButton && profileMenu) {
+        profileButton.addEventListener('click', function (e) {
+          e.stopPropagation();
+          profileMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function () {
+          profileMenu.classList.remove('active');
+        });
+
+        profileMenu.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
       }
 
-      #custom-menu ul li {
-        margin-bottom: 10px;
-      }
+      document.getElementById('closeLoginPopup').addEventListener('click', function () {
+        document.getElementById('loginPopup').classList.remove('active');
+      });
 
-      #custom-menu ul li a {
-        display: flex;
-        align-items: center;
-        color: #fff;
-        text-decoration: none;
-      }
-
-      #custom-menu ul li a img {
-        margin-right: 10px;
-        border-radius: 5px;
-      }
-
-      #custom-menu ul li a span {
-        font-size: 16px;
-      }
-    </style>
-    <script>
       document.addEventListener('contextmenu', function (event) {
         event.preventDefault();
         if (window.innerWidth > 768) {
@@ -206,536 +1046,346 @@
 
       document.addEventListener('click', function (event) {
         var customMenu = document.getElementById('custom-menu');
-        customMenu.style.display = 'none';
+        if (customMenu && !customMenu.contains(event.target)) {
+          customMenu.style.display = 'none';
+        }
       });
+    }
 
-    </script>
-    <style>
-      ::selection {
-        background-color: white;
-        color: black;
+    function openCrossDomainLogin() {
+      console.log("Apertura login cross-domain");
+      document.getElementById('loginPopup').classList.add('active');
+
+      const loginUrl = `https://rena.altervista.org/login.php?external_domain=${encodeURIComponent(window.location.origin)}`;
+
+      const loginWindow = window.open(
+        loginUrl,
+        'RenaLogin',
+        'width=500,height=600,scrollbars=no,resizable=no'
+      );
+
+      if (!loginWindow) {
+        document.getElementById('loginPopup').classList.remove('active');
+        alert('Il browser ha bloccato la popup. Per favore consenti le popup per questo sito.');
+        return;
       }
-    </style>
-    <img id="lingua" src="bandierait.png" alt="Lingua" data-alt-src="bandieraen.png">
-    <script>
-      document.getElementById('lingua').addEventListener('click', function () {
-        var img = this;
-        var currentSrc = img.src;
-        var altSrc = img.getAttribute('data-alt-src');
 
-        img.src = altSrc;
-        img.setAttribute('data-alt-src', currentSrc);
+      const checkWindowClosed = setInterval(() => {
+        if (loginWindow.closed) {
+          clearInterval(checkWindowClosed);
+          document.getElementById('loginPopup').classList.remove('active');
+          checkLoginStatus();
+        }
+      }, 500);
 
-        var currentLang = img.getAttribute('data-lang') || 'it';
-        var newLang = currentLang === 'it' ? 'en' : 'it';
-        img.setAttribute('data-lang', newLang);
+      setTimeout(() => {
+        if (!loginWindow.closed) {
+          loginWindow.close();
+          document.getElementById('loginPopup').classList.remove('active');
+          alert('Tempo scaduto. Riprova.');
+        }
+      }, 30000);
+    }
 
-        translatePage(newLang);
-      });
+    function handleTokenFromURL() {
+      console.log("Controllo token dall'URL");
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      const user_id = urlParams.get('user_id');
+      const username = urlParams.get('username');
 
-      function translatePage(lang) {
-        document.querySelectorAll('[data-translate-it]').forEach(function (el) {
-          if (lang === 'it') {
-            el.textContent = el.getAttribute('data-translate-it');
-          } else if (lang === 'en') {
-            el.textContent = el.getAttribute('data-translate-en');
+      if (token && user_id && username) {
+        console.log("Token trovato nell'URL, salvataggio dati utente");
+        const userData = {
+          status: 'success',
+          user_id: user_id,
+          username: username,
+          token: token,
+          lastVerification: Date.now()
+        };
+
+        localStorage.setItem('user_data', JSON.stringify(userData));
+        updateProfileUI(userData);
+        startTokenVerification();
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else {
+        checkLoginStatus();
+      }
+    }
+
+    function checkLoginStatus() {
+      console.log("Controllo stato login...");
+      const savedUserData = localStorage.getItem('user_data');
+
+      if (savedUserData) {
+        try {
+          const userData = JSON.parse(savedUserData);
+          console.log("Dati utente trovati:", userData);
+
+          updateProfileUI(userData);
+
+          if (userData.token && !isVerifyingToken) {
+            const now = Date.now();
+            const lastVerification = userData.lastVerification || 0;
+
+            if (now - lastVerification > 5000) {
+              isVerifyingToken = true;
+              console.log("Avvio verifica token dopo ritardo");
+
+              setTimeout(() => {
+                verifyToken(userData.token)
+                  .then(valid => {
+                    console.log("Risultato verifica token:", valid);
+                    isVerifyingToken = false;
+
+                    if (!valid) {
+                      console.log("Token non valido, tentativo di refresh...");
+                      refreshUserData();
+                    } else {
+                      userData.lastVerification = Date.now();
+                      localStorage.setItem('user_data', JSON.stringify(userData));
+                    }
+                  })
+                  .catch(error => {
+                    console.error("Errore verifica token:", error);
+                    isVerifyingToken = false;
+                  });
+              }, 1000);
+            }
           }
+        } catch (e) {
+          console.error("Errore parsing dati utente:", e);
+          localStorage.removeItem('user_data');
+          showLoginUI();
+        }
+      } else {
+        console.log("Nessun dato utente trovato");
+        showLoginUI();
+      }
+    }
+
+    window.addEventListener('message', function (event) {
+      console.log("Messaggio ricevuto:", event.data, "da origine:", event.origin);
+
+      const allowedOrigins = [
+        'https://rena.altervista.org',
+        'https://renadeveloper.altervista.org'
+      ];
+
+      if (!allowedOrigins.includes(event.origin)) {
+        console.log("Messaggio da origine non autorizzata:", event.origin);
+        return;
+      }
+
+      if (event.data && event.data.status === 'success') {
+        console.log("Login successful, salvataggio dati utente");
+
+        const userData = {
+          status: 'success',
+          user_id: event.data.user_id,
+          username: event.data.username,
+          token: event.data.token,
+          profile_photo: event.data.profile_photo,
+          lastVerification: Date.now()
+        };
+
+        localStorage.setItem('user_data', JSON.stringify(userData));
+
+        updateProfileUI(userData);
+        startTokenVerification();
+
+        document.getElementById('loginPopup').classList.remove('active');
+      }
+    });
+
+    function updateProfileUI(data) {
+      console.log("Aggiornamento UI profilo con dati:", data);
+      const profileButton = document.getElementById('profile-button');
+
+      if (!profileButton) {
+        console.error("Pulsante profilo non trovato");
+        return;
+      }
+
+      profileButton.innerHTML = '';
+
+      if (data && (data.logged_in === true || data.status === 'success' || data.user_id)) {
+        const username = data.username || data.user_id || 'Utente';
+
+        if (data.profile_photo) {
+          console.log("Tentativo di caricamento foto profilo:", data.profile_photo);
+          const img = document.createElement('img');
+          img.className = 'profile-pic';
+          img.alt = 'Foto profilo';
+          img.src = data.profile_photo;
+
+          img.onerror = function () {
+            console.log("Errore caricamento foto profilo, uso avatar di default");
+            this.remove();
+            const defaultAvatar = document.createElement('div');
+            defaultAvatar.className = 'default-avatar';
+            defaultAvatar.textContent = username.charAt(0).toUpperCase();
+            profileButton.appendChild(defaultAvatar);
+          };
+
+          img.onload = function () {
+            console.log("Foto profilo caricata con successo");
+          };
+
+          profileButton.appendChild(img);
+        } else {
+          console.log("Nessuna foto profilo, uso avatar di default");
+          const defaultAvatar = document.createElement('div');
+          defaultAvatar.className = 'default-avatar';
+          defaultAvatar.textContent = username.charAt(0).toUpperCase();
+          profileButton.appendChild(defaultAvatar);
+        }
+
+        if (accountLink) {
+          accountLink.href = `https://rena.altervista.org/account.php?user_id=${data.user_id}`;
+        }
+
+        console.log("UI profilo aggiornata per utente loggato");
+      } else {
+        console.log("UI profilo impostata per utente non loggato");
+        const loginButton = document.createElement('div');
+        loginButton.className = 'default-avatar';
+        loginButton.innerHTML = '<i class="fas fa-user"></i>';
+        loginButton.onclick = openCrossDomainLogin;
+        profileButton.appendChild(loginButton);
+      }
+    }
+
+    function showLoginUI() {
+      console.log("Mostro UI login");
+      const profileButton = document.getElementById('profile-button');
+
+      if (profileButton) {
+        profileButton.innerHTML = '';
+        const loginButton = document.createElement('div');
+        loginButton.className = 'default-avatar';
+        loginButton.innerHTML = '<i class="fas fa-user"></i>';
+        loginButton.onclick = openCrossDomainLogin;
+        profileButton.appendChild(loginButton);
+      }
+    }
+
+    async function verifyToken(token) {
+      console.log("Verifica token in corso...");
+      if (!token) return false;
+
+      try {
+        const response = await fetch('https://rena.altervista.org/verify_token.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: token })
         });
 
-        var titleElement = document.getElementById('page-title');
-        if (lang === 'it') {
-          titleElement.textContent = 'Rena Developer - Modelli';
-        } else if (lang === 'en') {
-          titleElement.textContent = 'Rena Developer - Templates';
-        }
+        console.log("Status risposta:", response.status);
+        console.log("Status text:", response.statusText);
+
+        const result = await response.json();
+        console.log("Risultato verifica completo:", result);
+
+        return result.valid === true;
+      } catch (error) {
+        console.error("Errore durante la verifica del token:", error);
+        return true;
       }
-    </script>
-    <style>
-      #lingua {
-        cursor: pointer;
-        width: 30px;
-        position: absolute;
-        top: 12px;
-        right: 57px;
-        transform: translateX(50%);
-        border-radius: 20px;
-      }
+    }
 
-      @media screen and (max-width: 600px) {
-        #lingua {
-          margin-top: 30px;
-          right: 50%;
-        }
-      }
-    </style>
-    <div id="language-popup" class="language-popup">
-      <span id="close-popup" class="close-popup">&times;</span>
-      <button class="language-btn" data-lang="it">Italiano</button>
-      <button class="language-btn" data-lang="en">English</button>
-    </div>
-    <script>
-      document.getElementById('lingua').addEventListener('click', function (event) {
-        event.stopPropagation();
-        var languagePopup = document.getElementById('language-popup');
-        languagePopup.style.display = 'block';
-        languagePopup.style.left = '50%';
-        languagePopup.style.top = '50%';
-        languagePopup.style.transform = 'translate(-50%, -50%)';
-      });
+    function refreshUserData() {
+      console.log("Refresh dati utente");
+      const savedUserData = localStorage.getItem('user_data');
 
-      document.getElementById('close-popup').addEventListener('click', function () {
-        document.getElementById('language-popup').style.display = 'none';
-      });
-
-      document.addEventListener('click', function (event) {
-        var languagePopup = document.getElementById('language-popup');
-        if (event.target !== languagePopup && !languagePopup.contains(event.target)) {
-          languagePopup.style.display = 'none';
-        }
-      });
-
-      document.querySelectorAll('.language-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var lang = this.getAttribute('data-lang');
-          translatePage(lang);
-          document.getElementById('language-popup').style.display = 'none';
-        });
-      });
-
-      function translatePage(lang) {
-        document.querySelectorAll('[data-translate-it]').forEach(function (el) {
-          if (lang === 'it') {
-            el.textContent = el.getAttribute('data-translate-it');
-          } else if (lang === 'en') {
-            el.textContent = el.getAttribute('data-translate-en');
+      if (savedUserData) {
+        try {
+          const userData = JSON.parse(savedUserData);
+          if (userData.token) {
+            fetch('https://rena.altervista.org/get_user_data.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ token: userData.token })
+            })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then(data => {
+                if (data.status === 'success') {
+                  const updatedUserData = {
+                    ...userData,
+                    ...data,
+                    lastVerification: Date.now()
+                  };
+                  localStorage.setItem('user_data', JSON.stringify(updatedUserData));
+                  updateProfileUI(updatedUserData);
+                } else {
+                  console.log("Refresh fallito, ma mantengo dati locali");
+                }
+              })
+              .catch(error => {
+                console.error("Errore durante l'aggiornamento dei dati utente:", error);
+              });
           }
-        });
-
-        var titleElement = document.getElementById('page-title');
-        if (lang === 'it') {
-          titleElement.textContent = 'Rena Developer - Modelli';
-        } else if (lang === 'en') {
-          titleElement.textContent = 'Rena Developer - Templates';
+        } catch (e) {
+          console.error("Errore parsing dati utente:", e);
         }
       }
-    </script>
-    <style>
-      .language-popup {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-        z-index: 1000;
-        text-align: center;
-      }
-
-      .language-btn {
-        margin: 20px;
-        padding: 10px 20px;
-        background-color: #ffffff;
-        color: black;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-      }
-
-      .language-popup .language-btn {
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #ffffff;
-        color: black;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: all 0.3s ease;
-        display: block;
-      }
-
-      .language-btn:hover {
-        background-color: black;
-        color: white;
-      }
-
-      .close-popup {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 24px;
-        color: white;
-        cursor: pointer;
-      }
-    </style>
-    <style>
-      *:focus {
-        outline: none;
-      }
-
-      button:focus,
-      input:focus,
-      textarea:focus {
-        outline: none;
-      }
-
-      * {
-        -webkit-tap-highlight-color: transparent;
-      }
-    </style>
-  </header>
-  <div style="width: 50%; height: 40px;"></div>
-  <style>
-    body {
-      font-family: Open Sauce, sans-serif;
-      margin: 0;
-      padding: 0;
     }
 
-    .container {
-      background-color: #fff;
-      color: black;
-      border-radius: 30px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      max-width: 600px;
-      margin: 50px auto;
-      transition: all 0.3s ease;
-    }
-
-    .container:hover {
-      transform: scale(0.9);
-      max-width: 700px;
-    }
-
-    .img-container {
-      flex: 1;
-      text-align: center;
-      border-radius: 40px;
-    }
-
-    .img-container img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 30px;
-      margin-top: 4px;
-      margin-left: 10px;
-    }
-
-    .content-container {
-      flex: 2;
-      padding: 20px;
-    }
-
-    .content-container h2 {
-      margin-top: 0;
-    }
-
-    .content-container button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-
-    .button {
-      margin: 10px 0;
-      padding: 10px 20px;
-      background-color: #ffffff;
-      color: black;
-      border: none;
-      border-radius: 30px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .button:hover {
-      transform: scale(0.9);
-      background-color: black;
-      color: white;
-    }
-
-    @media screen and (max-width: 767px) {
-      .container {
-        width: 350px;
+    function startTokenVerification() {
+      console.log("Avvio verifica periodica token");
+      if (tokenVerificationInterval) {
+        clearInterval(tokenVerificationInterval);
       }
 
-      .img-container img {
-        width: 550px;
-      }
-
-      .content-container {
-        font-size: 12px;
-        padding: 13px;
-      }
-
-      .button:hover {
-        margin: 10px 0;
-        padding: 10px 20px;
-        background-color: #ffffff;
-        color: black;
-        border: none;
-        border-radius: 30px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        font-size: 16px;
-      }
-
-      .content-container button {
-        padding: 8px 14px;
-      }
-    }
-  </style>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="model1.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2>Header by Rena</h2>
-      <p data-translate-it="L'header che viene usato nei siti di Rena"
-        data-translate-en="The header used on Rena's websites">L'header che viene usato nei siti di Rena</p>
-      <button class="button" onclick="window.location.href='https://renadeveloper.altervista.org/header-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="mencon.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2 data-translate-it="Menù contestuale by Rena" data-translate-en="Contextual menu by Rena">Menù contestuale by
-        Rena</h2>
-      <p data-translate-it="Menù contestuale che viene usato nei siti di Rena"
-        data-translate-en="The contextual menu used on Rena's websites">Menù contestuale che viene usato nei siti di
-        Rena</p>
-      <button class="button"
-        onclick="window.location.href='https://renadeveloper.altervista.org/menu-contestuale-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="asswebsite.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2 data-translate-it="Sito di Assistenza by Rena" data-translate-en="Support website by Rena">Sito di Assistenza
-        by Rena</h2>
-      <p data-translate-it="Un modello con le basi per creare un sito di assistenza"
-        data-translate-en="A template with the basics to build your own support website">Un modello con le basi per
-        creare un sito di assistenza</p>
-      <button class="button"
-        onclick="window.location.href='https://renadeveloper.altervista.org/sito-di-assistenza-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="todo.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2>To Do by Rena</h2>
-      <p data-translate-it="Un modello con le basi per costruire il proprio sito per la lista delle cose da fare"
-        data-translate-en="A template with the basics to build your own to-do list website">Un modello con le basi per
-        costruire il proprio sito per la lista delle cose da fare</p>
-      <button class="button"
-        onclick="window.location.href='https://renadeveloper.altervista.org/lista-delle-cose-da-fare-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="err.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2 data-translate-it="Pagina di Errore by Rena" data-translate-en="Error page by Rena">Pagina di Errore by Rena
-      </h2>
-      <p data-translate-it="Un modello per una semplice schermata di errore"
-        data-translate-en="A template for a simple error screen">Un modello per una semplice schermata di errore</p>
-      <button class="button" onclick="window.location.href='https://renadeveloper.altervista.org/errore-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="trad.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2 data-translate-it="Traduzione pagina by Rena" data-translate-en="Page translation by Rena">Traduzione pagina
-        by Rena</h2>
-      <p data-translate-it="Modello di traduzione della pagina usata nei siti di Rena"
-        data-translate-en="Translation page template used on Rena's websites">Modello di traduzione della pagina usata
-        nei siti di Rena</p>
-      <button class="button"
-        onclick="window.location.href='https://renadeveloper.altervista.org/traduzione-pagina-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="cal.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2 data-translate-it="Calcolatrice by Rena" data-translate-en="Calculator by Rena">Calcolatrice by Rena</h2>
-      <p data-translate-it="Modello di una semplice calcolatrice" data-translate-en="Template of a simple calculator">
-        Modello di una semplice calcolatrice</p>
-      <button class="button"
-        onclick="window.location.href='https://renadeveloper.altervista.org/calcolatrice-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="img-container">
-      <img src="qrmak.png" alt="Placeholder">
-    </div>
-    <div class="content-container">
-      <h2 data-translate-it="QRCode Maker by Rena" data-translate-en="QRCode Maker by Rena">QRCode Maker by Rena</h2>
-      <p data-translate-it="Modello di una webapp per creare QRCode"
-        data-translate-en="Template for a web app to create QR codes">Modello di una webapp per creare QRCode</p>
-      <button class="button"
-        onclick="window.location.href='https://renadeveloper.altervista.org/qrcode-maker-modello.html'"
-        data-translate-it="Vedi codice" data-translate-en="See code">Vedi codice</button>
-    </div>
-  </div>
-
-  <div id="language-popup" class="language-popup">
-    <span id="close-popup" class="close-popup">&times;</span>
-    <button class="language-btn" data-lang="it">Italiano</button>
-    <button class="language-btn" data-lang="en">English</button>
-  </div>
-  <script>
-    document.getElementById('lingua').addEventListener('click', function (event) {
-      event.stopPropagation();
-      var languagePopup = document.getElementById('language-popup');
-      languagePopup.style.display = 'block';
-      languagePopup.style.left = '50%';
-      languagePopup.style.top = '50%';
-      languagePopup.style.transform = 'translate(-50%, -50%)';
-    });
-
-    document.getElementById('close-popup').addEventListener('click', function () {
-      document.getElementById('language-popup').style.display = 'none';
-    });
-
-    document.addEventListener('click', function (event) {
-      var languagePopup = document.getElementById('language-popup');
-      if (event.target !== languagePopup && !languagePopup.contains(event.target)) {
-        languagePopup.style.display = 'none';
-      }
-    });
-
-    document.querySelectorAll('.language-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var lang = this.getAttribute('data-lang');
-        translatePage(lang);
-        document.getElementById('language-popup').style.display = 'none';
-      });
-    });
-
-    function translatePage(lang) {
-      document.querySelectorAll('[data-translate-it]').forEach(function (el) {
-        if (lang === 'it') {
-          el.textContent = el.getAttribute('data-translate-it');
-        } else if (lang === 'en') {
-          el.textContent = el.getAttribute('data-translate-en');
+      tokenVerificationInterval = setInterval(() => {
+        const savedUserData = localStorage.getItem('user_data');
+        if (savedUserData) {
+          try {
+            const userData = JSON.parse(savedUserData);
+            if (userData.token && !isVerifyingToken) {
+              isVerifyingToken = true;
+              verifyToken(userData.token)
+                .then(valid => {
+                  isVerifyingToken = false;
+                  if (!valid) {
+                    console.log("Token non valido, disconnessione");
+                    localStorage.removeItem('user_data');
+                    showLoginUI();
+                    clearInterval(tokenVerificationInterval);
+                  }
+                })
+                .catch(error => {
+                  console.error("Errore verifica token:", error);
+                  isVerifyingToken = false;
+                });
+            }
+          } catch (e) {
+            console.error("Errore parsing dati utente:", e);
+            localStorage.removeItem('user_data');
+            showLoginUI();
+            clearInterval(tokenVerificationInterval);
+          }
+        } else {
+          clearInterval(tokenVerificationInterval);
         }
-      });
-
-      var titleElement = document.getElementById('page-title');
-      if (lang === 'it') {
-        titleElement.textContent = 'Rena Developer - Modelli';
-      } else if (lang === 'en') {
-        titleElement.textContent = 'Rena Developer - Templates';
-      }
-    }
-  </script>
-  <style>
-    .language-popup {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      z-index: 1000;
-      text-align: center;
+      }, 30000);
     }
 
-    .language-btn {
-      margin: 20px;
-      padding: 10px 20px;
-      background-color: #ffffff;
-      color: black;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: all 0.3s ease;
+    function loadSavedLanguage() {
+      console.log("Caricamento lingua salvata");
+      const savedLang = localStorage.getItem('selectedLanguage') || 'it';
+      translatePage(savedLang);
     }
 
-    .language-popup .language-btn {
-      margin: 20px auto;
-      padding: 10px 20px;
-      background-color: #ffffff;
-      color: black;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      display: block;
-    }
-
-    .language-btn:hover {
-      background-color: black;
-      color: white;
-    }
-
-    .close-popup {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 24px;
-      color: white;
-      cursor: pointer;
-    }
-  </style>
-  <style>
-    *:focus {
-      outline: none;
-    }
-
-    button:focus,
-    input:focus,
-    textarea:focus {
-      outline: none;
-    }
-
-    * {
-      -webkit-tap-highlight-color: transparent;
-    }
-  </style>
-  <script>
     function translatePage(lang) {
       localStorage.setItem('preferredLanguage', lang);
 
@@ -747,26 +1397,26 @@
         }
       });
 
-      const imgElement = document.getElementById('lingua');
-      if (lang === 'it') {
-        imgElement.src = 'https://renadeveloper.altervista.org/bandierait.png';
-        imgElement.setAttribute('data-alt-src', 'https://renadeveloper.altervista.org/bandieraen.png');
-        imgElement.setAttribute('data-lang', 'it');
-      } else if (lang === 'en') {
-        imgElement.src = 'https://renadeveloper.altervista.org/bandieraen.png';
-        imgElement.setAttribute('data-alt-src', 'https://renadeveloper.altervista.org/bandierait.png');
-        imgElement.setAttribute('data-lang', 'en');
-      }
+      updateLanguageIndicator(lang);
+      document.getElementById('profile-menu').classList.remove('active');
+    }
+
+    function updateLanguageIndicator(activeLang) {
+      document.querySelectorAll('.language-option').forEach(function (option) {
+        const lang = option.getAttribute('data-lang');
+        if (lang === activeLang) {
+          option.classList.add('active');
+        } else {
+          option.classList.remove('active');
+        }
+      });
     }
 
     function loadSavedLanguage() {
-      const savedLang = localStorage.getItem('preferredLanguage');
-      if (savedLang) {
-        translatePage(savedLang);
-      }
+      const savedLang = localStorage.getItem('preferredLanguage') || 'it';
+      translatePage(savedLang);
     }
-
-    document.addEventListener('DOMContentLoaded', loadSavedLanguage);
   </script>
-  </body>
-  </html>
+</body>
+
+</html>
