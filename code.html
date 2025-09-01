@@ -8,6 +8,7 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
   <style>
     :root {
@@ -899,10 +900,273 @@
         margin-top: 0.5rem;
       }
     }
+    
+    .profile-menu-container {
+      position: absolute;
+      transform: translateY(-50%);
+      top: 35px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .profile-pic:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .default-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 15px;
+      width: 220px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+  .cookie-settings-icon {
+    margin-right: 12px; 
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .profile-menu.active {
+      display: block;
+    }
+
+    .profile-menu-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin-bottom: 5px;
+    }
+
+    .profile-menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .profile-menu-item i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .profile-menu-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+    }
+
+    .language-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .language-option:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .language-option.active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .language-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .language-flag {
+      width: 20px;
+      height: 15px;
+      margin-right: 10px;
+      border-radius: 3px;
+    }
+
+    .check-icon {
+      width: 16px;
+      height: 16px;
+      stroke: #4ade80;
+      stroke-width: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .language-option.active .check-icon {
+      opacity: 1;
+    }
+
+    .login-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .login-popup.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .login-popup-content {
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .close-popup:hover {
+      color: white;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #fff;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 
 <body>
+
+    <div class="profile-menu-container">
+      <div id="profile-button"></div>
+      <div class="profile-menu" id="profile-menu">
+        <a href="https://rena.altervista.org/account.php" class="profile-menu-item" id="account-link">
+          <i class="fas fa-user"></i>
+          <span data-translate-it="Il mio account" data-translate-en="My Account">Il mio account</span>
+        </a>
+        <div class="profile-menu-divider"></div>
+        <div class="profile-menu-item" style="pointer-events: none; opacity: 0.8;">
+          <i class="fas fa-language"></i>
+          <span data-translate-it="Lingua" data-translate-en="Language">Lingua</span>
+        </div>
+        <div class="language-option" data-lang="it" onclick="translatePage('it')">
+          <div class="language-content">
+            <img src="https://renadeveloper.altervista.org/bandierait.png" class="language-flag" alt="Italiano">
+            <span>Italiano</span>
+          </div>
+          <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+        <div class="language-option" data-lang="en" onclick="translatePage('en')">
+          <div class="language-content">
+            <img src="https://renadeveloper.altervista.org/bandieraen.png" class="language-flag" alt="English">
+            <span>English</span>
+          </div>
+          <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  <div class="login-popup" id="loginPopup">
+    <div class="login-popup-content">
+      <span class="close-popup" id="closeLoginPopup">&times;</span>
+      <h3 data-translate-it="Accesso in corso..." data-translate-en="Logging in...">Accesso in corso...</h3>
+      <p data-translate-it="Stai per essere reindirizzato alla pagina di login di Rena ID"
+        data-translate-en="You will be redirected to Rena ID login page">Stai per essere reindirizzato alla pagina di
+        login di Rena ID</p>
+      <div style="text-align: center; margin-top: 20px;">
+        <div class="spinner" style="margin: 0 auto;"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="bg-pattern">
     <svg viewBox="0 0 100 100" preserveAspectRatio="none">
       <defs>
@@ -965,13 +1229,13 @@
         </path>
       </g>
     </svg>
-    <p class="cookie-text">Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di
+    <p class="cookie-text" data-translate-it="Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di caricamento file e download. Accetta i cookie per utilizzare tutte le funzionalità." data-translate-en="This website uses cookies to ensure the proper functioning of file upload and download features. Please accept cookies to use all functionalities.">Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di
       caricamento file e download. Accetta i cookie per utilizzare tutte le funzionalità.</p>
-    <a href="https://rena.altervista.org/privacy-policy.html" target="_blank" class="privacy-link">Leggi la Privacy
+    <a href="https://rena.altervista.org/privacy-policy.html" target="_blank" class="privacy-link" data-translate-it="Leggi la Privacy Policy" data-translate-en="Read the Privacy Policy">Leggi la Privacy
       Policy</a>
     <div class="cookie-buttons">
-      <button class="cookie-btn cookie-accept" id="acceptCookies">Accetta</button>
-      <button class="cookie-btn cookie-reject" id="rejectCookies">Rifiuta</button>
+      <button class="cookie-btn cookie-accept" id="acceptCookies" data-translate-it="Accetta" data-translate-en="Accept">Accetta</button>
+      <button class="cookie-btn cookie-reject" id="rejectCookies" data-translate-it="Rifiuta" data-translate-en="Reject">Rifiuta</button>
     </div>
   </div>
 
@@ -1121,7 +1385,8 @@
       </div>
       <div class="editor-container">
         <div class="line-numbers" id="lineNumbers">1</div>
-        <textarea id="editor" name="content" placeholder="Inserisci qui il tuo codice..." spellcheck="false"></textarea>
+        <textarea id="editor" name="content" placeholder="Inserisci qui il tuo codice..." data-placeholder-it="Inserisci qui il tuo codice..."
+        data-placeholder-en="Enter your code here..."spellcheck="false"></textarea>
       </div>
     </section>
 
@@ -1140,7 +1405,7 @@
                 fill="#ffffff"></path>
             </g>
           </svg>
-          ANTEPRIMA
+          <span data-translate-it="ANTEPRIMA" data-translate-en="PREVIEW">ANTEPRIMA</span>
         </div>
         <div class="preview-actions">
           <button class="action-btn" id="refreshPreview" title="Aggiorna">
@@ -1192,7 +1457,7 @@
   <div id="shareModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Condivisione anteprima</h3>
+        <h3 data-translate-it="Condivisione anteprima" data-translate-en="Share preview">Condivisione anteprima</h3>
         <button class="modal-close">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -1208,7 +1473,7 @@
       <div class="modal-body">
         <div class="share-url-container">
           <input type="text" id="shareUrl" readonly>
-          <button id="copyShareUrl" class="modal-btn secondary">Copia</button>
+          <button id="copyShareUrl" class="modal-btn secondary" data-translate-it="Copia" data-translate-en="Copy">Copia</button>
         </div>
       </div>
     </div>
@@ -1569,7 +1834,6 @@
       updateLineNumbers();
     }
 
-
     function formatHTML(code) {
       let formatted = '';
       let indentLevel = 0;
@@ -1585,7 +1849,6 @@
           formatted += '\n';
           continue;
         }
-
 
         if (inComment) {
           formatted += '  '.repeat(indentLevel) + line + '\n';
@@ -1761,15 +2024,16 @@
       }
     });
 
-    clearBtn.addEventListener('click', () => {
-      editor.value = '';
-      localStorage.removeItem('editorContent');
-      updateLineNumbers();
-      updatePreview();
-      saveToHistory();
-      updateUndoRedoButtons();
-    });
-
+clearBtn.addEventListener('click', () => {
+  editor.value = '';
+  localStorage.removeItem('editorContent');
+  currentProject = null; 
+  updateSaveButtonText(false); 
+  updateLineNumbers();
+  updatePreview();
+  saveToHistory();
+  updateUndoRedoButtons();
+});
 
     function saveToHistory() {
 
@@ -1964,7 +2228,873 @@
       if (e.target === modal) {
         modal.style.display = "none";
       }
+    });    
+    
+    let isVerifyingToken = false;
+    let tokenVerificationInterval = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log("DOM completamente caricato");
+      loadSavedLanguage();
+      handleTokenFromURL();
+      setupEventListeners();
     });
+
+function setupEventListeners() {
+  console.log("Impostazione event listeners");
+
+  const profileButton = document.getElementById('profile-button');
+  const profileMenu = document.getElementById('profile-menu');
+
+  profileButton.addEventListener('click', function (e) {
+    e.stopPropagation();
+    profileMenu.classList.toggle('active');
+  });
+
+  document.addEventListener('click', function () {
+    profileMenu.classList.remove('active');
+  });
+
+  profileMenu.addEventListener('click', function (e) {
+    e.stopPropagation();
+  });
+
+  document.getElementById('closeLoginPopup').addEventListener('click', function () {
+    document.getElementById('loginPopup').classList.remove('active');
+  });
+  
+  addProfileMenuItems();
+}
+
+function addProfileMenuItems() {
+  const profileMenu = document.getElementById('profile-menu');
+  const divider = document.querySelector('.profile-menu-divider');
+
+  const myProjectsItem = document.createElement('a');
+  myProjectsItem.href = 'https://renadeveloper.altervista.org/dashboard.html';
+  myProjectsItem.className = 'profile-menu-item';
+  myProjectsItem.innerHTML = `
+    <i class="fas fa-folder"></i>
+    <span data-translate-it="I miei progetti" data-translate-en="My Projects">I miei progetti</span>
+  `;
+  
+  const saveProjectItem = document.createElement('div');
+  saveProjectItem.className = 'profile-menu-item';
+  saveProjectItem.innerHTML = `
+    <i class="fas fa-save"></i>
+    <span data-translate-it="Salva progetto" data-translate-en="Save Project">Salva progetto</span>
+  `;
+  saveProjectItem.addEventListener('click', manualSaveProject);
+
+  const cookieSettingsItem = document.createElement('div');
+  cookieSettingsItem.className = 'profile-menu-item';
+  cookieSettingsItem.innerHTML = `
+        <svg class="cookie-settings-icon" fill="#ffffff" height="20" width="20" margin-right="6" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <g>
+        <path
+          d="M485.085,253.891c-5.735,1.415-10.645,2.109-15.284,2.109c-35.343,0-64-28.657-64-64c0-5.967,1.115-12.179,3.362-19.216 c5.273-16.511-10.301-32.086-26.812-26.812c-7.037,2.247-13.249,3.362-19.216,3.362c-35.343,0-64-28.657-64-64 c0-16.87,6.596-32.659,18.229-44.574c11.838-12.124,5.497-32.546-11.127-35.832C289.76,1.67,273.156,0,256.468,0 c-141.382,0-256,114.618-256,256s114.618,256,256,256c133.766,0,244.552-103.052,254.996-235.723 C512.605,261.772,499.211,250.405,485.085,253.891z M256.468,469.333C138.65,469.333,43.135,373.818,43.135,256 S138.65,42.667,256.468,42.667c2.952,0,5.902,0.063,8.85,0.189c-5.764,13.195-8.85,27.598-8.85,42.478 c0,58.907,47.759,106.667,106.667,106.667c0,57.414,45.369,104.239,102.21,106.575 C445.556,396.464,359.126,469.333,256.468,469.333z">
+        </path>
+        <path
+          d="M299.135,298.667c-35.355,0-64,28.645-64,64s28.645,64,64,64s64-28.645,64-64S334.49,298.667,299.135,298.667z M299.135,384c-11.791,0-21.333-9.542-21.333-21.333s9.542-21.333,21.333-21.333s21.333,9.542,21.333,21.333 S310.926,384,299.135,384z">
+        </path>
+        <path
+          d="M149.801,170.667c-35.355,0-64,28.645-64,64s28.645,64,64,64s64-28.645,64-64S185.157,170.667,149.801,170.667z M149.801,256c-11.791,0-21.333-9.542-21.333-21.333s9.542-21.333,21.333-21.333s21.333,9.542,21.333,21.333 S161.593,256,149.801,256z">
+        </path>
+      </g>
+    </svg>
+    <span data-translate-it="Gestione cookie" data-translate-en="Cookie Settings">Gestione cookie</span>
+  `;
+  cookieSettingsItem.addEventListener('click', reopenCookieBanner);
+
+  profileMenu.insertBefore(cookieSettingsItem, divider);
+  profileMenu.insertBefore(saveProjectItem, cookieSettingsItem);
+  profileMenu.insertBefore(myProjectsItem, saveProjectItem);
+}
+
+    function openCrossDomainLogin() {
+      console.log("Apertura login cross-domain");
+      document.getElementById('loginPopup').classList.add('active');
+
+      const loginUrl = `https://rena.altervista.org/login.php?external_domain=${encodeURIComponent(window.location.origin)}`;
+
+      const loginWindow = window.open(
+        loginUrl,
+        'RenaLogin',
+        'width=500,height=600,scrollbars=no,resizable=no'
+      );
+
+      if (!loginWindow) {
+        document.getElementById('loginPopup').classList.remove('active');
+        alert('Il browser ha bloccato la popup. Per favore consenti le popup per questo sito.');
+        return;
+      }
+
+      const checkWindowClosed = setInterval(() => {
+        if (loginWindow.closed) {
+          clearInterval(checkWindowClosed);
+          document.getElementById('loginPopup').classList.remove('active');
+          checkLoginStatus();
+        }
+      }, 500);
+
+      setTimeout(() => {
+        if (!loginWindow.closed) {
+          loginWindow.close();
+          document.getElementById('loginPopup').classList.remove('active');
+          alert('Tempo scaduto. Riprova.');
+        }
+      }, 30000);
+    }
+
+function handleTokenFromURL() {
+  console.log("Controllo token dall'URL");
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  const user_id = urlParams.get('user_id');
+  const username = urlParams.get('username');
+  const projectId = urlParams.get('project');
+
+  if (token && user_id && username) {
+    console.log("Token trovato nell'URL, salvataggio dati utente");
+    const userData = {
+      status: 'success',
+      user_id: user_id,
+      username: username,
+      token: token
+    };
+
+    localStorage.setItem('user_data', JSON.stringify(userData));
+    updateProfileUI(userData);
+    startTokenVerification();
+    
+    const newUrl = projectId ? 
+      `${window.location.pathname}?project=${projectId}` : 
+      window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+  } else {
+    checkLoginStatus();
+  }
+}
+
+function handleProjectFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const projectId = urlParams.get('project');
+  
+  if (projectId) {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    if (userData.user_id || userData.username) {
+      loadProject(projectId);
+    }
+  }
+}
+
+function checkLoginStatus() {
+  console.log("Controllo stato login...");
+  const savedUserData = localStorage.getItem('user_data');
+
+  if (savedUserData) {
+    try {
+      const userData = JSON.parse(savedUserData);
+      console.log("Dati utente trovati:", userData);
+
+      updateProfileUI(userData);
+
+      if (userData.token && !isVerifyingToken) {
+        setTimeout(() => {
+          verifyToken(userData.token)
+            .then(valid => {
+              console.log("Risultato verifica token:", valid);
+              if (!valid) {
+                console.log("Token non valido, pulizia dati");
+                localStorage.removeItem('user_data');
+                showLoginUI();
+                
+                if (autoSaveInterval) {
+                  clearInterval(autoSaveInterval);
+                  autoSaveInterval = null;
+                }
+              }
+              else {
+                refreshUserData();
+              }
+            })
+            .catch(error => {
+              console.error("Errore verifica token:", error);
+            });
+        }, 1000);
+      }
+    } catch (e) {
+      console.error("Errore parsing dati utente:", e);
+      localStorage.removeItem('user_data');
+      showLoginUI();
+    }
+  } else {
+    console.log("Nessun dato utente trovato");
+    showLoginUI();
+  }
+}
+
+function updateProfileUI(data) {
+  console.log("Aggiornamento UI profilo con dati:", data);
+  const profileButton = document.getElementById('profile-button');
+
+  if (!profileButton) {
+    console.error("Pulsante profilo non trovato");
+    return;
+  }
+
+  profileButton.innerHTML = '';
+
+  if (data && (data.logged_in === true || data.status === 'success' || data.user_id)) {
+    const username = data.username || data.user_id || 'Utente';
+
+    if (data.profile_photo) {
+      console.log("Tentativo di caricamento foto profilo:", data.profile_photo);
+      const img = document.createElement('img');
+      img.className = 'profile-pic';
+      img.alt = 'Foto profilo';
+      img.src = data.profile_photo;
+
+      img.onerror = function () {
+        console.log("Errore nel caricamento dell'immagine profilo, uso avatar predefinito");
+        this.remove();
+
+        const defaultAvatarDiv = document.createElement('div');
+        defaultAvatarDiv.className = 'default-avatar';
+        defaultAvatarDiv.textContent = username.charAt(0).toUpperCase();
+        profileButton.appendChild(defaultAvatarDiv);
+      };
+
+      img.onload = function () {
+        console.log("Immagine profilo caricata con successo");
+        const defaultAvatar = profileButton.querySelector('.default-avatar');
+        if (defaultAvatar) {
+          defaultAvatar.remove();
+        }
+      };
+
+      profileButton.appendChild(img);
+    } else {
+      console.log("Nessuna foto profilo disponibile, uso avatar predefinito");
+      const initial = username.charAt(0).toUpperCase();
+      const defaultAvatarDiv = document.createElement('div');
+      defaultAvatarDiv.className = 'default-avatar';
+      defaultAvatarDiv.textContent = initial;
+      profileButton.appendChild(defaultAvatarDiv);
+    }
+
+    const accountLink = document.querySelector('.profile-menu-item');
+    if (accountLink) {
+      const span = accountLink.querySelector('span');
+      if (span) {
+        span.setAttribute('data-translate-it', 'Il mio account');
+        span.setAttribute('data-translate-en', 'My Account');
+        span.textContent = 'Il mio account';
+      }
+    }
+
+    setTimeout(() => {
+      loadProjectsAfterLogin(data);
+    }, 1000);
+
+  } else {
+    console.log("Dati utente non validi, mostra UI login");
+    showLoginUI();
+  }
+}
+
+    function showLoginUI() {
+      console.log("Mostra UI login");
+      const profileButton = document.getElementById('profile-button');
+      const accountLink = document.querySelector('.profile-menu-item');
+
+      if (profileButton && accountLink) {
+        profileButton.innerHTML = '<div class="default-avatar"><i class="fas fa-user"></i></div>';
+
+        const span = accountLink.querySelector('span');
+        if (span) {
+          span.setAttribute('data-translate-it', 'Accedi');
+          span.setAttribute('data-translate-en', 'Login');
+          span.textContent = 'Accedi';
+        }
+
+        accountLink.onclick = function (e) {
+          e.preventDefault();
+          openCrossDomainLogin();
+        };
+      }
+    }
+
+    function verifyToken(token) {
+      if (isVerifyingToken) {
+        console.log("Verifica token già in corso");
+        return Promise.resolve(true);
+      }
+
+      isVerifyingToken = true;
+      console.log("Verifica token:", token);
+
+      const timestamp = new Date().getTime();
+      const url = `https://rena.altervista.org/verify_token.php?token=${token}&t=${timestamp}`;
+
+      return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          isVerifyingToken = false;
+          console.log("Risposta verifica token:", data);
+
+          if (data.status === 'success') {
+            const savedUserData = localStorage.getItem('user_data');
+            if (savedUserData) {
+              const userData = JSON.parse(savedUserData);
+              const updatedData = {
+                ...userData,
+                profile_photo: data.profile_photo || userData.profile_photo
+              };
+              localStorage.setItem('user_data', JSON.stringify(updatedData));
+              updateProfileUI(updatedData);
+            }
+            return true;
+          }
+          return false;
+        })
+        .catch(error => {
+          console.error("Errore verifica token:", error);
+          isVerifyingToken = false;
+          return true;
+        });
+    }
+
+    function startTokenVerification() {
+      if (tokenVerificationInterval) {
+        clearInterval(tokenVerificationInterval);
+      }
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const interval = isMobile ? 5 * 60 * 1000 : 30 * 60 * 1000;
+
+      tokenVerificationInterval = setInterval(() => {
+        const savedUserData = localStorage.getItem('user_data');
+        if (savedUserData && !isVerifyingToken) {
+          const userData = JSON.parse(savedUserData);
+          if (userData.token) {
+            console.log("Verifica periodica token");
+            verifyToken(userData.token)
+              .then(valid => {
+                if (!valid) {
+                  console.log("Token non più valido, logout");
+                  localStorage.removeItem('user_data');
+                  showLoginUI();
+                }
+              });
+          }
+        }
+      }, interval);
+    }
+
+    function translatePage(lang) {
+      localStorage.setItem('preferredLanguage', lang);
+
+      document.querySelectorAll('[data-translate-it]').forEach(function (el) {
+        if (lang === 'it') {
+          el.textContent = el.getAttribute('data-translate-it');
+        } else if (lang === 'en') {
+          el.textContent = el.getAttribute('data-translate-en');
+        }
+      });
+
+      document.querySelectorAll('[data-placeholder-it]').forEach(function (el) {
+        if (lang === 'it') {
+          el.setAttribute('placeholder', el.getAttribute('data-placeholder-it'));
+        } else if (lang === 'en') {
+          el.setAttribute('placeholder', el.getAttribute('data-placeholder-en'));
+        }
+      });
+
+      updateLanguageIndicator(lang);
+      document.getElementById('profile-menu').classList.remove('active');
+    }
+
+    function updateLanguageIndicator(activeLang) {
+      document.querySelectorAll('.language-option').forEach(function (option) {
+        const lang = option.getAttribute('data-lang');
+        if (lang === activeLang) {
+          option.classList.add('active');
+        } else {
+          option.classList.remove('active');
+        }
+      });
+    }
+
+    function loadSavedLanguage() {
+      const savedLang = localStorage.getItem('preferredLanguage') || 'it';
+      translatePage(savedLang);
+    }
+
+    function refreshUserData() {
+      const savedUserData = localStorage.getItem('user_data');
+      if (savedUserData) {
+        const userData = JSON.parse(savedUserData);
+        if (userData.token) {
+          fetch('https://rena.altervista.org/api.php?action=get_user_data', {
+            headers: {
+              'Authorization': 'Bearer ' + userData.token
+            }
+          })
+            .then(response => response.json())
+            .then(updatedData => {
+              if (!updatedData.error) {
+                const mergedData = { ...userData, ...updatedData };
+                localStorage.setItem('user_data', JSON.stringify(mergedData));
+                updateProfileUI(mergedData);
+              }
+            })
+            .catch(error => {
+              console.error('Errore aggiornamento dati utente:', error);
+            });
+        }
+      }
+    }
+
+    window.logout = function () {
+      localStorage.removeItem('user_data');
+      showLoginUI();
+      document.getElementById('profile-menu').classList.remove('active');
+    };
+
+    checkLoginStatus();
+
+    window.addEventListener('message', function (event) {
+      console.log("Messaggio ricevuto:", event.data, "da origine:", event.origin);
+
+      if (event.origin !== 'https://rena.altervista.org') {
+        console.log("Messaggio da origine non autorizzata:", event.origin);
+        return;
+      }
+
+      if (event.data && event.data.status === 'success') {
+        console.log("Login successful, salvataggio dati utente");
+        localStorage.setItem('user_data', JSON.stringify(event.data));
+
+        updateProfileUI(event.data);
+        startTokenVerification();
+
+        document.getElementById('loginPopup').classList.remove('active');
+      } else {
+        console.log("Login fallito o formato messaggio non valido");
+      }
+    });
+
+    function showLoginUI() {
+      console.log("Mostra UI login");
+      const profileButton = document.getElementById('profile-button');
+      const accountLink = document.querySelector('.profile-menu-item');
+
+      if (profileButton && accountLink) {
+        profileButton.innerHTML = '<div class="default-avatar"><i class="fas fa-user"></i></div>';
+
+        const span = accountLink.querySelector('span');
+        if (span) {
+          span.setAttribute('data-translate-it', 'Accedi');
+          span.setAttribute('data-translate-en', 'Login');
+          span.textContent = 'Accedi';
+        }
+
+        accountLink.onclick = function (e) {
+          e.preventDefault();
+          openCrossDomainLogin();
+        };
+
+        accountLink.href = "#";
+      }
+    }
+        
+let currentProject = null;
+let autoSaveInterval = null;
+
+async function autoSaveProject(userData) {
+    if (!editor.value.trim()) return;
+    
+    const titolo = currentProject ? `Progetto ${currentProject}` : 'Nuovo Progetto';
+    const descrizione = editor.value;
+    const linguaggio = detectLanguage(descrizione);
+    const autore = userData.user_id || userData.username;
+    
+    const saveData = {
+        titolo: titolo,
+        descrizione: descrizione,
+        linguaggio: linguaggio,
+        autore: autore
+    };
+    
+    if (currentProject) {
+        saveData.id = currentProject;
+    }
+    
+    try {
+        const result = await saveProject(saveData);
+        if (result && result.id) {
+            currentProject = result.id;
+            console.log("Salvataggio automatico effettuato", currentProject);
+        }
+    } catch (error) {
+        console.error("Errore nel salvataggio automatico:", error);
+    }
+}
+
+async function saveProject(saveData) {
+    try {
+        console.log("Dati inviati per salvataggio:", saveData);
+        
+        const res = await fetch("https://rena.altervista.org/saveFile.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(saveData),
+            credentials: 'include'
+        });
+
+        if (!res.ok) {
+            throw new Error(`Errore HTTP: ${res.status}`);
+        }
+
+        const data = await res.json();
+        
+        if (data.status === "error") {
+            throw new Error(data.message || "Errore nel salvataggio");
+        }
+        
+        return data;
+        
+    } catch (error) {
+        console.error("Errore nel salvataggio:", error);
+        showError("Errore nel salvataggio: " + error.message);
+        throw error;
+    }
+}
+
+async function loadProjects(autore) {
+  try {
+    const res = await fetch(`https://rena.altervista.org/getProjects.php?autore=${autore}`);
+    const data = await res.json();
+    
+    if (data.status === "success") {
+      return data.projects;
+    } else {
+      console.error("Errore nel caricamento progetti:", data.message);
+      return [];
+    }
+  } catch (error) {
+    console.error("Errore di rete:", error);
+    return [];
+  }
+}
+
+async function loadLastProject(autore) {
+    try {
+        const res = await fetch(`https://rena.altervista.org/getLastProject.php?autore=${encodeURIComponent(autore)}`, {
+            credentials: 'include'
+        });
+        
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        
+        if (data.status === "success") {
+            return data.project;
+        } else {
+            console.log("Nessun progetto trovato:", data.message);
+            return null;
+        }
+    } catch (error) {
+        console.error("Errore di rete:", error);
+        return null;
+    }
+}
+
+async function loadProject(projectId) {
+  try {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    const projects = await loadProjects(userData.user_id || userData.username);
+    
+    if (projects && projects.length > 0) {
+      const project = projects.find(p => p.id == projectId);
+      if (project) {
+        editor.value = project.descrizione;
+        currentProject = project.id; 
+        updatePreview();
+        updateLineNumbers();
+        
+        document.title = `${project.titolo} - Rena Developer Code`;
+        
+        updateSaveButtonState(); 
+        
+        showNotification(`Progetto "${project.titolo}" caricato`);
+        return true;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.error("Errore nel caricamento progetto:", error);
+    return false;
+  }
+}
+
+async function manualSaveProject() {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    
+    if (!userData.user_id && !userData.username) {
+        alert("Devi effettuare l'accesso per salvare i progetti");
+        openCrossDomainLogin();
+        return;
+    }
+    
+    let titolo;
+    if (currentProject) {
+        const projects = await loadProjects(userData.user_id || userData.username);
+        const currentProj = projects.find(p => p.id == currentProject);
+        titolo = currentProj ? currentProj.titolo : `Progetto ${currentProject}`;
+    } else {
+        titolo = prompt("Inserisci un nome per il progetto:", "Mio Progetto");
+        if (!titolo) return;
+    }
+    
+    const descrizione = editor.value;
+    const linguaggio = detectLanguage(descrizione);
+    const autore = userData.user_id || userData.username;
+    
+    const saveData = {
+        titolo,
+        descrizione,
+        linguaggio,
+        autore
+    };
+    
+    if (currentProject) {
+        saveData.id = currentProject;
+    }
+    
+    try {
+        const result = await saveProject(saveData);
+        
+        if (result && result.id) {
+            currentProject = result.id;
+            updateSaveButtonText(true); 
+            
+            showNotification(result.message || "Progetto salvato con successo!");
+            document.title = `${titolo} - Rena Developer Code`;
+            
+            const url = new URL(window.location);
+            url.searchParams.set('project', currentProject);
+            window.history.replaceState({}, '', url);
+        } else {
+            alert("Errore nel salvataggio del progetto");
+        }
+    } catch (error) {
+        console.error("Errore:", error);
+        alert("Errore nel salvataggio: " + error.message);
+    }
+}
+
+function showError(message) {
+  const errorDiv = document.createElement('div');
+  errorDiv.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    z-index: 10000;
+    backdrop-filter: blur(10px);
+  `;
+  errorDiv.textContent = message;
+  
+  document.body.appendChild(errorDiv);
+  
+  setTimeout(() => {
+    document.body.removeChild(errorDiv);
+  }, 5000);
+}
+
+async function loadProjectsAfterLogin(userData) {
+    try {
+        const autore = userData.user_id || userData.username;
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('project');
+        
+        if (projectId) {
+            const loaded = await loadProject(projectId);
+            if (!loaded) {
+                console.log("Progetto specificato non trovato, carico ultimo progetto");
+                await loadLastProjectForUser(autore);
+            }
+        } else {
+            await loadLastProjectForUser(autore);
+        }
+        
+        initAutoSave(userData);
+    } catch (error) {
+        console.error("Errore nel caricamento progetti dopo login:", error);
+    }
+}
+
+async function loadLastProjectForUser(autore) {
+    const lastProject = await loadLastProject(autore);
+    if (lastProject) {
+        editor.value = lastProject.descrizione;
+        currentProject = lastProject.id;
+        updatePreview();
+        updateLineNumbers();
+        updateSaveButtonText(true); 
+        showNotification(`Ultimo progetto "${lastProject.titolo}" caricato`);
+        document.title = `${lastProject.titolo} - Rena Developer Code`;
+    }
+}
+
+function debugConnection() {
+  console.log("Testing connection to APIs...");
+  
+  fetch("https://rena.altervista.org/saveFile.php", {
+    method: "OPTIONS"
+  })
+  .then(response => {
+    console.log("OPTIONS response:", response.status, response.statusText);
+    return response.text();
+  })
+  .then(text => console.log("OPTIONS response text:", text))
+  .catch(error => console.error("OPTIONS error:", error));
+  
+  fetch("https://rena.altervista.org/getProjects.php?autore=test", {
+    method: "GET"
+  })
+  .then(response => {
+    console.log("GET response:", response.status, response.statusText);
+    return response.text();
+  })
+  .then(text => console.log("GET response text:", text))
+  .catch(error => console.error("GET error:", error));
+}
+
+setTimeout(debugConnection, 2000);
+
+async function loadUserProjects() {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    if (!userData.user_id && !userData.username) return;
+    
+    const autore = userData.user_id || userData.username;
+    const projects = await loadProjects(autore);
+    
+    if (projects && projects.length > 0) {
+        console.log("Progetti trovati:", projects);
+    }
+}
+
+async function loadProjectsAfterLogin(userData) {
+    try {
+        const autore = userData.user_id || userData.username;
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('project');
+        
+        if (projectId) {
+            const loaded = await loadProject(projectId);
+            if (loaded) {
+                updateSaveButtonText(true);
+            } else {
+                console.log("Progetto specificato non trovato, carico ultimo progetto");
+                await loadLastProjectForUser(autore);
+            }
+        } else {
+            await loadLastProjectForUser(autore);
+        }
+        
+        initAutoSave(userData);
+    } catch (error) {
+        console.error("Errore nel caricamento progetti dopo login:", error);
+    }
+}
+
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 8px;
+        color: white;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+        background: ${type === 'success' ? 'rgba(76, 175, 80, 0.9)' : 'rgba(244, 67, 54, 0.9)'};
+        border: 1px solid ${type === 'success' ? 'rgba(76, 175, 80, 0.3)' : 'rgba(244, 67, 54, 0.3)'};
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000);
+}
+
+function updateSaveButtonText(isUpdate = false) {
+  const saveButton = document.querySelector('.profile-menu-item:nth-child(3) span');
+  if (saveButton) {
+    if (isUpdate && currentProject) {
+      saveButton.setAttribute('data-translate-it', 'Aggiorna progetto');
+      saveButton.setAttribute('data-translate-en', 'Update Project');
+      saveButton.textContent = 'Aggiorna progetto';
+    } else {
+      saveButton.setAttribute('data-translate-it', 'Salva progetto');
+      saveButton.setAttribute('data-translate-en', 'Save Project');
+      saveButton.textContent = 'Salva progetto';
+    }
+  }
+}
+
+function updateSaveButtonState() {
+    const saveButton = document.querySelector('.profile-menu-item:nth-child(3)');
+    const span = saveButton.querySelector('span');
+    
+    if (currentProject) {
+        span.setAttribute('data-translate-it', 'Aggiorna progetto');
+        span.setAttribute('data-translate-en', 'Update project');
+        span.textContent = 'Aggiorna progetto';
+    } else {
+        span.setAttribute('data-translate-it', 'Salva progetto');
+        span.setAttribute('data-translate-en', 'Save project');
+        span.textContent = 'Salva progetto';
+    }
+    
+    const savedLang = localStorage.getItem('preferredLanguage') || 'it';
+    translatePage(savedLang);
+}
+
+function reopenCookieBanner() {
+  document.getElementById('cookieOverlay').style.display = 'block';
+  document.getElementById('cookieBanner').classList.add('show');
+  document.getElementById('cookieOverlay').classList.add('show');
+  document.getElementById('profile-menu').classList.remove('active');
+}
   </script>
 </body>
 
