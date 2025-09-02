@@ -10,7 +10,83 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+
+  <script>
+    (function () {
+      try {
+        if (window.top === window.self) return;
+        const hide = ['.editor-section', '.page-header', '.bottom-toolbar', '.cookie-banner', '.cookie-overlay', '#custom-menu', '.bg-pattern', '.login-popup'];
+        function apply() {
+          const preview = document.querySelector('.preview-section');
+          if (!preview) return;
+          hide.forEach(s => document.querySelectorAll(s).forEach(el => el.style.display = 'none'));
+          document.querySelectorAll('.profile-menu-container').forEach(el => el.style.display = 'none');
+          if (preview.parentElement !== document.body) document.body.appendChild(preview);
+          Object.assign(preview.style, { position: 'fixed', inset: '0', width: '100vw', height: '100vh', zIndex: '2147483647', background: '#fff' });
+          const f = preview.querySelector('#previewFrame'); if (f) { f.style.width = '100%'; f.style.height = '100%'; f.style.border = 'none'; }
+          document.documentElement.style.height = '100%'; document.body.style.margin = '0'; document.body.style.height = '100%'; document.body.style.overflow = 'hidden';
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+      } catch (e) { }
+    })();
+
+    (function () {
+      try {
+        if (window.top !== window.self) {
+          document.documentElement.classList.add('in-iframe');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('in-iframe');
+      }
+    })();
+
+    if (window.self !== window.top) {
+      document.body.innerHTML = "";
+      const preview = document.querySelector(".preview-section");
+      if (preview) {
+        preview.style.width = "100vw";
+        preview.style.height = "100vh";
+        preview.style.position = "fixed";
+        preview.style.top = "0";
+        preview.style.left = "0";
+        document.body.appendChild(preview);
+      }
+    }
+  </script>
   <style>
+    html.in-iframe .page-header,
+    html.in-iframe .editor-section,
+    html.in-iframe .bottom-toolbar,
+    html.in-iframe .cookie-banner,
+    html.in-iframe .cookie-overlay,
+    html.in-iframe #custom-menu,
+    html.in-iframe .bg-pattern,
+    html.in-iframe .login-popup {
+      display: none !important;
+    }
+
+    html.in-iframe .main-container {
+      padding-top: 0 !important;
+      height: 100vh !important;
+    }
+
+    html.in-iframe .preview-section {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: #fff !important;
+    }
+
+    html.in-iframe .preview-header {
+      display: none !important;
+    }
+
+    html.in-iframe .preview-container,
+    html.in-iframe #previewFrame {
+      height: 100vh !important;
+    }
+
     :root {
       --bg-primary: #000000;
       --bg-secondary: #151515;
@@ -900,7 +976,7 @@
         margin-top: 0.5rem;
       }
     }
-    
+
     .profile-menu-container {
       position: absolute;
       transform: translateY(-50%);
@@ -959,12 +1035,12 @@
       animation: fadeIn 0.3s ease;
     }
 
-  .cookie-settings-icon {
-    margin-right: 12px; 
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
+    .cookie-settings-icon {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
 
     @keyframes fadeIn {
       from {
@@ -1121,38 +1197,38 @@
 
 <body>
 
-    <div class="profile-menu-container">
-      <div id="profile-button"></div>
-      <div class="profile-menu" id="profile-menu">
-        <a href="https://rena.altervista.org/account.php" class="profile-menu-item" id="account-link">
-          <i class="fas fa-user"></i>
-          <span data-translate-it="Il mio account" data-translate-en="My Account">Il mio account</span>
-        </a>
-        <div class="profile-menu-divider"></div>
-        <div class="profile-menu-item" style="pointer-events: none; opacity: 0.8;">
-          <i class="fas fa-language"></i>
-          <span data-translate-it="Lingua" data-translate-en="Language">Lingua</span>
+  <div class="profile-menu-container">
+    <div id="profile-button"></div>
+    <div class="profile-menu" id="profile-menu">
+      <a href="https://rena.altervista.org/account.php" class="profile-menu-item" id="account-link">
+        <i class="fas fa-user"></i>
+        <span data-translate-it="Il mio account" data-translate-en="My Account">Il mio account</span>
+      </a>
+      <div class="profile-menu-divider"></div>
+      <div class="profile-menu-item" style="pointer-events: none; opacity: 0.8;">
+        <i class="fas fa-language"></i>
+        <span data-translate-it="Lingua" data-translate-en="Language">Lingua</span>
+      </div>
+      <div class="language-option" data-lang="it" onclick="translatePage('it')">
+        <div class="language-content">
+          <img src="https://renadeveloper.altervista.org/bandierait.png" class="language-flag" alt="Italiano">
+          <span>Italiano</span>
         </div>
-        <div class="language-option" data-lang="it" onclick="translatePage('it')">
-          <div class="language-content">
-            <img src="https://renadeveloper.altervista.org/bandierait.png" class="language-flag" alt="Italiano">
-            <span>Italiano</span>
-          </div>
-          <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
+        <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <div class="language-option" data-lang="en" onclick="translatePage('en')">
+        <div class="language-content">
+          <img src="https://renadeveloper.altervista.org/bandieraen.png" class="language-flag" alt="English">
+          <span>English</span>
         </div>
-        <div class="language-option" data-lang="en" onclick="translatePage('en')">
-          <div class="language-content">
-            <img src="https://renadeveloper.altervista.org/bandieraen.png" class="language-flag" alt="English">
-            <span>English</span>
-          </div>
-          <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </div>
+        <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
       </div>
     </div>
+  </div>
 
   <div class="login-popup" id="loginPopup">
     <div class="login-popup-content">
@@ -1229,13 +1305,19 @@
         </path>
       </g>
     </svg>
-    <p class="cookie-text" data-translate-it="Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di caricamento file e download. Accetta i cookie per utilizzare tutte le funzionalità." data-translate-en="This website uses cookies to ensure the proper functioning of file upload and download features. Please accept cookies to use all functionalities.">Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di
+    <p class="cookie-text"
+      data-translate-it="Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di caricamento file e download. Accetta i cookie per utilizzare tutte le funzionalità."
+      data-translate-en="This website uses cookies to ensure the proper functioning of file upload and download features. Please accept cookies to use all functionalities.">
+      Questo sito utilizza i cookie per garantire il corretto funzionamento delle funzionalità di
       caricamento file e download. Accetta i cookie per utilizzare tutte le funzionalità.</p>
-    <a href="https://rena.altervista.org/privacy-policy.html" target="_blank" class="privacy-link" data-translate-it="Leggi la Privacy Policy" data-translate-en="Read the Privacy Policy">Leggi la Privacy
+    <a href="https://rena.altervista.org/privacy-policy.html" target="_blank" class="privacy-link"
+      data-translate-it="Leggi la Privacy Policy" data-translate-en="Read the Privacy Policy">Leggi la Privacy
       Policy</a>
     <div class="cookie-buttons">
-      <button class="cookie-btn cookie-accept" id="acceptCookies" data-translate-it="Accetta" data-translate-en="Accept">Accetta</button>
-      <button class="cookie-btn cookie-reject" id="rejectCookies" data-translate-it="Rifiuta" data-translate-en="Reject">Rifiuta</button>
+      <button class="cookie-btn cookie-accept" id="acceptCookies" data-translate-it="Accetta"
+        data-translate-en="Accept">Accetta</button>
+      <button class="cookie-btn cookie-reject" id="rejectCookies" data-translate-it="Rifiuta"
+        data-translate-en="Reject">Rifiuta</button>
     </div>
   </div>
 
@@ -1385,8 +1467,9 @@
       </div>
       <div class="editor-container">
         <div class="line-numbers" id="lineNumbers">1</div>
-        <textarea id="editor" name="content" placeholder="Inserisci qui il tuo codice..." data-placeholder-it="Inserisci qui il tuo codice..."
-        data-placeholder-en="Enter your code here..."spellcheck="false"></textarea>
+        <textarea id="editor" name="content" placeholder="Inserisci qui il tuo codice..."
+          data-placeholder-it="Inserisci qui il tuo codice..." data-placeholder-en="Enter your code here..."
+          spellcheck="false"></textarea>
       </div>
     </section>
 
@@ -1473,7 +1556,8 @@
       <div class="modal-body">
         <div class="share-url-container">
           <input type="text" id="shareUrl" readonly>
-          <button id="copyShareUrl" class="modal-btn secondary" data-translate-it="Copia" data-translate-en="Copy">Copia</button>
+          <button id="copyShareUrl" class="modal-btn secondary" data-translate-it="Copia"
+            data-translate-en="Copy">Copia</button>
         </div>
       </div>
     </div>
@@ -2024,16 +2108,16 @@
       }
     });
 
-clearBtn.addEventListener('click', () => {
-  editor.value = '';
-  localStorage.removeItem('editorContent');
-  currentProject = null; 
-  updateSaveButtonText(false); 
-  updateLineNumbers();
-  updatePreview();
-  saveToHistory();
-  updateUndoRedoButtons();
-});
+    clearBtn.addEventListener('click', () => {
+      editor.value = '';
+      localStorage.removeItem('editorContent');
+      currentProject = null;
+      updateSaveButtonText(false);
+      updateLineNumbers();
+      updatePreview();
+      saveToHistory();
+      updateUndoRedoButtons();
+    });
 
     function saveToHistory() {
 
@@ -2228,8 +2312,8 @@ clearBtn.addEventListener('click', () => {
       if (e.target === modal) {
         modal.style.display = "none";
       }
-    });    
-    
+    });
+
     let isVerifyingToken = false;
     let tokenVerificationInterval = null;
 
@@ -2240,55 +2324,55 @@ clearBtn.addEventListener('click', () => {
       setupEventListeners();
     });
 
-function setupEventListeners() {
-  console.log("Impostazione event listeners");
+    function setupEventListeners() {
+      console.log("Impostazione event listeners");
 
-  const profileButton = document.getElementById('profile-button');
-  const profileMenu = document.getElementById('profile-menu');
+      const profileButton = document.getElementById('profile-button');
+      const profileMenu = document.getElementById('profile-menu');
 
-  profileButton.addEventListener('click', function (e) {
-    e.stopPropagation();
-    profileMenu.classList.toggle('active');
-  });
+      profileButton.addEventListener('click', function (e) {
+        e.stopPropagation();
+        profileMenu.classList.toggle('active');
+      });
 
-  document.addEventListener('click', function () {
-    profileMenu.classList.remove('active');
-  });
+      document.addEventListener('click', function () {
+        profileMenu.classList.remove('active');
+      });
 
-  profileMenu.addEventListener('click', function (e) {
-    e.stopPropagation();
-  });
+      profileMenu.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
 
-  document.getElementById('closeLoginPopup').addEventListener('click', function () {
-    document.getElementById('loginPopup').classList.remove('active');
-  });
-  
-  addProfileMenuItems();
-}
+      document.getElementById('closeLoginPopup').addEventListener('click', function () {
+        document.getElementById('loginPopup').classList.remove('active');
+      });
 
-function addProfileMenuItems() {
-  const profileMenu = document.getElementById('profile-menu');
-  const divider = document.querySelector('.profile-menu-divider');
+      addProfileMenuItems();
+    }
 
-  const myProjectsItem = document.createElement('a');
-  myProjectsItem.href = 'https://renadeveloper.altervista.org/dashboard.html';
-  myProjectsItem.className = 'profile-menu-item';
-  myProjectsItem.innerHTML = `
+    function addProfileMenuItems() {
+      const profileMenu = document.getElementById('profile-menu');
+      const divider = document.querySelector('.profile-menu-divider');
+
+      const myProjectsItem = document.createElement('a');
+      myProjectsItem.href = 'https://renadeveloper.altervista.org/dashboard.html';
+      myProjectsItem.className = 'profile-menu-item';
+      myProjectsItem.innerHTML = `
     <i class="fas fa-folder"></i>
     <span data-translate-it="I miei progetti" data-translate-en="My Projects">I miei progetti</span>
   `;
-  
-  const saveProjectItem = document.createElement('div');
-  saveProjectItem.className = 'profile-menu-item';
-  saveProjectItem.innerHTML = `
+
+      const saveProjectItem = document.createElement('div');
+      saveProjectItem.className = 'profile-menu-item';
+      saveProjectItem.innerHTML = `
     <i class="fas fa-save"></i>
     <span data-translate-it="Salva progetto" data-translate-en="Save Project">Salva progetto</span>
   `;
-  saveProjectItem.addEventListener('click', manualSaveProject);
+      saveProjectItem.addEventListener('click', manualSaveProject);
 
-  const cookieSettingsItem = document.createElement('div');
-  cookieSettingsItem.className = 'profile-menu-item';
-  cookieSettingsItem.innerHTML = `
+      const cookieSettingsItem = document.createElement('div');
+      cookieSettingsItem.className = 'profile-menu-item';
+      cookieSettingsItem.innerHTML = `
         <svg class="cookie-settings-icon" fill="#ffffff" height="20" width="20" margin-right="6" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
       <g>
         <path
@@ -2304,12 +2388,12 @@ function addProfileMenuItems() {
     </svg>
     <span data-translate-it="Gestione cookie" data-translate-en="Cookie Settings">Gestione cookie</span>
   `;
-  cookieSettingsItem.addEventListener('click', reopenCookieBanner);
+      cookieSettingsItem.addEventListener('click', reopenCookieBanner);
 
-  profileMenu.insertBefore(cookieSettingsItem, divider);
-  profileMenu.insertBefore(saveProjectItem, cookieSettingsItem);
-  profileMenu.insertBefore(myProjectsItem, saveProjectItem);
-}
+      profileMenu.insertBefore(cookieSettingsItem, divider);
+      profileMenu.insertBefore(saveProjectItem, cookieSettingsItem);
+      profileMenu.insertBefore(myProjectsItem, saveProjectItem);
+    }
 
     function openCrossDomainLogin() {
       console.log("Apertura login cross-domain");
@@ -2346,162 +2430,162 @@ function addProfileMenuItems() {
       }, 30000);
     }
 
-function handleTokenFromURL() {
-  console.log("Controllo token dall'URL");
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
-  const user_id = urlParams.get('user_id');
-  const username = urlParams.get('username');
-  const projectId = urlParams.get('project');
+    function handleTokenFromURL() {
+      console.log("Controllo token dall'URL");
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      const user_id = urlParams.get('user_id');
+      const username = urlParams.get('username');
+      const projectId = urlParams.get('project');
 
-  if (token && user_id && username) {
-    console.log("Token trovato nell'URL, salvataggio dati utente");
-    const userData = {
-      status: 'success',
-      user_id: user_id,
-      username: username,
-      token: token
-    };
+      if (token && user_id && username) {
+        console.log("Token trovato nell'URL, salvataggio dati utente");
+        const userData = {
+          status: 'success',
+          user_id: user_id,
+          username: username,
+          token: token
+        };
 
-    localStorage.setItem('user_data', JSON.stringify(userData));
-    updateProfileUI(userData);
-    startTokenVerification();
-    
-    const newUrl = projectId ? 
-      `${window.location.pathname}?project=${projectId}` : 
-      window.location.pathname;
-    window.history.replaceState({}, document.title, newUrl);
-  } else {
-    checkLoginStatus();
-  }
-}
+        localStorage.setItem('user_data', JSON.stringify(userData));
+        updateProfileUI(userData);
+        startTokenVerification();
 
-function handleProjectFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const projectId = urlParams.get('project');
-  
-  if (projectId) {
-    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
-    if (userData.user_id || userData.username) {
-      loadProject(projectId);
-    }
-  }
-}
-
-function checkLoginStatus() {
-  console.log("Controllo stato login...");
-  const savedUserData = localStorage.getItem('user_data');
-
-  if (savedUserData) {
-    try {
-      const userData = JSON.parse(savedUserData);
-      console.log("Dati utente trovati:", userData);
-
-      updateProfileUI(userData);
-
-      if (userData.token && !isVerifyingToken) {
-        setTimeout(() => {
-          verifyToken(userData.token)
-            .then(valid => {
-              console.log("Risultato verifica token:", valid);
-              if (!valid) {
-                console.log("Token non valido, pulizia dati");
-                localStorage.removeItem('user_data');
-                showLoginUI();
-                
-                if (autoSaveInterval) {
-                  clearInterval(autoSaveInterval);
-                  autoSaveInterval = null;
-                }
-              }
-              else {
-                refreshUserData();
-              }
-            })
-            .catch(error => {
-              console.error("Errore verifica token:", error);
-            });
-        }, 1000);
+        const newUrl = projectId ?
+          `${window.location.pathname}?project=${projectId}` :
+          window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      } else {
+        checkLoginStatus();
       }
-    } catch (e) {
-      console.error("Errore parsing dati utente:", e);
-      localStorage.removeItem('user_data');
-      showLoginUI();
     }
-  } else {
-    console.log("Nessun dato utente trovato");
-    showLoginUI();
-  }
-}
 
-function updateProfileUI(data) {
-  console.log("Aggiornamento UI profilo con dati:", data);
-  const profileButton = document.getElementById('profile-button');
+    function handleProjectFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const projectId = urlParams.get('project');
 
-  if (!profileButton) {
-    console.error("Pulsante profilo non trovato");
-    return;
-  }
-
-  profileButton.innerHTML = '';
-
-  if (data && (data.logged_in === true || data.status === 'success' || data.user_id)) {
-    const username = data.username || data.user_id || 'Utente';
-
-    if (data.profile_photo) {
-      console.log("Tentativo di caricamento foto profilo:", data.profile_photo);
-      const img = document.createElement('img');
-      img.className = 'profile-pic';
-      img.alt = 'Foto profilo';
-      img.src = data.profile_photo;
-
-      img.onerror = function () {
-        console.log("Errore nel caricamento dell'immagine profilo, uso avatar predefinito");
-        this.remove();
-
-        const defaultAvatarDiv = document.createElement('div');
-        defaultAvatarDiv.className = 'default-avatar';
-        defaultAvatarDiv.textContent = username.charAt(0).toUpperCase();
-        profileButton.appendChild(defaultAvatarDiv);
-      };
-
-      img.onload = function () {
-        console.log("Immagine profilo caricata con successo");
-        const defaultAvatar = profileButton.querySelector('.default-avatar');
-        if (defaultAvatar) {
-          defaultAvatar.remove();
+      if (projectId) {
+        const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+        if (userData.user_id || userData.username) {
+          loadProject(projectId);
         }
-      };
-
-      profileButton.appendChild(img);
-    } else {
-      console.log("Nessuna foto profilo disponibile, uso avatar predefinito");
-      const initial = username.charAt(0).toUpperCase();
-      const defaultAvatarDiv = document.createElement('div');
-      defaultAvatarDiv.className = 'default-avatar';
-      defaultAvatarDiv.textContent = initial;
-      profileButton.appendChild(defaultAvatarDiv);
-    }
-
-    const accountLink = document.querySelector('.profile-menu-item');
-    if (accountLink) {
-      const span = accountLink.querySelector('span');
-      if (span) {
-        span.setAttribute('data-translate-it', 'Il mio account');
-        span.setAttribute('data-translate-en', 'My Account');
-        span.textContent = 'Il mio account';
       }
     }
 
-    setTimeout(() => {
-      loadProjectsAfterLogin(data);
-    }, 1000);
+    function checkLoginStatus() {
+      console.log("Controllo stato login...");
+      const savedUserData = localStorage.getItem('user_data');
 
-  } else {
-    console.log("Dati utente non validi, mostra UI login");
-    showLoginUI();
-  }
-}
+      if (savedUserData) {
+        try {
+          const userData = JSON.parse(savedUserData);
+          console.log("Dati utente trovati:", userData);
+
+          updateProfileUI(userData);
+
+          if (userData.token && !isVerifyingToken) {
+            setTimeout(() => {
+              verifyToken(userData.token)
+                .then(valid => {
+                  console.log("Risultato verifica token:", valid);
+                  if (!valid) {
+                    console.log("Token non valido, pulizia dati");
+                    localStorage.removeItem('user_data');
+                    showLoginUI();
+
+                    if (autoSaveInterval) {
+                      clearInterval(autoSaveInterval);
+                      autoSaveInterval = null;
+                    }
+                  }
+                  else {
+                    refreshUserData();
+                  }
+                })
+                .catch(error => {
+                  console.error("Errore verifica token:", error);
+                });
+            }, 1000);
+          }
+        } catch (e) {
+          console.error("Errore parsing dati utente:", e);
+          localStorage.removeItem('user_data');
+          showLoginUI();
+        }
+      } else {
+        console.log("Nessun dato utente trovato");
+        showLoginUI();
+      }
+    }
+
+    function updateProfileUI(data) {
+      console.log("Aggiornamento UI profilo con dati:", data);
+      const profileButton = document.getElementById('profile-button');
+
+      if (!profileButton) {
+        console.error("Pulsante profilo non trovato");
+        return;
+      }
+
+      profileButton.innerHTML = '';
+
+      if (data && (data.logged_in === true || data.status === 'success' || data.user_id)) {
+        const username = data.username || data.user_id || 'Utente';
+
+        if (data.profile_photo) {
+          console.log("Tentativo di caricamento foto profilo:", data.profile_photo);
+          const img = document.createElement('img');
+          img.className = 'profile-pic';
+          img.alt = 'Foto profilo';
+          img.src = data.profile_photo;
+
+          img.onerror = function () {
+            console.log("Errore nel caricamento dell'immagine profilo, uso avatar predefinito");
+            this.remove();
+
+            const defaultAvatarDiv = document.createElement('div');
+            defaultAvatarDiv.className = 'default-avatar';
+            defaultAvatarDiv.textContent = username.charAt(0).toUpperCase();
+            profileButton.appendChild(defaultAvatarDiv);
+          };
+
+          img.onload = function () {
+            console.log("Immagine profilo caricata con successo");
+            const defaultAvatar = profileButton.querySelector('.default-avatar');
+            if (defaultAvatar) {
+              defaultAvatar.remove();
+            }
+          };
+
+          profileButton.appendChild(img);
+        } else {
+          console.log("Nessuna foto profilo disponibile, uso avatar predefinito");
+          const initial = username.charAt(0).toUpperCase();
+          const defaultAvatarDiv = document.createElement('div');
+          defaultAvatarDiv.className = 'default-avatar';
+          defaultAvatarDiv.textContent = initial;
+          profileButton.appendChild(defaultAvatarDiv);
+        }
+
+        const accountLink = document.querySelector('.profile-menu-item');
+        if (accountLink) {
+          const span = accountLink.querySelector('span');
+          if (span) {
+            span.setAttribute('data-translate-it', 'Il mio account');
+            span.setAttribute('data-translate-en', 'My Account');
+            span.textContent = 'Il mio account';
+          }
+        }
+
+        setTimeout(() => {
+          loadProjectsAfterLogin(data);
+        }, 1000);
+
+      } else {
+        console.log("Dati utente non validi, mostra UI login");
+        showLoginUI();
+      }
+    }
 
     function showLoginUI() {
       console.log("Mostra UI login");
@@ -2720,200 +2804,200 @@ function updateProfileUI(data) {
         accountLink.href = "#";
       }
     }
-        
-let currentProject = null;
-let autoSaveInterval = null;
 
-async function autoSaveProject(userData) {
-    if (!editor.value.trim()) return;
-    
-    const titolo = currentProject ? `Progetto ${currentProject}` : 'Nuovo Progetto';
-    const descrizione = editor.value;
-    const linguaggio = detectLanguage(descrizione);
-    const autore = userData.user_id || userData.username;
-    
-    const saveData = {
+    let currentProject = null;
+    let autoSaveInterval = null;
+
+    async function autoSaveProject(userData) {
+      if (!editor.value.trim()) return;
+
+      const titolo = currentProject ? `Progetto ${currentProject}` : 'Nuovo Progetto';
+      const descrizione = editor.value;
+      const linguaggio = detectLanguage(descrizione);
+      const autore = userData.user_id || userData.username;
+
+      const saveData = {
         titolo: titolo,
         descrizione: descrizione,
         linguaggio: linguaggio,
         autore: autore
-    };
-    
-    if (currentProject) {
+      };
+
+      if (currentProject) {
         saveData.id = currentProject;
-    }
-    
-    try {
+      }
+
+      try {
         const result = await saveProject(saveData);
         if (result && result.id) {
-            currentProject = result.id;
-            console.log("Salvataggio automatico effettuato", currentProject);
+          currentProject = result.id;
+          console.log("Salvataggio automatico effettuato", currentProject);
         }
-    } catch (error) {
+      } catch (error) {
         console.error("Errore nel salvataggio automatico:", error);
+      }
     }
-}
 
-async function saveProject(saveData) {
-    try {
+    async function saveProject(saveData) {
+      try {
         console.log("Dati inviati per salvataggio:", saveData);
-        
+
         const res = await fetch("https://rena.altervista.org/saveFile.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(saveData),
-            credentials: 'include'
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(saveData),
+          credentials: 'include'
         });
 
         if (!res.ok) {
-            throw new Error(`Errore HTTP: ${res.status}`);
+          throw new Error(`Errore HTTP: ${res.status}`);
         }
 
         const data = await res.json();
-        
+
         if (data.status === "error") {
-            throw new Error(data.message || "Errore nel salvataggio");
+          throw new Error(data.message || "Errore nel salvataggio");
         }
-        
+
         return data;
-        
-    } catch (error) {
+
+      } catch (error) {
         console.error("Errore nel salvataggio:", error);
         showError("Errore nel salvataggio: " + error.message);
         throw error;
-    }
-}
-
-async function loadProjects(autore) {
-  try {
-    const res = await fetch(`https://rena.altervista.org/getProjects.php?autore=${autore}`);
-    const data = await res.json();
-    
-    if (data.status === "success") {
-      return data.projects;
-    } else {
-      console.error("Errore nel caricamento progetti:", data.message);
-      return [];
-    }
-  } catch (error) {
-    console.error("Errore di rete:", error);
-    return [];
-  }
-}
-
-async function loadLastProject(autore) {
-    try {
-        const res = await fetch(`https://rena.altervista.org/getLastProject.php?autore=${encodeURIComponent(autore)}`, {
-            credentials: 'include'
-        });
-        
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        
-        const data = await res.json();
-        
-        if (data.status === "success") {
-            return data.project;
-        } else {
-            console.log("Nessun progetto trovato:", data.message);
-            return null;
-        }
-    } catch (error) {
-        console.error("Errore di rete:", error);
-        return null;
-    }
-}
-
-async function loadProject(projectId) {
-  try {
-    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
-    const projects = await loadProjects(userData.user_id || userData.username);
-    
-    if (projects && projects.length > 0) {
-      const project = projects.find(p => p.id == projectId);
-      if (project) {
-        editor.value = project.descrizione;
-        currentProject = project.id; 
-        updatePreview();
-        updateLineNumbers();
-        
-        document.title = `${project.titolo} - Rena Developer Code`;
-        
-        updateSaveButtonState(); 
-        
-        showNotification(`Progetto "${project.titolo}" caricato`);
-        return true;
       }
     }
-    return false;
-  } catch (error) {
-    console.error("Errore nel caricamento progetto:", error);
-    return false;
-  }
-}
 
-async function manualSaveProject() {
-    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
-    
-    if (!userData.user_id && !userData.username) {
+    async function loadProjects(autore) {
+      try {
+        const res = await fetch(`https://rena.altervista.org/getProjects.php?autore=${autore}`);
+        const data = await res.json();
+
+        if (data.status === "success") {
+          return data.projects;
+        } else {
+          console.error("Errore nel caricamento progetti:", data.message);
+          return [];
+        }
+      } catch (error) {
+        console.error("Errore di rete:", error);
+        return [];
+      }
+    }
+
+    async function loadLastProject(autore) {
+      try {
+        const res = await fetch(`https://rena.altervista.org/getLastProject.php?autore=${encodeURIComponent(autore)}`, {
+          credentials: 'include'
+        });
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        if (data.status === "success") {
+          return data.project;
+        } else {
+          console.log("Nessun progetto trovato:", data.message);
+          return null;
+        }
+      } catch (error) {
+        console.error("Errore di rete:", error);
+        return null;
+      }
+    }
+
+    async function loadProject(projectId) {
+      try {
+        const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+        const projects = await loadProjects(userData.user_id || userData.username);
+
+        if (projects && projects.length > 0) {
+          const project = projects.find(p => p.id == projectId);
+          if (project) {
+            editor.value = project.descrizione;
+            currentProject = project.id;
+            updatePreview();
+            updateLineNumbers();
+
+            document.title = `${project.titolo} - Rena Developer Code`;
+
+            updateSaveButtonState();
+
+            showNotification(`Progetto "${project.titolo}" caricato`);
+            return true;
+          }
+        }
+        return false;
+      } catch (error) {
+        console.error("Errore nel caricamento progetto:", error);
+        return false;
+      }
+    }
+
+    async function manualSaveProject() {
+      const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+
+      if (!userData.user_id && !userData.username) {
         alert("Devi effettuare l'accesso per salvare i progetti");
         openCrossDomainLogin();
         return;
-    }
-    
-    let titolo;
-    if (currentProject) {
+      }
+
+      let titolo;
+      if (currentProject) {
         const projects = await loadProjects(userData.user_id || userData.username);
         const currentProj = projects.find(p => p.id == currentProject);
         titolo = currentProj ? currentProj.titolo : `Progetto ${currentProject}`;
-    } else {
+      } else {
         titolo = prompt("Inserisci un nome per il progetto:", "Mio Progetto");
         if (!titolo) return;
-    }
-    
-    const descrizione = editor.value;
-    const linguaggio = detectLanguage(descrizione);
-    const autore = userData.user_id || userData.username;
-    
-    const saveData = {
+      }
+
+      const descrizione = editor.value;
+      const linguaggio = detectLanguage(descrizione);
+      const autore = userData.user_id || userData.username;
+
+      const saveData = {
         titolo,
         descrizione,
         linguaggio,
         autore
-    };
-    
-    if (currentProject) {
+      };
+
+      if (currentProject) {
         saveData.id = currentProject;
-    }
-    
-    try {
+      }
+
+      try {
         const result = await saveProject(saveData);
-        
+
         if (result && result.id) {
-            currentProject = result.id;
-            updateSaveButtonText(true); 
-            
-            showNotification(result.message || "Progetto salvato con successo!");
-            document.title = `${titolo} - Rena Developer Code`;
-            
-            const url = new URL(window.location);
-            url.searchParams.set('project', currentProject);
-            window.history.replaceState({}, '', url);
+          currentProject = result.id;
+          updateSaveButtonText(true);
+
+          showNotification(result.message || "Progetto salvato con successo!");
+          document.title = `${titolo} - Rena Developer Code`;
+
+          const url = new URL(window.location);
+          url.searchParams.set('project', currentProject);
+          window.history.replaceState({}, '', url);
         } else {
-            alert("Errore nel salvataggio del progetto");
+          alert("Errore nel salvataggio del progetto");
         }
-    } catch (error) {
+      } catch (error) {
         console.error("Errore:", error);
         alert("Errore nel salvataggio: " + error.message);
+      }
     }
-}
 
-function showError(message) {
-  const errorDiv = document.createElement('div');
-  errorDiv.style.cssText = `
+    function showError(message) {
+      const errorDiv = document.createElement('div');
+      errorDiv.style.cssText = `
     position: fixed;
     top: 20px;
     left: 50%;
@@ -2925,117 +3009,117 @@ function showError(message) {
     z-index: 10000;
     backdrop-filter: blur(10px);
   `;
-  errorDiv.textContent = message;
-  
-  document.body.appendChild(errorDiv);
-  
-  setTimeout(() => {
-    document.body.removeChild(errorDiv);
-  }, 5000);
-}
+      errorDiv.textContent = message;
 
-async function loadProjectsAfterLogin(userData) {
-    try {
+      document.body.appendChild(errorDiv);
+
+      setTimeout(() => {
+        document.body.removeChild(errorDiv);
+      }, 5000);
+    }
+
+    async function loadProjectsAfterLogin(userData) {
+      try {
         const autore = userData.user_id || userData.username;
-        
+
         const urlParams = new URLSearchParams(window.location.search);
         const projectId = urlParams.get('project');
-        
-        if (projectId) {
-            const loaded = await loadProject(projectId);
-            if (!loaded) {
-                console.log("Progetto specificato non trovato, carico ultimo progetto");
-                await loadLastProjectForUser(autore);
-            }
-        } else {
-            await loadLastProjectForUser(autore);
-        }
-        
-        initAutoSave(userData);
-    } catch (error) {
-        console.error("Errore nel caricamento progetti dopo login:", error);
-    }
-}
 
-async function loadLastProjectForUser(autore) {
-    const lastProject = await loadLastProject(autore);
-    if (lastProject) {
+        if (projectId) {
+          const loaded = await loadProject(projectId);
+          if (!loaded) {
+            console.log("Progetto specificato non trovato, carico ultimo progetto");
+            await loadLastProjectForUser(autore);
+          }
+        } else {
+          await loadLastProjectForUser(autore);
+        }
+
+        initAutoSave(userData);
+      } catch (error) {
+        console.error("Errore nel caricamento progetti dopo login:", error);
+      }
+    }
+
+    async function loadLastProjectForUser(autore) {
+      const lastProject = await loadLastProject(autore);
+      if (lastProject) {
         editor.value = lastProject.descrizione;
         currentProject = lastProject.id;
         updatePreview();
         updateLineNumbers();
-        updateSaveButtonText(true); 
+        updateSaveButtonText(true);
         showNotification(`Ultimo progetto "${lastProject.titolo}" caricato`);
         document.title = `${lastProject.titolo} - Rena Developer Code`;
+      }
     }
-}
 
-function debugConnection() {
-  console.log("Testing connection to APIs...");
-  
-  fetch("https://rena.altervista.org/saveFile.php", {
-    method: "OPTIONS"
-  })
-  .then(response => {
-    console.log("OPTIONS response:", response.status, response.statusText);
-    return response.text();
-  })
-  .then(text => console.log("OPTIONS response text:", text))
-  .catch(error => console.error("OPTIONS error:", error));
-  
-  fetch("https://rena.altervista.org/getProjects.php?autore=test", {
-    method: "GET"
-  })
-  .then(response => {
-    console.log("GET response:", response.status, response.statusText);
-    return response.text();
-  })
-  .then(text => console.log("GET response text:", text))
-  .catch(error => console.error("GET error:", error));
-}
+    function debugConnection() {
+      console.log("Testing connection to APIs...");
 
-setTimeout(debugConnection, 2000);
+      fetch("https://rena.altervista.org/saveFile.php", {
+        method: "OPTIONS"
+      })
+        .then(response => {
+          console.log("OPTIONS response:", response.status, response.statusText);
+          return response.text();
+        })
+        .then(text => console.log("OPTIONS response text:", text))
+        .catch(error => console.error("OPTIONS error:", error));
 
-async function loadUserProjects() {
-    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
-    if (!userData.user_id && !userData.username) return;
-    
-    const autore = userData.user_id || userData.username;
-    const projects = await loadProjects(autore);
-    
-    if (projects && projects.length > 0) {
+      fetch("https://rena.altervista.org/getProjects.php?autore=test", {
+        method: "GET"
+      })
+        .then(response => {
+          console.log("GET response:", response.status, response.statusText);
+          return response.text();
+        })
+        .then(text => console.log("GET response text:", text))
+        .catch(error => console.error("GET error:", error));
+    }
+
+    setTimeout(debugConnection, 2000);
+
+    async function loadUserProjects() {
+      const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+      if (!userData.user_id && !userData.username) return;
+
+      const autore = userData.user_id || userData.username;
+      const projects = await loadProjects(autore);
+
+      if (projects && projects.length > 0) {
         console.log("Progetti trovati:", projects);
+      }
     }
-}
 
-async function loadProjectsAfterLogin(userData) {
-    try {
+    async function loadProjectsAfterLogin(userData) {
+      try {
         const autore = userData.user_id || userData.username;
-        
+
         const urlParams = new URLSearchParams(window.location.search);
         const projectId = urlParams.get('project');
-        
-        if (projectId) {
-            const loaded = await loadProject(projectId);
-            if (loaded) {
-                updateSaveButtonText(true);
-            } else {
-                console.log("Progetto specificato non trovato, carico ultimo progetto");
-                await loadLastProjectForUser(autore);
-            }
-        } else {
-            await loadLastProjectForUser(autore);
-        }
-        
-        initAutoSave(userData);
-    } catch (error) {
-        console.error("Errore nel caricamento progetti dopo login:", error);
-    }
-}
 
-function showNotification(message, type = 'success') {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
+        if (projectId) {
+          const loaded = await loadProject(projectId);
+          if (loaded) {
+            updateSaveButtonText(true);
+          } else {
+            console.log("Progetto specificato non trovato, carico ultimo progetto");
+            await loadLastProjectForUser(autore);
+          }
+        } else {
+          await loadLastProjectForUser(autore);
+        }
+
+        initAutoSave(userData);
+      } catch (error) {
+        console.error("Errore nel caricamento progetti dopo login:", error);
+      }
+    }
+
+    function showNotification(message, type = 'success') {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
@@ -3047,54 +3131,54 @@ function showNotification(message, type = 'success') {
         background: ${type === 'success' ? 'rgba(76, 175, 80, 0.9)' : 'rgba(244, 67, 54, 0.9)'};
         border: 1px solid ${type === 'success' ? 'rgba(76, 175, 80, 0.3)' : 'rgba(244, 67, 54, 0.3)'};
     `;
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
+      notification.textContent = message;
+
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
         document.body.removeChild(notification);
-    }, 3000);
-}
-
-function updateSaveButtonText(isUpdate = false) {
-  const saveButton = document.querySelector('.profile-menu-item:nth-child(3) span');
-  if (saveButton) {
-    if (isUpdate && currentProject) {
-      saveButton.setAttribute('data-translate-it', 'Aggiorna progetto');
-      saveButton.setAttribute('data-translate-en', 'Update Project');
-      saveButton.textContent = 'Aggiorna progetto';
-    } else {
-      saveButton.setAttribute('data-translate-it', 'Salva progetto');
-      saveButton.setAttribute('data-translate-en', 'Save Project');
-      saveButton.textContent = 'Salva progetto';
+      }, 3000);
     }
-  }
-}
 
-function updateSaveButtonState() {
-    const saveButton = document.querySelector('.profile-menu-item:nth-child(3)');
-    const span = saveButton.querySelector('span');
-    
-    if (currentProject) {
+    function updateSaveButtonText(isUpdate = false) {
+      const saveButton = document.querySelector('.profile-menu-item:nth-child(3) span');
+      if (saveButton) {
+        if (isUpdate && currentProject) {
+          saveButton.setAttribute('data-translate-it', 'Aggiorna progetto');
+          saveButton.setAttribute('data-translate-en', 'Update Project');
+          saveButton.textContent = 'Aggiorna progetto';
+        } else {
+          saveButton.setAttribute('data-translate-it', 'Salva progetto');
+          saveButton.setAttribute('data-translate-en', 'Save Project');
+          saveButton.textContent = 'Salva progetto';
+        }
+      }
+    }
+
+    function updateSaveButtonState() {
+      const saveButton = document.querySelector('.profile-menu-item:nth-child(3)');
+      const span = saveButton.querySelector('span');
+
+      if (currentProject) {
         span.setAttribute('data-translate-it', 'Aggiorna progetto');
         span.setAttribute('data-translate-en', 'Update project');
         span.textContent = 'Aggiorna progetto';
-    } else {
+      } else {
         span.setAttribute('data-translate-it', 'Salva progetto');
         span.setAttribute('data-translate-en', 'Save project');
         span.textContent = 'Salva progetto';
-    }
-    
-    const savedLang = localStorage.getItem('preferredLanguage') || 'it';
-    translatePage(savedLang);
-}
+      }
 
-function reopenCookieBanner() {
-  document.getElementById('cookieOverlay').style.display = 'block';
-  document.getElementById('cookieBanner').classList.add('show');
-  document.getElementById('cookieOverlay').classList.add('show');
-  document.getElementById('profile-menu').classList.remove('active');
-}
+      const savedLang = localStorage.getItem('preferredLanguage') || 'it';
+      translatePage(savedLang);
+    }
+
+    function reopenCookieBanner() {
+      document.getElementById('cookieOverlay').style.display = 'block';
+      document.getElementById('cookieBanner').classList.add('show');
+      document.getElementById('cookieOverlay').classList.add('show');
+      document.getElementById('profile-menu').classList.remove('active');
+    }
   </script>
 </body>
 
