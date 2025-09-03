@@ -40,7 +40,7 @@ try {
     
     if ($existingProject) {
         if (isset($data['id']) && $data['id'] == $existingProject['id']) {
-            $sql = "UPDATE progetti SET titolo = :titolo, descrizione = :descrizione, linguaggio = :linguaggio, data_creazione = CURRENT_TIMESTAMP WHERE id = :id AND autore = :autore";
+            $sql = "UPDATE progetti SET titolo = :titolo, descrizione = :descrizione, linguaggio = :linguaggio WHERE id = :id AND autore = :autore";
             $stmt = $conn->prepare($sql);
             
             $stmt->bindParam(':titolo', $data['titolo']);
@@ -70,7 +70,7 @@ try {
                 echo json_encode(["status" => "error", "message" => "Errore nell'aggiornamento: " . $errorInfo[2]]);
             }
         } else {
-            $sql = "UPDATE progetti SET descrizione = :descrizione, linguaggio = :linguaggio, data_creazione = CURRENT_TIMESTAMP WHERE id = :id AND autore = :autore";
+            $sql = "UPDATE progetti SET descrizione = :descrizione, linguaggio = :linguaggio WHERE id = :id AND autore = :autore";
             $stmt = $conn->prepare($sql);
             
             $stmt->bindParam(':descrizione', $data['descrizione']);
