@@ -1282,6 +1282,50 @@
         align-items: center;
       }
     }
+    
+    .project-description {
+       max-height: 80px;
+       overflow: hidden;
+       position: relative;
+       line-height: 1.4;
+       margin-bottom: 20px;
+    }
+
+    .project-container.list-view .project-description {
+       max-height: 60px;
+       margin-bottom: 0;
+       margin-right: 20px;
+       max-width: 500px;
+    }
+
+    .project-description::-webkit-scrollbar {
+       display: none;
+    }
+
+    .project-description {
+       -ms-overflow-style: none;
+       scrollbar-width: none;
+    }
+
+    .project-content pre {
+       -webkit-overflow-scrolling: touch; 
+    }
+
+    .project-content pre::-webkit-scrollbar {
+       display: none; 
+    }
+
+    .project-container.list-view .project-content pre {
+       max-height: 100px;
+       margin-top: 10px;
+    }
+    
+    project-image iframe {
+      transform: scale(0.9);
+      transform-origin: top left;
+      width: 111.11%; 
+      height: 111.11%;
+    }
   </style>
 </head>
 
@@ -2170,22 +2214,22 @@
       const iframeHeight = viewType === 'list' ? '80px' : '180px';
       const projectId = project.id;
 
-      projectContainer.innerHTML = `
-        <div class="project-image">
-            <div class="iframe-container">
-                <div class="iframe-spinner">
-                    <div class="spinner"></div>
-                </div>
-                <iframe 
-                    src="https://renadeveloper.altervista.org/code.html?project=${projectId}" 
-                    frameborder="0"
-                    style="width: 100%; height: ${iframeHeight}; border-radius: 15px;"
-                    loading="lazy"
-                    sandbox="allow-same-origin allow-scripts"
-                    onload="handleIframeLoad(this, ${projectId})"
-                ></iframe>
+   projectContainer.innerHTML = `
+     <div class="project-image">
+        <div class="iframe-container">
+            <div class="iframe-spinner">
+                <div class="spinner"></div>
             </div>
-        </div>
+             <iframe 
+                src="https://renadeveloper.altervista.org/code.html?project=${projectId}" 
+                frameborder="0"
+                style="width: 100%; height: ${iframeHeight}; border-radius: 15px;"
+                loading="lazy"
+                sandbox="allow-same-origin allow-scripts"
+                onload="handleIframeLoad(this, ${projectId})"
+             ></iframe>
+         </div>
+     </div>
         <div class="project-content">
             <h3 class="project-title">${escapeHtml(project.titolo)}</h3>
             <p class="project-description">${escapeHtml(project.descrizione || 'Nessuna descrizione')}</p>
