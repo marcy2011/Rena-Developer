@@ -17,7 +17,12 @@ if (!isset($_GET['autore'])) {
     exit;
 }
 
-$autore = $_GET['autore'];
+$autore = trim((string) $_GET['autore']);
+if ($autore === '') {
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "Autore non valido"]);
+    exit;
+}
 
 try {
     $sql = "SELECT id, titolo, descrizione, linguaggio, data_creazione 
@@ -35,6 +40,6 @@ try {
     }
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode(["status" => "error", "message" => "Errore database: " . $e->getMessage()]);
+        echo json_encode(["status" => "error", "message" => "Errore database"]);
 }
 ?>

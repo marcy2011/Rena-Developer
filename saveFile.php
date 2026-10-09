@@ -5,8 +5,6 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header('Access-Control-Allow-Credentials: true');
 header('Content-Type: application/json');
 
-error_log("SaveFile request received: " . file_get_contents("php://input"));
-
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit(0);
@@ -14,18 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 require_once("db_connect.php");
 
-error_log("SaveFile request received: " . file_get_contents("php://input"));
-
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
 if (json_last_error() !== JSON_ERROR_NONE) {
-    echo json_encode(["status" => "error", "message" => "JSON invalido: " . json_last_error_msg()]);
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "JSON invalido"]);
     exit;
 }
 
 if (!isset($data['titolo'], $data['descrizione'], $data['linguaggio'], $data['autore'])) {
-    echo json_encode(["status" => "error", "message" => "Dati mancanti", "received" => $data]);
+    http_response_code(400);
+    echo json_encode(["status" => "error", "message" => "Dati mancanti"]);
     exit;
 }
 
@@ -131,9 +129,11 @@ try {
     }
 } catch (PDOException $e) {
     error_log("Database error in saveFile.php: " . $e->getMessage());
-    echo json_encode(["status" => "error", "message" => "Errore database: " . $e->getMessage()]);
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => "Errore database"]);
 } catch (Exception $e) {
     error_log("General error in saveFile.php: " . $e->getMessage());
-    echo json_encode(["status" => "error", "message" => "Errore generico: " . $e->getMessage()]);
+    http_response_code(500);
+    echo json_encode(["status" => "error", "message" => "Errore interno"]);
 }
 ?>

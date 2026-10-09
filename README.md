@@ -4,6 +4,19 @@
 
 # Rena Developer
 
+## Sviluppo e sicurezza
+
+Questo repository contiene i file principali dell'applicazione PHP/HTML.
+Prima del deploy verificare la sintassi PHP con `php -l` e configurare le
+credenziali del database fuori dal repository (`DB_HOST`, `DB_USER`,
+`DB_PASSWORD`, `DB_NAME`). Dependabot controlla settimanalmente le GitHub
+Actions; non ci sono manifest Composer presenti in questa versione.
+
+La CI lint-a tutti i file PHP con PHP 8.5. SonarCloud richiede
+`SONAR_ORGANIZATION`, `SONAR_PROJECT_KEY` e
+il secret `SONAR_TOKEN`. Il workflow attende il Quality Gate e fallisce se il
+gate non è superato.
+
 <img src="https://renaarcade.altervista.org/flagit.png" alt="IT" width="50"> 
 
 # IT

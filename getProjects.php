@@ -11,9 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-error_log("Richiesta getProjects.php ricevuta: " . print_r($_GET, true));
-
 if (!isset($_GET['autore'])) {
+    http_response_code(400);
     echo json_encode(["status" => "error", "message" => "Autore mancante"]);
     exit;
 }
@@ -29,8 +28,6 @@ try {
     
     $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    error_log("Progetti trovati per autore $autore: " . count($projects));
-    
     echo json_encode([
         "status" => "success", 
         "count" => count($projects),
@@ -41,7 +38,7 @@ try {
     error_log("Errore getProjects.php: " . $e->getMessage());
     echo json_encode([
         "status" => "error", 
-        "message" => "Errore nel recupero progetti: " . $e->getMessage()
+        "message" => "Errore nel recupero progetti"
     ]);
 }
 ?>
